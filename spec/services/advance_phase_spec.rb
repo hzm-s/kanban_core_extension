@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe 'advance phase' do
+  include GroupCreator
+
   let(:service) do
     FeatureService.new(group_repository)
   end
@@ -16,24 +18,22 @@ describe 'advance phase' do
   let(:feature) { Feature::FeatureId.new('feat_123') }
 
   let(:before_group) do
-    Work::Group.new(
-      project_id,
-      Work::Phase.new('Todo'),
-      Work::WipLimit::None.new,
-      Work::EmptyTransition.new,
-      Work::WorkList.new([Work::Work.new(feature, Work::State::None.new)])
+    create_group(
+      project_id: project_id,
+      phase: 'Todo',
+      wip_limit: nil,
+      transition: nil,
+      work_list: [[feature, nil]]
     )
   end
 
   let(:after_group) do
-    Work::Group.new(
-      project_id,
-      Work::Phase.new('Dev'),
-      Work::WipLimit.new(2),
-      Work::Transition.new([
-        Work::State.new('Doing'), Work::State.new('Review'), Work::State.new('Done')
-      ]),
-      Work::WorkList.new([])
+    create_group(
+      project_id: project_id,
+      phase: 'Dev',
+      wip_limit: 2,
+      transition: %w(Doing Review Done),
+      work_list: []
     )
   end
 
