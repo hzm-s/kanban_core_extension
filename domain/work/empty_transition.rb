@@ -2,7 +2,7 @@ module Work
   class EmptyTransition
 
     def last
-      NothingState.new
+      State::None.new
     end
   end
 end

@@ -21,7 +21,7 @@ describe 'advance phase' do
       Work::Phase.new('Todo'),
       Work::WipLimit::None.new,
       Work::EmptyTransition.new,
-      Work::WorkList.new([Work::Work.new(feature, Work::NothingState.new)])
+      Work::WorkList.new([Work::Work.new(feature, Work::State::None.new)])
     )
   end
 

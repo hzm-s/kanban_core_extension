@@ -22,4 +22,13 @@ module Work
         self.to_s == other.to_s
     end
   end
+
+  class State
+    class None
+
+      def ==(other)
+        other.instance_of?(self.class)
+      end
+    end
+  end
 end
