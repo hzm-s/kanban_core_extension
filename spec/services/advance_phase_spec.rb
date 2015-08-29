@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-describe 'pull card' do
+describe 'advance phase' do
   let(:service) do
     FeatureService.new(group_repository)
   end
-  let(:group_repository) { FakeRepository.new }
+  let(:group_repository) { FakeGroupRepository.new }
 
   before do
     group_repository.store(before_group)
@@ -19,6 +19,7 @@ describe 'pull card' do
     Work::Group.new(
       project_id,
       Work::Phase.new('Todo'),
+      Work::WipLimit::None.new,
       Work::EmptyTransition.new,
       Work::WorkList.new([Work::Work.new(feature, Work::NothingState.new)])
     )
@@ -28,6 +29,7 @@ describe 'pull card' do
     Work::Group.new(
       project_id,
       Work::Phase.new('Dev'),
+      Work::WipLimit.new(2),
       Work::Transition.new([
         Work::State.new('Doing'), Work::State.new('Review'), Work::State.new('Done')
       ]),

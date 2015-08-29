@@ -2,9 +2,10 @@ module Work
   class Group
     attr_reader :project_id, :phase, :work_list
 
-    def initialize(project_id, phase, transition, work_list)
+    def initialize(project_id, phase, wip_limit, transition, work_list)
       @project_id = project_id
       @phase = phase
+      @wip_limit = wip_limit
       @transition = transition
       @work_list = work_list
     end
