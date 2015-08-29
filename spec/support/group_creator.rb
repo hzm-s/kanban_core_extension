@@ -31,8 +31,15 @@ module GroupCreator
   end
 
   def WorkList(spec)
-    works = spec.map {|(f, s)| Work(f, s) }
-    Work::WorkList.new(works)
+    Work::WorkList.new(spec)
+  end
+
+  def Work(feature_id, state)
+    Work::Work.new(feature_id, state)
+  end
+
+  def FeatureId(spec)
+    Feature::FeatureId.new(spec)
   end
 
   def State(spec)
@@ -41,13 +48,5 @@ module GroupCreator
     else
       Work::State::None.new
     end
-  end
-
-  def Work(feature_id, state)
-    Work::Work.new(Feature(feature_id), State(state))
-  end
-
-  def Feature(spec)
-    Feature::FeatureId.new(spec)
   end
 end
