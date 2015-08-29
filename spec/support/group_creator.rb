@@ -1,16 +1,20 @@
 module GroupCreator
 
-  def create_group(spec)
+  def Group(spec)
     Work::Group.new(
       spec[:project_id],
-      Work::Phase.new(spec[:phase]),
-      create_wip_limit(spec[:wip_limit]),
-      create_transition(spec[:transition]),
-      create_work_list(spec[:work_list])
+      Phase(spec[:phase]),
+      WipLimit(spec[:wip_limit]),
+      Transition(spec[:transition]),
+      WorkList(spec[:work_list])
     )
   end
 
-  def create_wip_limit(spec)
+  def Phase(spec)
+    Work::Phase.new(spec)
+  end
+
+  def WipLimit(spec)
     if spec
       Work::WipLimit.new(spec)
     else
@@ -18,21 +22,32 @@ module GroupCreator
     end
   end
 
-  def create_transition(spec)
+  def Transition(spec)
     if spec
-      Work::Transition.new(spec.map {|e| Work::State.new(e) })
+      Work::Transition.new(spec.map {|e| State(e) })
     else
       Work::EmptyTransition.new
     end
   end
 
-  def create_work_list(spec)
-    works = spec.map do |(feature, state)|
-      Work::Work.new(
-        feature,
-        state ? Work::State.new(state) : Work::State::None.new
-      )
-    end
+  def WorkList(spec)
+    works = spec.map {|(f, s)| Work(f, s) }
     Work::WorkList.new(works)
+  end
+
+  def State(spec)
+    if spec
+      Work::State.new(spec)
+    else
+      Work::State::None.new
+    end
+  end
+
+  def Work(feature_id, state)
+    Work::Work.new(Feature(feature_id), State(state))
+  end
+
+  def Feature(spec)
+    Feature::FeatureId.new(spec)
   end
 end
