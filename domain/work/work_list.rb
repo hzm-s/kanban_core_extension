@@ -13,6 +13,10 @@ module Work
       self.class.new(@works.reject {|w| w == work })
     end
 
+    def size
+      @works.size
+    end
+
     def empty?
       @works.empty?
     end

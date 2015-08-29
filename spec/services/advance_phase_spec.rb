@@ -52,42 +52,38 @@ describe 'advance phase' do
       )
     end
   end
-end
-__END__
 
   context 'after group reaches wip limit' do
     let(:before_group) do
-      create_group(
+      Group(
         project_id: project_id,
         phase: 'Todo',
         wip_limit: nil,
         transition: nil,
-        work_list: [[feature, nil]]
+        work_list: [Work(feature_id, State(nil))]
       )
     end
 
     let(:after_group) do
-      create_group(
+      Group(
         project_id: project_id,
         phase: 'Dev',
         wip_limit: 2,
         transition: %w(Doing Review Done),
-        work_list: [[]]
+        work_list: [
+          Work(FeatureId('other1'), State('Review')),
+          Work(FeatureId('other2'), State('Done')),
+        ]
       )
     end
 
     it do
-      before_phase = Work::Phase.new('Todo')
-      after_phase = Work::Phase.new('Dev')
+      before_phase = Phase('Todo')
+      after_phase = Phase('Dev')
 
-      service.advance_phase(project_id, feature, before_phase, after_phase)
-
-      before_group = group_repository.find(project_id, before_phase)
-      after_group = group_repository.find(project_id, after_phase)
-      expect(before_group.work_list).to be_empty
-      expect(after_group.work_list).to eq(
-        Work::WorkList.new([Work::Work.new(feature, Work::State.new('Doing'))])
-      )
+      expect {
+        service.advance_phase(project_id, feature_id, before_phase, after_phase)
+      }.to raise_error(Work::WipLimitReached)
     end
   end
 end

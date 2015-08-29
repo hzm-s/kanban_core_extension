@@ -8,8 +8,7 @@ class FeatureService
     before_group = @group_repository.find(project_id, before_phase)
     after_group = @group_repository.find(project_id, after_phase)
 
-    before_group.finish_work(feature)
-    after_group.start_work(feature)
+    after_group.relay_from(before_group, feature)
 
     @group_repository.store(before_group)
     @group_repository.store(after_group)
