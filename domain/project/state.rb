@@ -1,4 +1,4 @@
-module Work
+module Project
   class State
 
     def initialize(state)
@@ -9,12 +9,12 @@ module Work
       @state
     end
 
-    def hash
-      to_s.hash
+    def eql?(other)
+      self == other
     end
 
-    def eql?
-      self == other
+    def hash
+      to_s.hash
     end
 
     def ==(other)
@@ -25,6 +25,10 @@ module Work
 
   class State
     class None
+
+      def eql?(other)
+        self == other
+      end
 
       def ==(other)
         other.instance_of?(self.class)

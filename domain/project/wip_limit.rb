@@ -1,4 +1,4 @@
-module Work
+module Project
   class WipLimit
 
     def initialize(limit)

@@ -1,0 +1,17 @@
+class BoardService
+
+  def initialize(project_repository, board_repository)
+    @project_repository = project_repository
+    @board_repository = board_repository
+  end
+
+  def add_card(project_id, card)
+    project = @project_repository.find(project_id)
+    board = @board_repository.find(project_id)
+
+    locator = Kanban::Locator.new(project.workflow)
+    board.add_card(card, locator)
+
+    @board_repository.store(board)
+  end
+end
