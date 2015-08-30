@@ -18,7 +18,7 @@ describe 'add card to board' do
     board_repository.store(board)
   end
 
-  context 'single phase, no wip limit' do
+  context 'no state phase no wip limit' do
     let(:workflow) do
       Project::Workflow.new([
         Project::PhaseSpec.new(
@@ -41,7 +41,7 @@ describe 'add card to board' do
     end
   end
 
-  context 'single phase, wip limit = 3' do
+  context 'no state phase, wip limit = 3' do
     let(:workflow) do
       Project::Workflow.new([
         Project::PhaseSpec.new(
@@ -76,6 +76,88 @@ describe 'add card to board' do
         board = board_repository.find(project_id)
         expect(board.position(card)).to eq(
           Kanban::Position.new(Project::Phase.new('Todo'), Project::State::None.new)
+        )
+      end
+    end
+
+    context 'wip = 3' do
+      it do
+        card = Kanban::Card.new(Project::FeatureId.new('feat_1'))
+
+        service.add_card(project_id, Kanban::Card.new(Project::FeatureId.new('feat_2')))
+        service.add_card(project_id, Kanban::Card.new(Project::FeatureId.new('feat_3')))
+        service.add_card(project_id, Kanban::Card.new(Project::FeatureId.new('feat_4')))
+        expect {
+          service.add_card(project_id, card)
+        }.to raise_error(Kanban::WipLimitReached)
+      end
+    end
+  end
+
+  context 'multi state phase no wip limit' do
+    let(:workflow) do
+      Project::Workflow.new([
+        Project::PhaseSpec.new(
+          Project::Phase.new('Todo'),
+          Project::Transition.new([
+            Project::State.new('Check'),
+            Project::State.new('Ready')
+          ]),
+          Project::WipLimit::None.new
+        )
+      ])
+    end
+
+    it do
+      card = Kanban::Card.new(Project::FeatureId.new('feat_1'))
+
+      service.add_card(project_id, card)
+
+      board = board_repository.find(project_id)
+      expect(board.position(card)).to eq(
+        Kanban::Position.new(Project::Phase.new('Todo'), Project::State.new('Check'))
+      )
+    end
+  end
+
+  context 'multi state phase, wip limit = 3' do
+    let(:workflow) do
+      Project::Workflow.new([
+        Project::PhaseSpec.new(
+          Project::Phase.new('Todo'),
+          Project::Transition.new([
+            Project::State.new('Check'),
+            Project::State.new('Ready')
+          ]),
+          Project::WipLimit.new(3)
+        )
+      ])
+    end
+
+    context 'wip = 0' do
+      it do
+        card = Kanban::Card.new(Project::FeatureId.new('feat_1'))
+
+        service.add_card(project_id, card)
+
+        board = board_repository.find(project_id)
+        expect(board.position(card)).to eq(
+          Kanban::Position.new(Project::Phase.new('Todo'), Project::State.new('Check'))
+        )
+      end
+    end
+
+    context 'wip = 2' do
+      it do
+        card = Kanban::Card.new(Project::FeatureId.new('feat_1'))
+
+        service.add_card(project_id, Kanban::Card.new(Project::FeatureId.new('feat_2')))
+        service.add_card(project_id, Kanban::Card.new(Project::FeatureId.new('feat_3')))
+        service.add_card(project_id, card)
+
+        board = board_repository.find(project_id)
+        expect(board.position(card)).to eq(
+          Kanban::Position.new(Project::Phase.new('Todo'), Project::State.new('Check'))
         )
       end
     end
