@@ -2,7 +2,7 @@ module Project
   class Phase
 
     def initialize(description)
-      @descritpion = description
+      @description = description
     end
 
     def to_s
