@@ -8,17 +8,14 @@ module Kanban
     end
 
     def add_card(card, position)
-      @container[position.phase].add_card(card, position.state)
+      stage = retrieve(position)
+      raise WipLimitReached if stage.reach_wip_limit?
+      stage.add_card(card, position.state)
     end
 
     def pull_card(card, before, after)
-      @container[before.phase].remove_card(card)
-      raise WipLimitReached if reach_wip_limit?(after)
+      retrieve(before).remove_card(card)
       add_card(card, after)
-    end
-
-    def reach_wip_limit?(position)
-      @container[position.phase].reach_wip_limit?
     end
 
     def position(card)
@@ -27,5 +24,11 @@ module Kanban
       end
       stage.position(card)
     end
+
+    private
+
+      def retrieve(position)
+        @container[position.phase]
+      end
   end
 end

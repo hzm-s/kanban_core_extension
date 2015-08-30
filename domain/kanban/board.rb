@@ -10,9 +10,7 @@ module Kanban
     end
 
     def add_card(card, locator)
-      position = locator.initial_position
-      raise WipLimitReached if @stages.reach_wip_limit?(position)
-      @stages.add_card(card, position)
+      @stages.add_card(card, locator.initial_position)
     end
 
     def pull_card(card, before, after)
