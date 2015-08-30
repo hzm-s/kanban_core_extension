@@ -7,6 +7,10 @@ module Work
       @state = state
     end
 
+    def for?(feature)
+      @feature == feature
+    end
+
     def to_a
       [@feature, @state]
     end

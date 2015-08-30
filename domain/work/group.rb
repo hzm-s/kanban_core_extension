@@ -19,6 +19,12 @@ module Work
       start_work(feature)
     end
 
+    def progress(feature)
+      old_work = @work_list.find(feature)
+      work_list = @work_list.remove(old_work)
+      @work_list = work_list.add(Work.new(feature, @transition.next(old_work.state)))
+    end
+
     protected
 
       def finish_work(feature)

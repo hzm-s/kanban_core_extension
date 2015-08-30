@@ -13,4 +13,12 @@ class FeatureService
     @group_repository.store(before_group)
     @group_repository.store(after_group)
   end
+
+  def advance_state(project_id, feature, phase)
+    group = @group_repository.find(project_id, phase)
+
+    group.progress(feature)
+
+    @group_repository.store(group)
+  end
 end

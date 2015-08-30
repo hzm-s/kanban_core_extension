@@ -8,5 +8,10 @@ module Work
     def first
       @states.first
     end
+
+    def next(state)
+      next_index = @states.index(state) + 1
+      @states[next_index]
+    end
   end
 end

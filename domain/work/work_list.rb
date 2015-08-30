@@ -13,6 +13,10 @@ module Work
       self.class.new(@works.reject {|w| w == work })
     end
 
+    def find(feature)
+      @works.detect {|w| w.for?(feature) }
+    end
+
     def size
       @works.size
     end
