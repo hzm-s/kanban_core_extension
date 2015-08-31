@@ -8,7 +8,7 @@ module Project
     end
 
     def launch_project(description)
-      Project::Project.new(generate_project_id, description)
+      ::Project::Project.new(generate_project_id, description)
     end
 
     private
