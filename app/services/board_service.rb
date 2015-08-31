@@ -19,7 +19,8 @@ class BoardService
     project = @project_repository.find(project_id)
     board = @board_repository.find(project_id)
 
-    board.pull_card(card, before, after)
+    locator = Kanban::Locator.new(project.workflow)
+    board.pull_card(card, before, after, locator)
 
     @board_repository.store(board)
   end

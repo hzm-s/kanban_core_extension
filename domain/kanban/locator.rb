@@ -10,6 +10,12 @@ module Kanban
       Position.new(situation.phase, situation.state)
     end
 
+    def valid_positions_for_pull?(before_position, after_position)
+      before_situation = Project::Situation.new(*before_position.to_a)
+      after_situation = Project::Situation.new(*after_position.to_a)
+      @workflow.correct?(before_situation, after_situation)
+    end
+
     def valid_positions_for_push?(before_position, after_position)
       before_situation = Project::Situation.new(*before_position.to_a)
       after_situation = Project::Situation.new(*after_position.to_a)

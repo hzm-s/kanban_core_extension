@@ -25,5 +25,13 @@ module Project
       end
       phase_spec.correct_transition?(before, after)
     end
+
+    def correct?(before, after)
+      return false if before.same_phase?(after)
+      before_index = @phase_specs.index do |phase_spec|
+        phase_spec.phase == before.phase
+      end
+      @phase_specs[before_index + 1].phase == after.phase
+    end
   end
 end

@@ -125,4 +125,37 @@ describe 'pull card' do
       end
     end
   end
+
+  context 'workflow contains 3 phases' do
+    let(:workflow) do
+      Project::Workflow.new([
+        Project::PhaseSpec.new(
+          Project::Phase.new('Phase1'),
+          Project::Transition::None.new,
+          Project::WipLimit::None.new
+        ),
+        Project::PhaseSpec.new(
+          Project::Phase.new('Phase2'),
+          Project::Transition::None.new,
+          Project::WipLimit::None.new
+        ),
+        Project::PhaseSpec.new(
+          Project::Phase.new('Phase3'),
+          Project::Transition::None.new,
+          Project::WipLimit::None.new
+        )
+      ])
+    end
+
+    it do
+      card = Kanban::Card.new(Project::FeatureId.new('feat_1'))
+      service.add_card(project_id, card)
+
+      before = Position('Phase1', nil)
+      after = Position('Phase3', nil)
+      expect {
+        service.pull_card(project_id, card, before, after)
+      }.to raise_error(Project::OutOfWorkflow)
+    end
+  end
 end
