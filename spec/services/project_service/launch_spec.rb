@@ -10,9 +10,11 @@ describe 'launch project' do
     name = Project::Name.new('Project A')
     goal = Project::Goal.new('The goal')
 
-    service.launch(name, goal)
+    project_id = service.launch(name, goal)
 
-    project = project_repository.find_by_name(name)
+    project = project_repository.find(project_id)
     expect(project).to_not be_nil
+    expect(project.name).to eq(name)
+    expect(project.goal).to eq(goal)
   end
 end

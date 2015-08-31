@@ -9,5 +9,7 @@ class ProjectService
     project = factory.launch_project(name, goal)
 
     @project_repository.store(project)
+
+    project.project_id
   end
 end
