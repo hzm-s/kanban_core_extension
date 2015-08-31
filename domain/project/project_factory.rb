@@ -7,8 +7,8 @@ module Project
       @project_repository = project_repository
     end
 
-    def launch_project(name, goal)
-      Project::Project.new(generate_project_id, name, goal)
+    def launch_project(description)
+      Project::Project.new(generate_project_id, description)
     end
 
     private

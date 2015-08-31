@@ -4,9 +4,9 @@ class ProjectService
     @project_repository = project_repository
   end
 
-  def launch(name, goal)
+  def launch(description)
     factory = Project::ProjectFactory.new(@project_repository)
-    project = factory.launch_project(name, goal)
+    project = factory.launch_project(description)
 
     @project_repository.store(project)
 
