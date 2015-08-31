@@ -17,6 +17,10 @@ module Kanban
       @stages.pull_card(card, before, after)
     end
 
+    def push_card(card, before, after)
+      @stages.push_card(card, before, after)
+    end
+
     def position(card)
       @stages.position(card)
     end

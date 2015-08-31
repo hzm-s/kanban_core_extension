@@ -16,6 +16,10 @@ module Kanban
       @cards.delete(card)
     end
 
+    def update_card_state(card, state)
+      @cards[card] = state
+    end
+
     def reach_wip_limit?
       @wip_limit.reach?(@cards.size)
     end

@@ -18,6 +18,10 @@ module Kanban
       add_card(card, after)
     end
 
+    def push_card(card, before, after)
+      retrieve(before).update_card_state(card, after.state)
+    end
+
     def position(card)
       stage = @container.values.detect do |stage|
         stage.contain?(card)

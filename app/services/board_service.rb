@@ -23,4 +23,13 @@ class BoardService
 
     @board_repository.store(board)
   end
+
+  def push_card(project_id, card, before, after)
+    project = @project_repository.find(project_id)
+    board = @board_repository.find(project_id)
+
+    board.push_card(card, before, after)
+
+    @board_repository.store(board)
+  end
 end
