@@ -1,4 +1,6 @@
 module Project
+  class OutOfWorkflow < StandardError; end
+
   class Workflow
 
     def initialize(phase_specs)
@@ -14,6 +16,14 @@ module Project
 
     def first_situation
       @phase_specs.first.first_situation
+    end
+
+    def correct_transition?(before, after)
+      return false unless before.same_phase?(after)
+      phase_spec = @phase_specs.detect do |phase_spec|
+        phase_spec.phase == before.phase
+      end
+      phase_spec.correct_transition?(before, after)
     end
   end
 end

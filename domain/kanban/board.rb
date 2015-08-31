@@ -17,7 +17,8 @@ module Kanban
       @stages.pull_card(card, before, after)
     end
 
-    def push_card(card, before, after)
+    def push_card(card, before, after, locator)
+      raise Project::OutOfWorkflow unless locator.valid_positions_for_push?(before, after)
       @stages.push_card(card, before, after)
     end
 

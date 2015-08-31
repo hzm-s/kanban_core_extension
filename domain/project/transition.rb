@@ -6,18 +6,13 @@ module Project
       @states = states
     end
 
-    def each
-      return @states unless block_given?
-      @states.each {|e| yield(e) }
+    def partial?(before_state, after_state)
+      before_index = @states.index(before_state)
+      @states[before_index + 1] == after_state
     end
 
     def first
       @states.first
-    end
-
-    def next(state)
-      next_index = @states.index(state) + 1
-      @states[next_index]
     end
   end
 

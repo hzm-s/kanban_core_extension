@@ -11,5 +11,9 @@ module Project
     def first_situation
       Situation.new(@phase, @transition.first)
     end
+
+    def correct_transition?(before, after)
+      @transition.partial?(before.state, after.state)
+    end
   end
 end
