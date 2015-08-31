@@ -3,6 +3,17 @@ module Project
 
   class Workflow
 
+    def self.modelize(phase_spec_records, state_records)
+      new(
+        phase_spec_records.map do |phase_spec_record|
+          PhaseSpec.modelize(
+            phase_spec_record,
+            state_records.where(phase_description: phase_spec_record.phase_description)
+          )
+        end
+      )
+    end
+
     def initialize(phase_specs)
       @phase_specs = phase_specs
     end
@@ -26,6 +37,12 @@ module Project
     def correct?(before, after)
       return false if before.same_phase?(after)
       @phase_specs[index(before.phase) + 1].phase == after.phase
+    end
+
+    # ARize
+
+    def arize(project_record)
+      @phase_specs.each.with_index(1) {|ps, n| ps.arize(project_record, n) }
     end
 
     private

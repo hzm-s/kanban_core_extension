@@ -8,6 +8,10 @@ module Project
     def reach?(wip)
       @limit <= wip
     end
+
+    def to_i
+      @limit
+    end
   end
 
   class WipLimit
@@ -15,6 +19,10 @@ module Project
 
       def reach?(wip)
         false
+      end
+
+      def to_i
+        nil
       end
     end
   end
