@@ -1,8 +1,21 @@
 class BoardService
+  module EventHandler
+
+    def workflow_specified(event)
+      build_board(event.project_id, event.workflow)
+    end
+  end
+  include EventHandler
 
   def initialize(project_repository, board_repository)
     @project_repository = project_repository
     @board_repository = board_repository
+  end
+
+  def build_board(project_id, workflow)
+    builder = Kanban::BoardBuilder.new(project_id)
+    board = workflow.build_board_with(builder)
+    @board_repository.store(board)
   end
 
   def add_card(project_id, card)

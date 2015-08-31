@@ -10,10 +10,11 @@ module Project
 
     def specify_workflow(workflow)
       @workflow = workflow
-    end
 
-    def build_board
-      @workflow.build_board_with(Kanban::BoardBuilder.new(@project_id))
+      EventPublisher.publish(
+        :workflow_specified,
+        WorkflowSpecified.new(@project_id, @workflow)
+      )
     end
   end
 end
