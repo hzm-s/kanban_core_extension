@@ -7,15 +7,11 @@ describe 'add card to board' do
   let(:project_repository) { FakeProjectRepository.new }
   let(:board_repository) { FakeBoardRepository.new }
 
-  let(:project_id) { Project::ProjectId.new('prj_1') }
+  let(:project_id) { project_service.launch(Project::Description.new('Name', 'Goal')) }
+  let(:project_service) { ProjectService.new(project_repository, service) }
 
   before do
-    project = Project::Project.new(project_id)
-    project.specify_workflow(workflow)
-    project_repository.store(project)
-
-    board = project.build_board
-    board_repository.store(board)
+    project_service.specify_workflow(project_id, workflow)
   end
 
   context 'no state phase no wip limit' do
