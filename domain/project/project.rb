@@ -1,9 +1,11 @@
 module Project
   class Project
-    attr_reader :project_id, :workflow
+    attr_reader :project_id, :name, :workflow
 
-    def initialize(project_id)
+    def initialize(project_id, name, goal)
       @project_id = project_id
+      @name = name
+      @goal = goal
       @workflow = nil
     end
 
