@@ -20,18 +20,22 @@ module Project
 
     def correct_transition?(before, after)
       return false unless before.same_phase?(after)
-      phase_spec = @phase_specs.detect do |phase_spec|
-        phase_spec.phase == before.phase
-      end
-      phase_spec.correct_transition?(before, after)
+      retrieve(before.phase).correct_transition?(before, after)
     end
 
     def correct?(before, after)
       return false if before.same_phase?(after)
-      before_index = @phase_specs.index do |phase_spec|
-        phase_spec.phase == before.phase
-      end
-      @phase_specs[before_index + 1].phase == after.phase
+      @phase_specs[index(before.phase) + 1].phase == after.phase
     end
+
+    private
+
+      def retrieve(phase)
+        @phase_specs.detect {|ps| ps.phase == phase }
+      end
+
+      def index(phase)
+        @phase_specs.index {|ps| ps.phase == phase }
+      end
   end
 end
