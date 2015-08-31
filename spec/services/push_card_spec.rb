@@ -29,6 +29,11 @@ describe 'push card' do
             Project::State.new('Done')
           ]),
           Project::WipLimit.new(2)
+        ),
+        Project::PhaseSpec.new(
+          Project::Phase.new('Other'),
+          Project::Transition::None.new,
+          Project::WipLimit::None.new
         )
       ])
     end
@@ -43,9 +48,7 @@ describe 'push card' do
         service.push_card(project_id, card, before, after)
 
         board = board_repository.find(project_id)
-        expect(board.position(card)).to eq(
-          Kanban::Position.new(Project::Phase.new('Dev'), Project::State.new('Review'))
-        )
+        expect(board.position(card)).to eq(after)
       end
     end
 
@@ -53,18 +56,18 @@ describe 'push card' do
       it do
         card = Kanban::Card.new(Project::FeatureId.new('feat_1'))
         service.add_card(project_id, card)
-        before = Kanban::Position.new(Project::Phase.new('Dev'), Project::State.new('Doing'))
-        after = Kanban::Position.new(Project::Phase.new('Dev'), Project::State.new('Review'))
-        service.push_card(project_id, card, before, after)
+        service.push_card(
+          project_id, card,
+          Kanban::Position.new(Project::Phase.new('Dev'), Project::State.new('Doing')),
+          Kanban::Position.new(Project::Phase.new('Dev'), Project::State.new('Review'))
+        )
 
         before = Kanban::Position.new(Project::Phase.new('Dev'), Project::State.new('Review'))
         after = Kanban::Position.new(Project::Phase.new('Dev'), Project::State.new('Done'))
         service.push_card(project_id, card, before, after)
 
         board = board_repository.find(project_id)
-        expect(board.position(card)).to eq(
-          Kanban::Position.new(Project::Phase.new('Dev'), Project::State.new('Done'))
-        )
+        expect(board.position(card)).to eq(after)
       end
     end
 
@@ -75,6 +78,29 @@ describe 'push card' do
 
         before = Kanban::Position.new(Project::Phase.new('Dev'), Project::State.new('Doing'))
         after = Kanban::Position.new(Project::Phase.new('Dev'), Project::State.new('Done'))
+        expect {
+          service.push_card(project_id, card, before, after)
+        }.to raise_error(Project::OutOfWorkflow)
+      end
+    end
+
+    context '3 => next phase' do
+      it do
+        card = Kanban::Card.new(Project::FeatureId.new('feat_1'))
+        service.add_card(project_id, card)
+        service.push_card(
+          project_id, card,
+          Kanban::Position.new(Project::Phase.new('Dev'), Project::State.new('Doing')),
+          Kanban::Position.new(Project::Phase.new('Dev'), Project::State.new('Review'))
+        )
+        service.push_card(
+          project_id, card,
+          Kanban::Position.new(Project::Phase.new('Dev'), Project::State.new('Review')),
+          Kanban::Position.new(Project::Phase.new('Dev'), Project::State.new('Done'))
+        )
+
+        before = Kanban::Position.new(Project::Phase.new('Dev'), Project::State.new('Done'))
+        after = Kanban::Position.new(Project::Phase.new('Other'), Project::State::None.new)
         expect {
           service.push_card(project_id, card, before, after)
         }.to raise_error(Project::OutOfWorkflow)
