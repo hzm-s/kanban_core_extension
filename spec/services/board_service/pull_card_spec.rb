@@ -6,9 +6,10 @@ describe 'pull card' do
   end
   let(:project_repository) { ProjectRepository.new }
   let(:board_repository) { FakeBoardRepository.new }
+  let(:project_service) { ProjectService.new(project_repository, board_builder) }
+  let(:board_builder) { Kanban::BoardBuilder.new(board_repository) }
 
   let(:project_id) { project_service.launch(Project::Description.new('Name', 'Goal')) }
-  let(:project_service) { ProjectService.new(project_repository, service) }
 
   before do
     project_service.specify_workflow(project_id, workflow)
