@@ -5,8 +5,9 @@ describe 'specify workflow' do
     ProjectService.new(project_repository, board_service)
   end
   let(:project_repository) { ProjectRepository.new }
-  let(:board_repository) { FakeBoardRepository.new }
+
   let(:board_service) { BoardService.new(project_repository, board_repository) }
+  let(:board_repository) { BoardRepository.new }
 
   let(:project_id) do
     service.launch(Project::Description.new('Name', 'Goal'))

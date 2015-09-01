@@ -11,7 +11,10 @@ module Kanban
     end
 
     def board
-      Board.new(@project_id, StageContainer.new(@stages))
+      Board.new.tap do |board|
+        board.project_id = @project_id
+        board.stages = StageContainer.new(@stages)
+      end
     end
   end
 end

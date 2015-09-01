@@ -11,7 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150831143316) do
+ActiveRecord::Schema.define(version: 20150901074028) do
+
+  create_table "board_records", force: :cascade do |t|
+    t.string "project_id_str", null: false
+  end
 
   create_table "phase_spec_records", force: :cascade do |t|
     t.integer "project_id",        null: false
@@ -24,6 +28,12 @@ ActiveRecord::Schema.define(version: 20150831143316) do
     t.string "project_id_str",   null: false
     t.string "description_name", null: false
     t.text   "description_goal", null: false
+  end
+
+  create_table "stage_records", force: :cascade do |t|
+    t.integer "board_id",          null: false
+    t.string  "phase_description", null: false
+    t.integer "wip_limit_count"
   end
 
   create_table "state_records", force: :cascade do |t|

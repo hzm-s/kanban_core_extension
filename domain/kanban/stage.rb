@@ -1,6 +1,6 @@
 module Kanban
   class Stage
-    attr_reader :phase
+    attr_reader :phase, :wip_limit
 
     def initialize(phase, wip_limit, cards = {})
       @phase = phase

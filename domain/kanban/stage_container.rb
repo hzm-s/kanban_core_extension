@@ -2,6 +2,7 @@ module Kanban
   class StageContainer
 
     def initialize(stages)
+      @stages = stages
       @container = stages.each_with_object({}) do |stage, c|
         c[stage.phase] = stage
       end
@@ -27,6 +28,10 @@ module Kanban
         stage.contain?(card)
       end
       stage.position(card)
+    end
+
+    def to_a
+      @stages
     end
 
     private
