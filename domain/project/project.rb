@@ -15,8 +15,8 @@ module Project
     #
 
     self.table_name = 'project_records'
-    has_many :phase_spec_records
-    has_many :state_records
+    has_many :phase_spec_records, -> { order(:order) }
+    has_many :state_records, -> { order(:order) }
 
     def project_id=(project_id)
       self.project_id_str = project_id.to_s
@@ -56,8 +56,8 @@ module Project
 
     def workflow
       Workflow.new(
-        phase_spec_records.order(:order).map do |psr|
-          state_records_for_phase = state_records.where(phase_description: psr.phase_description).order(:order)
+        phase_spec_records.map do |psr|
+          state_records_for_phase = state_records.where(phase_description: psr.phase_description)
           PhaseSpec.new(
             Phase.new(psr.phase_description),
             if state_records_for_phase.any?
