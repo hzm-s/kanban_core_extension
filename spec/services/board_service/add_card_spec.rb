@@ -4,7 +4,7 @@ describe 'add card to board' do
   let(:service) do
     BoardService.new(project_repository, board_repository)
   end
-  let(:project_repository) { FakeProjectRepository.new }
+  let(:project_repository) { ProjectRepository.new }
   let(:board_repository) { FakeBoardRepository.new }
 
   let(:project_id) { project_service.launch(Project::Description.new('Name', 'Goal')) }
