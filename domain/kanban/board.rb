@@ -16,9 +16,8 @@ module Kanban
       stage.add(card, locator.initial_position, rule)
     end
 
-    def pull_card(card, before, after, locator)
-      raise Project::OutOfWorkflow unless locator.valid_positions_for_pull?(before, after)
-      @stages.pull_card(card, before, after)
+    def pull_card(feature_id, before, after, rule)
+      stage.move_card(feature_id, before, after, rule)
     end
 
     def push_card(card, before, after, locator)

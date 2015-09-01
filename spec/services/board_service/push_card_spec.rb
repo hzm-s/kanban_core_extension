@@ -47,6 +47,9 @@ describe 'push card' do
         expect(board.get_card(feature_id)).to eq(after)
       end
     end
+  end
+end
+__END__
 
     context '2 => 3' do
       it do
