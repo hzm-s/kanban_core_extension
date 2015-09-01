@@ -11,17 +11,17 @@ module Kanban
     #  @stages = stages
     #end
 
-    def add_card(feature_id, rule, locator)
+    def add_card(feature_id, rule)
       card = Card.write(feature_id)
-      stage.add(card, locator.initial_position, rule)
+      stage.add_card(card, rule)
     end
 
     def pull_card(feature_id, before, after, rule)
-      stage.move_card(feature_id, before, after, rule)
+      stage.pull_card(feature_id, before, after, rule)
     end
 
     def push_card(feature_id, before, after, rule)
-      stage.move_card(feature_id, before, after, rule)
+      stage.push_card(feature_id, before, after, rule)
     end
 
     def get_card(feature_id)

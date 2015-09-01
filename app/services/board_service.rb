@@ -23,8 +23,7 @@ class BoardService
     board = @board_repository.find(project_id)
 
     rule = Kanban::Rule.new(project.workflow)
-    locator = Kanban::Locator.new(project.workflow)
-    board.add_card(feature_id, rule, locator)
+    board.add_card(feature_id, rule)
 
     @board_repository.store(board)
   end
@@ -32,9 +31,6 @@ class BoardService
   def pull_card(project_id, feature_id, before, after)
     project = @project_repository.find(project_id)
     board = @board_repository.find(project_id)
-
-    locator = Kanban::Locator.new(project.workflow)
-    raise Project::OutOfWorkflow unless locator.valid_positions_for_pull?(before, after)
 
     rule = Kanban::Rule.new(project.workflow)
     board.pull_card(feature_id, before, after, rule)
@@ -45,9 +41,6 @@ class BoardService
   def push_card(project_id, feature_id, before, after)
     project = @project_repository.find(project_id)
     board = @board_repository.find(project_id)
-
-    locator = Kanban::Locator.new(project.workflow)
-    raise Project::OutOfWorkflow unless locator.valid_positions_for_push?(before, after)
 
     rule = Kanban::Rule.new(project.workflow)
     board.push_card(feature_id, before, after, rule)

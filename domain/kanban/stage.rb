@@ -5,7 +5,9 @@ module Kanban
       @cards = cards
     end
 
-    def add(card, position, rule)
+    def add_card(card, rule)
+      position = rule.initial_position
+
       card_size = count_by_phase(position.phase)
       raise WipLimitReached unless rule.can_put_card?(position.phase, card_size)
 
@@ -13,7 +15,21 @@ module Kanban
       @cards << card
     end
 
-    def move_card(feature_id, before, after, rule)
+    def pull_card(feature_id, before, after, rule)
+      raise Project::OutOfWorkflow unless rule.valid_positions_for_pull?(before, after)
+
+      # TODO check card on before position
+      card = get_card(feature_id)
+
+      card_size = count_by_phase(after.phase)
+      raise WipLimitReached unless rule.can_put_card?(after.phase, card_size)
+
+      card.locate(after)
+    end
+
+    def push_card(feature_id, before, after, rule)
+      raise Project::OutOfWorkflow unless rule.valid_positions_for_push?(before, after)
+
       # TODO check card on before position
       card = get_card(feature_id)
 
