@@ -4,6 +4,10 @@ module Kanban
   class Board < ActiveRecord::Base
     include Arize::Board
 
+    def prepare(project_id)
+      self.project_id = project_id
+    end
+
     def add_card(feature_id, rule)
       card = Card.write(feature_id)
       stage.add_card(card, rule)
@@ -25,17 +29,16 @@ module Kanban
 
     has_many :card_records
 
-    def prepare(project_id)
+    def project_id=(project_id)
       self.project_id_str = project_id.to_s
-      @stage = Kanban::Stage.new(card_records)
-    end
-
-    def stage
-      @stage
     end
 
     def project_id
       Project::ProjectId.new(self.project_id_str)
+    end
+
+    def stage
+      @stage ||= Kanban::Stage.new(card_records)
     end
   end
 end
