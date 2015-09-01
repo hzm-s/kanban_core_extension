@@ -38,7 +38,7 @@ module Kanban
     end
 
     def get_card(feature_id)
-      @cards.detect {|card| card == feature_id }
+      retrieve_card(feature_id)
     end
 
     def count_by_phase(phase)
@@ -49,6 +49,10 @@ module Kanban
 
     def put(card_record)
       @cards.build(card_record)
+    end
+
+    def retrieve_card(feature_id)
+      @cards.find_by(feature_id_str: feature_id.to_s)
     end
   end
 end

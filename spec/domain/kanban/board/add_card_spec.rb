@@ -21,8 +21,8 @@ module Kanban
 
         board.add_card(feature_id, rule)
 
-        card_record = board.card_records.where(feature_id_str: feature_id.to_s)
-        expect(card_record).to_not be_nil
+        cards = board.cards.where(feature_id_str: feature_id.to_s)
+        expect(cards).to_not be_nil
       end
     end
   end
