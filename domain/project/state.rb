@@ -26,8 +26,16 @@ module Project
   class State
     class None
 
+      def to_s
+        'none'
+      end
+
       def eql?(other)
         self == other
+      end
+
+      def hash
+        to_s.hash
       end
 
       def ==(other)

@@ -28,6 +28,23 @@ module Project
       @phase_specs[index(before.phase) + 1].phase == after.phase
     end
 
+    def to_a
+      @phase_specs
+    end
+
+    def eql?(other)
+      self == other
+    end
+
+    def hash
+      to_a.hash
+    end
+
+    def ==(other)
+      other.instance_of?(self.class) &&
+        self.to_a == other.to_a
+    end
+
     private
 
       def retrieve(phase)

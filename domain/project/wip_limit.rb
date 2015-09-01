@@ -1,12 +1,29 @@
 module Project
   class WipLimit
 
-    def initialize(limit)
-      @limit = limit
+    def initialize(count)
+      @count = count
     end
 
     def reach?(wip)
-      @limit <= wip
+      @count <= wip
+    end
+
+    def to_i
+      @count
+    end
+
+    def eql?(other)
+      self == other
+    end
+
+    def hash
+      to_i.hash
+    end
+
+    def ==(other)
+      other.instance_of?(self.class) &&
+        self.to_i == other.to_i
     end
   end
 
@@ -15,6 +32,23 @@ module Project
 
       def reach?(wip)
         false
+      end
+
+      def to_i
+        nil
+      end
+
+      def eql?(other)
+        self == other
+      end
+
+      def hash
+        to_i.hash
+      end
+
+      def ==(other)
+        other.instance_of?(self.class) &&
+          self.to_i == other.to_i
       end
     end
   end

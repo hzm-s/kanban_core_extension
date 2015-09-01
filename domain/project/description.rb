@@ -1,5 +1,6 @@
 module Project
   class Description
+    attr_reader :name, :goal
 
     def initialize(name, goal)
       @name = name

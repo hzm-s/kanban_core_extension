@@ -1,0 +1,2 @@
+module Arize
+end
