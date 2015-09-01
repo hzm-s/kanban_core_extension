@@ -1,8 +1,8 @@
 class ProjectService
 
-  def initialize(project_repository, board_service)
+  def initialize(project_repository, board_builder)
     @project_repository = project_repository
-    @board_service = board_service
+    @board_builder = board_builder
   end
 
   def launch(description)
@@ -17,7 +17,7 @@ class ProjectService
   def specify_workflow(project_id, workflow)
     project = @project_repository.find(project_id)
 
-    EventPublisher.subscribe(@board_service)
+    EventPublisher.subscribe(@board_builder)
     project.specify_workflow(workflow)
 
     @project_repository.store(project)

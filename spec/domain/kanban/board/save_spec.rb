@@ -16,7 +16,7 @@ module Kanban
       let(:project_id) { Project::ProjectId.new('prj_123') }
       let(:builder) { Kanban::BoardBuilder.new(project_id) }
 
-      let(:workflow) do
+      let(:aworkflow) do
         Project::Workflow.new([
           Project::PhaseSpec.new(
             Project::Phase.new('Todo'),
