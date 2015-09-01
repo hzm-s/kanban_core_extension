@@ -36,57 +36,57 @@ describe 'push card' do
 
     context '1 => 2' do
       it do
-        card = Kanban::Card.new(Project::FeatureId.new('feat_1'))
-        service.add_card(project_id, card)
+        feature_id = Project::FeatureId.new('feat_1')
+        service.add_card(project_id, feature_id)
 
         before = Position('Dev', 'Doing')
         after = Position('Dev', 'Review')
-        service.push_card(project_id, card, before, after)
+        service.push_card(project_id, feature_id, before, after)
 
         board = board_repository.find(project_id)
-        expect(board.position(card)).to eq(after)
+        expect(board.get_card(feature_id)).to eq(after)
       end
     end
 
     context '2 => 3' do
       it do
-        card = Kanban::Card.new(Project::FeatureId.new('feat_1'))
-        service.add_card(project_id, card)
-        service.push_card(project_id, card, Position('Dev', 'Doing'), Position('Dev', 'Review'))
+        feature_id = Project::FeatureId.new('feat_1')
+        service.add_card(project_id, feature_id)
+        service.push_card(project_id, feature_id, Position('Dev', 'Doing'), Position('Dev', 'Review'))
 
         before = Position('Dev', 'Review')
         after = Position('Dev', 'Done')
-        service.push_card(project_id, card, before, after)
+        service.push_card(project_id, feature_id, before, after)
 
         board = board_repository.find(project_id)
-        expect(board.position(card)).to eq(after)
+        expect(board.get_card(feature_id)).to eq(after)
       end
     end
 
     context '1 => 3' do
       it do
-        card = Kanban::Card.new(Project::FeatureId.new('feat_1'))
-        service.add_card(project_id, card)
+        feature_id = Project::FeatureId.new('feat_1')
+        service.add_card(project_id, feature_id)
 
         before = Position('Dev', 'Doing')
         after = Position('Dev', 'Done')
         expect {
-          service.push_card(project_id, card, before, after)
+          service.push_card(project_id, feature_id, before, after)
         }.to raise_error(Project::OutOfWorkflow)
       end
     end
 
     context '3 => next phase' do
       it do
-        card = Kanban::Card.new(Project::FeatureId.new('feat_1'))
-        service.add_card(project_id, card)
-        service.push_card(project_id, card, Position('Dev', 'Doing'), Position('Dev', 'Review'))
-        service.push_card(project_id, card, Position('Dev', 'Review'), Position('Dev', 'Done'))
+        feature_id = Project::FeatureId.new('feat_1')
+        service.add_card(project_id, feature_id)
+        service.push_card(project_id, feature_id, Position('Dev', 'Doing'), Position('Dev', 'Review'))
+        service.push_card(project_id, feature_id, Position('Dev', 'Review'), Position('Dev', 'Done'))
 
         before = Position('Dev', 'Done')
         after = Position('Other', nil)
         expect {
-          service.push_card(project_id, card, before, after)
+          service.push_card(project_id, feature_id, before, after)
         }.to raise_error(Project::OutOfWorkflow)
       end
     end
