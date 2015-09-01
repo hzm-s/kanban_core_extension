@@ -7,13 +7,13 @@ module Arize
       has_many :phase_spec_records, -> { order(:order) }
       has_many :state_records, -> { order(:order) }
 
-      include WorkflowRecorder
+      include WorkflowPersister
       include WorkflowBuilder
     end
 
-    module WorkflowRecorder
+    module WorkflowPersister
 
-      def record_workflow(a_workflow)
+      def persist_workflow(a_workflow)
         a_workflow.to_a.each.with_index(1) do |phase_spec, order|
           phase_spec_records.build(
             order: order,

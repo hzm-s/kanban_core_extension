@@ -3,7 +3,7 @@ module Project
     include Arize::Project
 
     def specify_workflow(a_workflow)
-      set_workflow(a_workflow)
+      persist_workflow(a_workflow)
 
       EventPublisher.publish(
         :workflow_specified,
@@ -20,10 +20,6 @@ module Project
     def description=(description)
       self.description_name = description.name.to_s
       self.description_goal = description.goal.to_s
-    end
-
-    def set_workflow(a_workflow)
-      record_workflow(a_workflow)
     end
 
     def project_id
