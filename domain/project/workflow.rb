@@ -3,17 +3,6 @@ module Project
 
   class Workflow
 
-    def self.modelize(phase_spec_records, state_records)
-      new(
-        phase_spec_records.map do |phase_spec_record|
-          PhaseSpec.modelize(
-            phase_spec_record,
-            state_records.where(phase_description: phase_spec_record.phase_description)
-          )
-        end
-      )
-    end
-
     def initialize(phase_specs)
       @phase_specs = phase_specs
     end
@@ -39,10 +28,21 @@ module Project
       @phase_specs[index(before.phase) + 1].phase == after.phase
     end
 
-    # ARize
+    def to_a
+      @phase_specs
+    end
 
-    def arize(project_record)
-      @phase_specs.each.with_index(1) {|ps, n| ps.arize(project_record, n) }
+    def eql?(other)
+      self == other
+    end
+
+    def hash
+      to_a.hash
+    end
+
+    def ==(other)
+      other.instance_of?(self.class) &&
+        self.to_a == other.to_a
     end
 
     private

@@ -2,10 +2,6 @@ module Project
   class Transition
     include Enumerable
 
-    def self.modelize(state_records)
-      new(state_records.map {|state_record| State.new(state_record.state_description) })
-    end
-
     def initialize(states)
       @states = states
     end
@@ -19,25 +15,53 @@ module Project
       @states.first
     end
 
-    # ARize
+    def none?
+      false
+    end
 
-    def arize(project_record, phase_description)
-      @states.each.with_index(1) do |s, n|
-        s.arize(project_record, phase_description, n)
-      end
+    def to_a
+      @states
+    end
+
+    def eql?(other)
+      self == other
+    end
+
+    def hash
+      to_a.hash
+    end
+
+    def ==(other)
+      other.instance_of?(self.class) &&
+        self.to_a == other.to_a
     end
   end
 
   class Transition
     class None
 
-      def first
-        State::None.new
+      def initialize
+        @state = State::None.new
       end
 
-      # ARize
+      def none?
+        true
+      end
 
-      def arize(project_record, phase_description)
+      def first
+        @state
+      end
+
+      def eql?(other)
+        self == other
+      end
+
+      def hash
+        nil.hash
+      end
+
+      def ==(other)
+        other.instance_of?(self.class)
       end
     end
   end
