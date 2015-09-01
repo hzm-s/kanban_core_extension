@@ -44,12 +44,9 @@ describe 'push card' do
         service.push_card(project_id, feature_id, before, after)
 
         board = board_repository.find(project_id)
-        expect(board.get_card(feature_id)).to eq(after)
+        expect(board.get_card(feature_id).position).to eq(after)
       end
     end
-  end
-end
-__END__
 
     context '2 => 3' do
       it do
@@ -62,7 +59,7 @@ __END__
         service.push_card(project_id, feature_id, before, after)
 
         board = board_repository.find(project_id)
-        expect(board.get_card(feature_id)).to eq(after)
+        expect(board.get_card(feature_id).position).to eq(after)
       end
     end
 

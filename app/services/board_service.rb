@@ -42,12 +42,15 @@ class BoardService
     @board_repository.store(board)
   end
 
-  def push_card(project_id, card, before, after)
+  def push_card(project_id, feature_id, before, after)
     project = @project_repository.find(project_id)
     board = @board_repository.find(project_id)
 
     locator = Kanban::Locator.new(project.workflow)
-    board.push_card(card, before, after, locator)
+    raise Project::OutOfWorkflow unless locator.valid_positions_for_push?(before, after)
+
+    rule = Kanban::Rule.new(project.workflow)
+    board.push_card(feature_id, before, after, rule)
 
     @board_repository.store(board)
   end
