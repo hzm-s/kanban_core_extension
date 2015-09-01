@@ -25,5 +25,15 @@ module Kanban
         self.feature_id == other
       end
     end
+
+    # for AR::Base
+
+    def add_to_stage(stage)
+      stage.build(
+        feature_id_str: feature_id.to_s,
+        position_phase: position.phase.to_s,
+        position_state: position.state.to_s
+      )
+    end
   end
 end

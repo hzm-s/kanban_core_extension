@@ -15,8 +15,8 @@ module Kanban
       it do
         feature_id = Project::FeatureId.new('feat_789')
         rule = double(:rule).tap do |d|
-          d.stub(:initial_position) { Position('Todo', nil) }
-          d.stub(:can_put_card?) { true }
+          allow(d).to receive(:initial_position) { Position('Todo', nil) }
+          allow(d).to receive(:can_put_card?) { true }
         end
 
         board.add_card(feature_id, rule)

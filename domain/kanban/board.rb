@@ -23,9 +23,11 @@ module Kanban
 
     # for AR::Base
 
+    has_many :card_records
+
     def prepare(project_id)
       self.project_id_str = project_id.to_s
-      @stage = Kanban::Stage.new
+      @stage = Kanban::Stage.new(card_records)
     end
 
     def stage

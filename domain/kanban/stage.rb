@@ -12,7 +12,7 @@ module Kanban
       raise WipLimitReached unless rule.can_put_card?(position.phase, card_size)
 
       card.locate(position)
-      @cards << card
+      card.add_to_stage(self)
     end
 
     def pull_card(feature_id, before, after, rule)
@@ -45,6 +45,12 @@ module Kanban
 
     def count_by_phase(phase)
       @cards.select {|card| card.same_phase?(phase) }.size
+    end
+
+    # for AR::Association
+
+    def build(card_record)
+      @cards.build(card_record)
     end
   end
 end
