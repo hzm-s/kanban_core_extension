@@ -13,12 +13,12 @@ module Kanban
       stage.add_card(card, rule)
     end
 
-    def pull_card(feature_id, before, after, rule)
-      stage.pull_card(feature_id, before, after, rule)
+    def pull_card(feature_id, from, to, rule)
+      stage.pull_card(feature_id, from, to, rule)
     end
 
-    def push_card(feature_id, before, after, rule)
-      stage.push_card(feature_id, before, after, rule)
+    def push_card(feature_id, from, to, rule)
+      stage.push_card(feature_id, from, to, rule)
     end
 
     def get_card(feature_id)

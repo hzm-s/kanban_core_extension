@@ -13,28 +13,28 @@ module Kanban
       card.locate_to(position, self)
     end
 
-    def pull_card(feature_id, before, after, rule)
-      raise Project::OutOfWorkflow unless rule.valid_positions_for_pull?(before, after)
+    def pull_card(feature_id, from, to, rule)
+      raise Project::OutOfWorkflow unless rule.valid_positions_for_pull?(from, to)
 
-      # TODO check card on before position
+      # TODO check card on from position
       card = get_card(feature_id)
 
-      card_size = count_by_phase(after.phase)
-      raise WipLimitReached unless rule.can_put_card?(after.phase, card_size)
+      card_size = count_by_phase(to.phase)
+      raise WipLimitReached unless rule.can_put_card?(to.phase, card_size)
 
-      card.locate(after)
+      card.locate(to)
     end
 
-    def push_card(feature_id, before, after, rule)
-      raise Project::OutOfWorkflow unless rule.valid_positions_for_push?(before, after)
+    def push_card(feature_id, from, to, rule)
+      raise Project::OutOfWorkflow unless rule.valid_positions_for_push?(from, to)
 
-      # TODO check card on before position
+      # TODO check card on from position
       card = get_card(feature_id)
 
-      card_size = count_by_phase(after.phase)
-      raise WipLimitReached unless rule.can_put_card?(after.phase, card_size)
+      card_size = count_by_phase(to.phase)
+      raise WipLimitReached unless rule.can_put_card?(to.phase, card_size)
 
-      card.locate(after)
+      card.locate(to)
     end
 
     def get_card(feature_id)

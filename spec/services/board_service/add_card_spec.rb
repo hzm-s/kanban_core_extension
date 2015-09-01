@@ -5,7 +5,7 @@ describe 'add feature_id to board' do
     BoardService.new(project_repository, board_repository)
   end
   let(:project_repository) { ProjectRepository.new }
-  let(:board_repository) { FakeBoardRepository.new }
+  let(:board_repository) { BoardRepository.new }
   let(:project_service) { ProjectService.new(project_repository, board_builder) }
   let(:board_builder) { Kanban::BoardBuilder.new(board_repository) }
 

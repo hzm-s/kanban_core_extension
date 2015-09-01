@@ -15,22 +15,22 @@ class BoardService
     @board_repository.store(board)
   end
 
-  def pull_card(project_id, feature_id, before, after)
+  def pull_card(project_id, feature_id, from, to)
     project = @project_repository.find(project_id)
     board = @board_repository.find(project_id)
 
     rule = Kanban::Rule.new(project.workflow)
-    board.pull_card(feature_id, before, after, rule)
+    board.pull_card(feature_id, from, to, rule)
 
     @board_repository.store(board)
   end
 
-  def push_card(project_id, feature_id, before, after)
+  def push_card(project_id, feature_id, from, to)
     project = @project_repository.find(project_id)
     board = @board_repository.find(project_id)
 
     rule = Kanban::Rule.new(project.workflow)
-    board.push_card(feature_id, before, after, rule)
+    board.push_card(feature_id, from, to, rule)
 
     @board_repository.store(board)
   end

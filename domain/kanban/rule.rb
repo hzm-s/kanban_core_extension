@@ -10,16 +10,16 @@ module Kanban
       !@workflow.reach_wip_limit?(phase, card_size)
     end
 
-    def valid_positions_for_pull?(before_position, after_position)
-      before_situation = Project::Situation.new(*before_position.to_a)
-      after_situation = Project::Situation.new(*after_position.to_a)
-      @workflow.correct?(before_situation, after_situation)
+    def valid_positions_for_pull?(from_position, to_position)
+      from_situation = Project::Situation.new(*from_position.to_a)
+      to_situation = Project::Situation.new(*to_position.to_a)
+      @workflow.correct?(from_situation, to_situation)
     end
 
-    def valid_positions_for_push?(before_position, after_position)
-      before_situation = Project::Situation.new(*before_position.to_a)
-      after_situation = Project::Situation.new(*after_position.to_a)
-      @workflow.correct_transition?(before_situation, after_situation)
+    def valid_positions_for_push?(from_position, to_position)
+      from_situation = Project::Situation.new(*from_position.to_a)
+      to_situation = Project::Situation.new(*to_position.to_a)
+      @workflow.correct_transition?(from_situation, to_situation)
     end
 
     def initial_position
