@@ -28,6 +28,10 @@ module Project
       @phase_specs[index(before.phase) + 1].phase == after.phase
     end
 
+    def reach_wip_limit?(phase, wip)
+      retrieve(phase).reach_wip_limit?(wip)
+    end
+
     def to_a
       @phase_specs
     end

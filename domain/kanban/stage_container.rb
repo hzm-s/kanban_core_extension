@@ -1,6 +1,33 @@
 module Kanban
   class StageContainer
 
+    def initialize
+      @stages = {}
+    end
+
+    def get(position)
+      @stages[position.phase]
+    end
+
+    def add_card(card, position)
+      stage = Stage.new(position.phase)
+      stage.add_card(card, position.state)
+      @stages[position.phase] = stage
+    end
+
+    def position(card)
+      phase, stage = @stages.detect do |phase, stage|
+        stage.contain?(card)
+      end
+      Position.new(phase, stage.card_state(card))
+    end
+  end
+end
+
+__END__
+module Kanban
+  class StageContainer
+
     def initialize(stages)
       @stages = stages
       @container = stages.each_with_object({}) do |stage, c|
@@ -34,10 +61,8 @@ module Kanban
       @stages
     end
 
-    private
-
-      def retrieve(position)
-        @container[position.phase]
-      end
+    def retrieve(position)
+      @container[position.phase]
+    end
   end
 end

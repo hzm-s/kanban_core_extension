@@ -1,8 +1,8 @@
 module Kanban
   class WipLimitReached < StandardError; end
 
-  class Board < ActiveRecord::Base
-    include Arize::Board
+  class Board# < ActiveRecord::Base
+    #include Arize::Board
 
     #attr_reader :project_id
 
@@ -11,8 +11,9 @@ module Kanban
     #  @stages = stages
     #end
 
-    def add_card(card, locator)
-      @stages.add_card(card, locator.initial_position)
+    def add_card(feature_id, rule, locator)
+      card = Card.write(feature_id)
+      stage.add(card, locator.initial_position, rule)
     end
 
     def pull_card(card, before, after, locator)
@@ -25,23 +26,39 @@ module Kanban
       @stages.push_card(card, before, after)
     end
 
-    def position(card)
-      @stages.position(card)
+    def get_card(feature_id)
+      stage.get_card(feature_id)
     end
 
     # for AR::Base
 
     def project_id=(project_id)
-      self.project_id_str = project_id.to_s
+      #self.project_id_str = project_id.to_s
+      @project_id = project_id
+    end
+
+    def prepare(project_id)
+      @project_id = project_id
+      @stage = Kanban::Stage.new
+    end
+
+    def stage
+      @stage
     end
 
     def stages=(stages)
-      stages.to_a.each do |stage|
-        stage_records.build(
-          phase_description: stage.phase.to_s,
-          wip_limit_count: stage.wip_limit.to_i,
-        )
-      end
+      #stages.to_a.each do |stage|
+      #  stage_records.build(
+      #    phase_description: stage.phase.to_s,
+      #    wip_limit_count: stage.wip_limit.to_i,
+      #  )
+      #end
+      @stages = stages
+    end
+
+    def project_id
+      #Project::ProjectId.new(self.project_id_str)
+      @project_id
     end
   end
 end

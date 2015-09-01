@@ -40,17 +40,6 @@ module Kanban
       end
 
       it { is_expected.to_not be_nil }
-
-      it do
-        stage_records = subject.stage_records
-
-        expect(stage_records[0].phase_description).to eq('Todo')
-        expect(stage_records[0].wip_limit_count).to eq(10)
-        expect(stage_records[1].phase_description).to eq('Dev')
-        expect(stage_records[1].wip_limit_count).to eq(2)
-        expect(stage_records[2].phase_description).to eq('QA')
-        expect(stage_records[2].wip_limit_count).to eq(1)
-      end
     end
   end
 end

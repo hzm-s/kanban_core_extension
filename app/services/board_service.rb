@@ -18,12 +18,13 @@ class BoardService
     @board_repository.store(board)
   end
 
-  def add_card(project_id, card)
+  def add_card(project_id, feature_id)
     project = @project_repository.find(project_id)
     board = @board_repository.find(project_id)
 
+    rule = Kanban::Rule.new(project.workflow)
     locator = Kanban::Locator.new(project.workflow)
-    board.add_card(card, locator)
+    board.add_card(feature_id, rule, locator)
 
     @board_repository.store(board)
   end
