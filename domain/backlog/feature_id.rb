@@ -1,4 +1,4 @@
-module Project
+module Backlog
   class FeatureId
 
     def initialize(id)
