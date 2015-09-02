@@ -1,12 +1,12 @@
 module Project
   class Phase
 
-    def initialize(description)
-      @description = description
+    def initialize(name)
+      @name = name
     end
 
     def to_s
-      @description
+      @name
     end
 
     def eql?(other)

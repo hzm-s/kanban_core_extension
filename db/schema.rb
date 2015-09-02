@@ -18,16 +18,16 @@ ActiveRecord::Schema.define(version: 20150901133932) do
   end
 
   create_table "card_records", force: :cascade do |t|
-    t.integer "board_id",       null: false
-    t.string  "feature_id_str", null: false
-    t.string  "position_phase", null: false
+    t.integer "board_id",            null: false
+    t.string  "feature_id_str",      null: false
+    t.string  "position_phase_name", null: false
     t.string  "position_state"
   end
 
   create_table "phase_spec_records", force: :cascade do |t|
-    t.integer "project_id",        null: false
-    t.integer "order",             null: false
-    t.string  "phase_description", null: false
+    t.integer "project_id",      null: false
+    t.integer "order",           null: false
+    t.string  "phase_name",      null: false
     t.integer "wip_limit_count"
   end
 
@@ -39,7 +39,7 @@ ActiveRecord::Schema.define(version: 20150901133932) do
 
   create_table "state_records", force: :cascade do |t|
     t.integer "project_id",        null: false
-    t.string  "phase_description", null: false
+    t.string  "phase_name",        null: false
     t.integer "order",             null: false
     t.string  "state_description", null: false
   end

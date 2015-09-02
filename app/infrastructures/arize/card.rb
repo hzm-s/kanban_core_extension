@@ -16,7 +16,7 @@ module Arize
       end
 
       def position=(a_position)
-        self.position_phase = a_position.phase.to_s
+        self.position_phase_name = a_position.phase.to_s
         self.position_state = serialize_state(a_position.state)
       end
 
@@ -34,7 +34,7 @@ module Arize
 
       def position
         Kanban::Position.new(
-          build_phase(position_phase),
+          build_phase(position_phase_name),
           build_state(position_state)
         )
       end
