@@ -4,27 +4,41 @@ module Arize
 
     included do
       self.table_name = 'project_records'
+
       has_many :phase_spec_records, -> { order(:order) }
       has_many :state_records, -> { order(:order) }
 
-      include WorkflowPersister
-      include WorkflowBuilder
+      include Writer
+      include Reader
     end
 
-    module WorkflowPersister
+    module Writer
 
-      def persist_workflow(a_workflow)
+      def project_id=(project_id)
+        self.project_id_str = project_id.to_s
+      end
+
+      def description=(description)
+        self.description_name = description.name.to_s
+        self.description_goal = description.goal.to_s
+      end
+
+      def workflow=(a_workflow)
+        serialize_workflow(a_workflow)
+      end
+
+      def serialize_workflow(a_workflow)
         a_workflow.to_a.each.with_index(1) do |phase_spec, order|
           phase_spec_records.build(
             order: order,
             phase_description: phase_spec.phase.to_s,
             wip_limit_count: phase_spec.wip_limit.to_i
           )
-          record_transition(phase_spec)
+          serialize_transition(phase_spec)
         end
       end
 
-      def record_transition(phase_spec)
+      def serialize_transition(phase_spec)
         return unless phase_spec.transit?
         phase_spec.transition.to_a.each.with_index(1) do |state, order|
           state_records.build(
@@ -36,7 +50,19 @@ module Arize
       end
     end
 
-    module WorkflowBuilder
+    module Reader
+
+      def project_id
+        ::Project::ProjectId.new(project_id_str)
+      end
+
+      def description
+        ::Project::Description.new(description_name, description_goal)
+      end
+
+      def workflow
+        build_workflow
+      end
 
       def build_workflow
         ::Project::Workflow.new(
