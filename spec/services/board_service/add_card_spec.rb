@@ -1,5 +1,7 @@
 require 'rails_helper'
 
+include ProjectCreator
+
 describe 'add feature to board' do
   let(:service) do
     BoardService.new(project_repository, board_repository)
@@ -7,17 +9,10 @@ describe 'add feature to board' do
   let(:project_repository) { ProjectRepository.new }
   let(:board_repository) { BoardRepository.new }
 
-  let(:project_service) do
-    ProjectService.new(project_repository, backlog_builder, board_builder)
-  end
-  let(:backlog_repository) { FakeBacklogRepository.new }
-  let(:backlog_builder) { Backlog::BacklogBuilder.new(backlog_repository) }
-  let(:board_builder) { Kanban::BoardBuilder.new(board_repository) }
-
-  let(:project_id) { project_service.launch(Project::Description.new('Name', 'Goal')) }
+  let(:project_id) { Project('Name', 'Goal') }
 
   before do
-    project_service.specify_workflow(project_id, workflow)
+    ProjectService().specify_workflow(project_id, workflow)
   end
 
   context 'no state phase no wip limit' do
