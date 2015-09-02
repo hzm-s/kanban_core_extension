@@ -44,7 +44,7 @@ module Arize
           state_records.build(
             order: order,
             phase_name: phase_spec.phase.to_s,
-            state_description: state.to_s
+            state_name: state.to_s
           )
         end
       end
@@ -86,7 +86,7 @@ module Arize
       def build_transition(state_records)
         return ::Project::Transition::None.new if state_records.empty?
         ::Project::Transition.new(
-          state_records.map {|r| ::Project::State.new(r.state_description) }
+          state_records.map {|r| ::Project::State.new(r.state_name) }
         )
       end
 

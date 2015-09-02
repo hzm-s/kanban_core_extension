@@ -4,8 +4,8 @@ module Kanban
   class Board < ActiveRecord::Base
     include Arize::Board
 
-    def prepare(project_id)
-      self.project_id = project_id
+    def prepare(a_project_id)
+      self.project_id = a_project_id
     end
 
     def add_card(feature_id, rule)

@@ -6,5 +6,7 @@ class CreatePhaseSpecRecord < ActiveRecord::Migration
       t.string :phase_name, null: false
       t.integer :wip_limit_count
     end
+
+    add_index :phase_spec_records, [:project_id, :order]
   end
 end

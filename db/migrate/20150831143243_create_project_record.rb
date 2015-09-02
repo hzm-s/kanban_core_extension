@@ -5,5 +5,7 @@ class CreateProjectRecord < ActiveRecord::Migration
       t.string :description_name, null: false
       t.text :description_goal, null: false
     end
+
+    add_index :project_records, :project_id_str
   end
 end

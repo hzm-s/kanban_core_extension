@@ -1,8 +1,8 @@
 module Project
   class State
 
-    def initialize(state)
-      @state = state
+    def initialize(name)
+      @name = name
     end
 
     def none?
@@ -10,7 +10,7 @@ module Project
     end
 
     def to_s
-      @state
+      @name
     end
 
     def eql?(other)
@@ -35,7 +35,7 @@ module Project
       end
 
       def to_s
-        'none'
+        ''
       end
 
       def eql?(other)
