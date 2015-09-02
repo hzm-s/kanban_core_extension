@@ -6,7 +6,12 @@ describe 'pull card' do
   end
   let(:project_repository) { ProjectRepository.new }
   let(:board_repository) { BoardRepository.new }
-  let(:project_service) { ProjectService.new(project_repository, board_builder) }
+
+  let(:project_service) do
+    ProjectService.new(project_repository, backlog_builder, board_builder)
+  end
+  let(:backlog_repository) { FakeBacklogRepository.new }
+  let(:backlog_builder) { Backlog::BacklogBuilder.new(backlog_repository) }
   let(:board_builder) { Kanban::BoardBuilder.new(board_repository) }
 
   let(:project_id) { project_service.launch(Project::Description.new('Name', 'Goal')) }
