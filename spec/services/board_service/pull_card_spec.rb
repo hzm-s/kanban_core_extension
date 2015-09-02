@@ -43,8 +43,8 @@ describe 'pull card' do
       feature_id = Project::FeatureId.new('feat_1')
       service.add_card(project_id, feature_id)
 
-      from = Kanban::Position.new(Project::Phase.new('Todo'), Project::State::None.new)
-      to = Kanban::Position.new(Project::Phase.new('Dev'), Project::State.new('Doing'))
+      from = Position('Todo', nil)
+      to = Position('Dev', 'Doing')
       service.pull_card(project_id, feature_id, from, to)
 
       board = board_repository.find(project_id)

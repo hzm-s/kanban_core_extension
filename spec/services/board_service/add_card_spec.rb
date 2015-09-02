@@ -32,9 +32,7 @@ describe 'add feature_id to board' do
       service.add_card(project_id, feature_id)
 
       board = board_repository.find(project_id)
-      expect(board.get_card(feature_id).position).to eq(
-        Kanban::Position.new(Project::Phase.new('Todo'), Project::State::None.new)
-      )
+      expect(board.get_card(feature_id).position).to eq(Position('Todo', nil))
     end
   end
 
@@ -56,9 +54,7 @@ describe 'add feature_id to board' do
         service.add_card(project_id, feature_id)
 
         board = board_repository.find(project_id)
-        expect(board.get_card(feature_id).position).to eq(
-          Kanban::Position.new(Project::Phase.new('Todo'), Project::State::None.new)
-        )
+        expect(board.get_card(feature_id).position).to eq(Position('Todo', nil))
       end
     end
 
@@ -71,9 +67,7 @@ describe 'add feature_id to board' do
         service.add_card(project_id, feature_id)
 
         board = board_repository.find(project_id)
-        expect(board.get_card(feature_id).position).to eq(
-          Kanban::Position.new(Project::Phase.new('Todo'), Project::State::None.new)
-        )
+        expect(board.get_card(feature_id).position).to eq(Position('Todo', nil))
       end
     end
 
@@ -111,9 +105,7 @@ describe 'add feature_id to board' do
       service.add_card(project_id, feature_id)
 
       board = board_repository.find(project_id)
-      expect(board.get_card(feature_id).position).to eq(
-        Kanban::Position.new(Project::Phase.new('Todo'), Project::State.new('Check'))
-      )
+      expect(board.get_card(feature_id).position).to eq(Position('Todo', 'Check'))
     end
   end
 
@@ -138,9 +130,7 @@ describe 'add feature_id to board' do
         service.add_card(project_id, feature_id)
 
         board = board_repository.find(project_id)
-        expect(board.get_card(feature_id).position).to eq(
-          Kanban::Position.new(Project::Phase.new('Todo'), Project::State.new('Check'))
-        )
+        expect(board.get_card(feature_id).position).to eq(Position('Todo', 'Check'))
       end
     end
 
@@ -153,9 +143,7 @@ describe 'add feature_id to board' do
         service.add_card(project_id, feature_id)
 
         board = board_repository.find(project_id)
-        expect(board.get_card(feature_id).position).to eq(
-          Kanban::Position.new(Project::Phase.new('Todo'), Project::State.new('Check'))
-        )
+        expect(board.get_card(feature_id).position).to eq(Position('Todo', 'Check'))
       end
     end
 
