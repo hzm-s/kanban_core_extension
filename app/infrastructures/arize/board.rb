@@ -4,16 +4,28 @@ module Arize
 
     included do
       self.table_name = 'board_records'
-      has_many :stage_records
+      has_many :cards
 
-      include BoardPersister
-      include BoardBuilder
+      include Readers
+      include Writers
     end
 
-    module BoardPersister
+    module Readers
+
+      def project_id
+        ::Project::ProjectId.new(self.project_id_str)
+      end
+
+      def stage
+        @stage ||= Kanban::Stage.new(cards)
+      end
     end
 
-    module BoardBuilder
+    module Writers
+
+      def project_id=(project_id)
+        self.project_id_str = project_id.to_s
+      end
     end
   end
 end

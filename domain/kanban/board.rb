@@ -24,21 +24,5 @@ module Kanban
     def get_card(feature_id)
       stage.retrieve_card(feature_id)
     end
-
-    # for AR::Base
-
-    has_many :cards
-
-    def project_id=(project_id)
-      self.project_id_str = project_id.to_s
-    end
-
-    def project_id
-      Project::ProjectId.new(self.project_id_str)
-    end
-
-    def stage
-      @stage ||= Stage.new(cards)
-    end
   end
 end
