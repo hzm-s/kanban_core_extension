@@ -26,7 +26,7 @@ module Kanban
       end
 
       describe 'Card for feat_100' do
-        let(:card) { board.get_card(Project::FeatureId.new('feat_100')) }
+        let(:card) { board.get_card(Backlog::FeatureId.new('feat_100')) }
 
         describe 'position' do
           subject { card.position }
@@ -35,7 +35,7 @@ module Kanban
       end
 
       describe 'Card for feat_200' do
-        let(:card) { board.get_card(Project::FeatureId.new('feat_200')) }
+        let(:card) { board.get_card(Backlog::FeatureId.new('feat_200')) }
 
         describe 'position' do
           subject { card.position }

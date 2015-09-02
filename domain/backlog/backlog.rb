@@ -25,7 +25,7 @@ module Backlog
     private
 
       def generate_feature_id
-        Backlog::FeatureId.new('feat_' + SecureRandom.uuid)
+        FeatureId.new('feat_' + SecureRandom.uuid)
       end
   end
 end

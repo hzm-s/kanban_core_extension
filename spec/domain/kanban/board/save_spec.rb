@@ -8,26 +8,26 @@ module Kanban
           board.prepare(Project::ProjectId.new('prj_789'))
           board.save!
 
-          board.add_card(Project::FeatureId.new('feat_100'), rule)
-          board.add_card(Project::FeatureId.new('feat_200'), rule)
-          board.add_card(Project::FeatureId.new('feat_300'), rule)
+          board.add_card(Backlog::FeatureId.new('feat_100'), rule)
+          board.add_card(Backlog::FeatureId.new('feat_200'), rule)
+          board.add_card(Backlog::FeatureId.new('feat_300'), rule)
           board.save!
 
           board.pull_card(
-            Project::FeatureId.new('feat_200'),
+            Backlog::FeatureId.new('feat_200'),
             Position('Todo', nil),
             Position('Dev', 'Doing'),
             rule
           )
           board.pull_card(
-            Project::FeatureId.new('feat_300'),
+            Backlog::FeatureId.new('feat_300'),
             Position('Todo', nil),
             Position('Dev', 'Doing'),
             rule
           )
 
           board.push_card(
-            Project::FeatureId.new('feat_300'),
+            Backlog::FeatureId.new('feat_300'),
             Position('Dev', 'Doing'),
             Position('Dev', 'Review'),
             rule
