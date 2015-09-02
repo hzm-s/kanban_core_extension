@@ -7,10 +7,9 @@ describe 'add feature to backlog' do
   let(:backlog_repository) { FakeBacklogRepository.new }
 
   let(:project_service) do
-    ProjectService.new(project_repository, backlog_builder, board_builder)
+    ProjectService.new(project_repository, board_builder)
   end
   let(:project_repository) { ProjectRepository.new }
-  let(:backlog_builder) { Backlog::BacklogBuilder.new(backlog_repository) }
   let(:board_builder) { Kanban::BoardBuilder.new(board_repository) }
   let(:board_repository) { BoardRepository.new }
 
