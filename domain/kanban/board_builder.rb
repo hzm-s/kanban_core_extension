@@ -1,17 +1,21 @@
 module Kanban
   class BoardBuilder
 
-    def initialize(project_id)
-      @project_id = project_id
-      @stages = []
+    def initialize(board_repository)
+      @board_repository = board_repository
     end
 
-    def add_stage(phase_spec)
-      @stages << Stage.new(phase_spec.phase, phase_spec.wip_limit)
+    def workflow_specified(event)
+      board = prepare_board(event.project_id)
+      @board_repository.store(board)
     end
 
-    def board
-      Board.new(@project_id, StageContainer.new(@stages))
-    end
+    private
+
+      def prepare_board(project_id)
+        Board.new.tap do |board|
+          board.prepare(project_id)
+        end
+      end
   end
 end

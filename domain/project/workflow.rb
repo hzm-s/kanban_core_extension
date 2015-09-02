@@ -18,14 +18,18 @@ module Project
       @phase_specs.first.first_situation
     end
 
-    def correct_transition?(before, after)
-      return false unless before.same_phase?(after)
-      retrieve(before.phase).correct_transition?(before, after)
+    def correct_transition?(from, to)
+      return false unless from.same_phase?(to)
+      retrieve(from.phase).correct_transition?(from, to)
     end
 
-    def correct?(before, after)
-      return false if before.same_phase?(after)
-      @phase_specs[index(before.phase) + 1].phase == after.phase
+    def correct?(from, to)
+      return false if from.same_phase?(to)
+      @phase_specs[index(from.phase) + 1].phase == to.phase
+    end
+
+    def reach_wip_limit?(phase, wip)
+      retrieve(phase).reach_wip_limit?(wip)
     end
 
     def to_a

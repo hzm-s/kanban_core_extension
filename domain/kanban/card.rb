@@ -1,25 +1,28 @@
 module Kanban
-  class Card
+  class Card < ActiveRecord::Base
+    include Arize::Card
 
-    def initialize(feature_id)
-      @feature_id = feature_id
+    def self.write(feature_id)
+      new.tap do |card|
+        card.feature_id = feature_id
+      end
     end
 
-    def to_s
-      @feature_id.to_s
+    def locate_to(a_position, stage)
+      self.position = a_position
+      stage.put(self)
     end
 
-    def eql?(other)
-      self == other
-    end
-
-    def hash
-      to_s.hash
+    def same_phase?(phase)
+      position.phase == phase
     end
 
     def ==(other)
-      other.instance_of?(self.class) &&
-        self == other
+      if other.instance_of?(self.class)
+        self.feature_id == other.feature_id
+      else
+        self.feature_id == other
+      end
     end
   end
 end

@@ -8,8 +8,8 @@ module Project
       @wip_limit = wip_limit
     end
 
-    def first_situation
-      Situation.new(@phase, @transition.first)
+    def reach_wip_limit?(wip)
+      @wip_limit.reach?(wip)
     end
 
     def correct_transition?(before, after)
@@ -18,6 +18,10 @@ module Project
 
     def transit?
       !@transition.none?
+    end
+
+    def first_situation
+      Situation.new(@phase, @transition.first)
     end
 
     def to_h

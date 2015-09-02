@@ -1,30 +1,28 @@
 module Kanban
   class WipLimitReached < StandardError; end
 
-  class Board
-    attr_reader :project_id
+  class Board < ActiveRecord::Base
+    include Arize::Board
 
-    def initialize(project_id, stages)
-      @project_id = project_id
-      @stages = stages
+    def prepare(project_id)
+      self.project_id = project_id
     end
 
-    def add_card(card, locator)
-      @stages.add_card(card, locator.initial_position)
+    def add_card(feature_id, rule)
+      card = Card.write(feature_id)
+      stage.add_card(card, rule)
     end
 
-    def pull_card(card, before, after, locator)
-      raise Project::OutOfWorkflow unless locator.valid_positions_for_pull?(before, after)
-      @stages.pull_card(card, before, after)
+    def pull_card(feature_id, from, to, rule)
+      stage.pull_card(feature_id, from, to, rule)
     end
 
-    def push_card(card, before, after, locator)
-      raise Project::OutOfWorkflow unless locator.valid_positions_for_push?(before, after)
-      @stages.push_card(card, before, after)
+    def push_card(feature_id, from, to, rule)
+      stage.push_card(feature_id, from, to, rule)
     end
 
-    def position(card)
-      @stages.position(card)
+    def get_card(feature_id)
+      stage.retrieve_card(feature_id)
     end
   end
 end

@@ -1,14 +1,15 @@
 require 'rails_helper'
 
-describe 'add card to board' do
+describe 'add feature_id to board' do
   let(:service) do
     BoardService.new(project_repository, board_repository)
   end
-  let(:project_repository) { FakeProjectRepository.new }
-  let(:board_repository) { FakeBoardRepository.new }
+  let(:project_repository) { ProjectRepository.new }
+  let(:board_repository) { BoardRepository.new }
+  let(:project_service) { ProjectService.new(project_repository, board_builder) }
+  let(:board_builder) { Kanban::BoardBuilder.new(board_repository) }
 
   let(:project_id) { project_service.launch(Project::Description.new('Name', 'Goal')) }
-  let(:project_service) { ProjectService.new(project_repository, service) }
 
   before do
     project_service.specify_workflow(project_id, workflow)
@@ -26,14 +27,12 @@ describe 'add card to board' do
     end
 
     it do
-      card = Kanban::Card.new(Project::FeatureId.new('feat_1'))
+      feature_id = Project::FeatureId.new('feat_1')
 
-      service.add_card(project_id, card)
+      service.add_card(project_id, feature_id)
 
       board = board_repository.find(project_id)
-      expect(board.position(card)).to eq(
-        Kanban::Position.new(Project::Phase.new('Todo'), Project::State::None.new)
-      )
+      expect(board.get_card(feature_id).position).to eq(Position('Todo', nil))
     end
   end
 
@@ -50,41 +49,37 @@ describe 'add card to board' do
 
     context 'wip = 0' do
       it do
-        card = Kanban::Card.new(Project::FeatureId.new('feat_1'))
+        feature_id = Project::FeatureId.new('feat_1')
 
-        service.add_card(project_id, card)
+        service.add_card(project_id, feature_id)
 
         board = board_repository.find(project_id)
-        expect(board.position(card)).to eq(
-          Kanban::Position.new(Project::Phase.new('Todo'), Project::State::None.new)
-        )
+        expect(board.get_card(feature_id).position).to eq(Position('Todo', nil))
       end
     end
 
     context 'wip = 2' do
       it do
-        card = Kanban::Card.new(Project::FeatureId.new('feat_1'))
+        feature_id = Project::FeatureId.new('feat_1')
 
-        service.add_card(project_id, Kanban::Card.new(Project::FeatureId.new('feat_2')))
-        service.add_card(project_id, Kanban::Card.new(Project::FeatureId.new('feat_3')))
-        service.add_card(project_id, card)
+        service.add_card(project_id, Project::FeatureId.new('feat_2'))
+        service.add_card(project_id, Project::FeatureId.new('feat_3'))
+        service.add_card(project_id, feature_id)
 
         board = board_repository.find(project_id)
-        expect(board.position(card)).to eq(
-          Kanban::Position.new(Project::Phase.new('Todo'), Project::State::None.new)
-        )
+        expect(board.get_card(feature_id).position).to eq(Position('Todo', nil))
       end
     end
 
     context 'wip = 3' do
       it do
-        card = Kanban::Card.new(Project::FeatureId.new('feat_1'))
+        feature_id = Project::FeatureId.new('feat_1')
 
-        service.add_card(project_id, Kanban::Card.new(Project::FeatureId.new('feat_2')))
-        service.add_card(project_id, Kanban::Card.new(Project::FeatureId.new('feat_3')))
-        service.add_card(project_id, Kanban::Card.new(Project::FeatureId.new('feat_4')))
+        service.add_card(project_id, Project::FeatureId.new('feat_2'))
+        service.add_card(project_id, Project::FeatureId.new('feat_3'))
+        service.add_card(project_id, Project::FeatureId.new('feat_4'))
         expect {
-          service.add_card(project_id, card)
+          service.add_card(project_id, feature_id)
         }.to raise_error(Kanban::WipLimitReached)
       end
     end
@@ -105,14 +100,12 @@ describe 'add card to board' do
     end
 
     it do
-      card = Kanban::Card.new(Project::FeatureId.new('feat_1'))
+      feature_id = Project::FeatureId.new('feat_1')
 
-      service.add_card(project_id, card)
+      service.add_card(project_id, feature_id)
 
       board = board_repository.find(project_id)
-      expect(board.position(card)).to eq(
-        Kanban::Position.new(Project::Phase.new('Todo'), Project::State.new('Check'))
-      )
+      expect(board.get_card(feature_id).position).to eq(Position('Todo', 'Check'))
     end
   end
 
@@ -132,41 +125,37 @@ describe 'add card to board' do
 
     context 'wip = 0' do
       it do
-        card = Kanban::Card.new(Project::FeatureId.new('feat_1'))
+        feature_id = Project::FeatureId.new('feat_1')
 
-        service.add_card(project_id, card)
+        service.add_card(project_id, feature_id)
 
         board = board_repository.find(project_id)
-        expect(board.position(card)).to eq(
-          Kanban::Position.new(Project::Phase.new('Todo'), Project::State.new('Check'))
-        )
+        expect(board.get_card(feature_id).position).to eq(Position('Todo', 'Check'))
       end
     end
 
     context 'wip = 2' do
       it do
-        card = Kanban::Card.new(Project::FeatureId.new('feat_1'))
+        feature_id = Project::FeatureId.new('feat_1')
 
-        service.add_card(project_id, Kanban::Card.new(Project::FeatureId.new('feat_2')))
-        service.add_card(project_id, Kanban::Card.new(Project::FeatureId.new('feat_3')))
-        service.add_card(project_id, card)
+        service.add_card(project_id, Project::FeatureId.new('feat_2'))
+        service.add_card(project_id, Project::FeatureId.new('feat_3'))
+        service.add_card(project_id, feature_id)
 
         board = board_repository.find(project_id)
-        expect(board.position(card)).to eq(
-          Kanban::Position.new(Project::Phase.new('Todo'), Project::State.new('Check'))
-        )
+        expect(board.get_card(feature_id).position).to eq(Position('Todo', 'Check'))
       end
     end
 
     context 'wip = 3' do
       it do
-        card = Kanban::Card.new(Project::FeatureId.new('feat_1'))
+        feature_id = Project::FeatureId.new('feat_1')
 
-        service.add_card(project_id, Kanban::Card.new(Project::FeatureId.new('feat_2')))
-        service.add_card(project_id, Kanban::Card.new(Project::FeatureId.new('feat_3')))
-        service.add_card(project_id, Kanban::Card.new(Project::FeatureId.new('feat_4')))
+        service.add_card(project_id, Project::FeatureId.new('feat_2'))
+        service.add_card(project_id, Project::FeatureId.new('feat_3'))
+        service.add_card(project_id, Project::FeatureId.new('feat_4'))
         expect {
-          service.add_card(project_id, card)
+          service.add_card(project_id, feature_id)
         }.to raise_error(Kanban::WipLimitReached)
       end
     end
