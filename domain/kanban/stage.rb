@@ -37,7 +37,7 @@ module Kanban
     end
 
     def card_count(phase)
-      count_card_by_phase(phase)
+      count_card_by_phase(phase.to_s)
     end
 
     # for AR::Association
@@ -48,14 +48,14 @@ module Kanban
       else
         @cards.build(
           feature_id_str: card_record.feature_id_str,
-          position_phase: card_record.position_phase,
+          position_phase_name: card_record.position_phase_name,
           position_state: card_record.position_state
         )
       end
     end
 
-    def count_card_by_phase(phase)
-      @cards.where(position_phase: phase.to_s).count
+    def count_card_by_phase(phase_name)
+      @cards.where(position_phase_name: phase_name).count
     end
 
     def retrieve_card(feature_id)
