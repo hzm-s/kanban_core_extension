@@ -8,25 +8,10 @@ module Project
           project.project_id = ProjectId.new('prj_123')
           project.description = Description.new('name', 'goal')
         end
-        workflow = Workflow.new([
-          PhaseSpec.new(
-            Phase.new('Todo'),
-            Transition::None.new,
-            WipLimit::None.new
-          ),
-          PhaseSpec.new(
-            Phase.new('Dev'),
-            Transition.new([
-              State.new('Doing'),
-              State.new('Done')
-            ]),
-            WipLimit.new(2)
-          ),
-          PhaseSpec.new(
-            Phase.new('QA'),
-            Transition::None.new,
-            WipLimit.new(1)
-          ),
+        workflow = Workflow([
+          { phase: 'Todo' },
+          { phase: 'Dev', transition: ['Doing', 'Done'], wip_limit: 2 },
+          { phase: 'QA', wip_limit: 1 }
         ])
         project.specify_workflow(workflow)
         project.save!

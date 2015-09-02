@@ -17,13 +17,7 @@ describe 'add feature_id to board' do
 
   context 'no state phase no wip limit' do
     let(:workflow) do
-      Project::Workflow.new([
-        Project::PhaseSpec.new(
-          Project::Phase.new('Todo'),
-          Project::Transition::None.new,
-          Project::WipLimit::None.new
-        )
-      ])
+      Workflow([{ phase: 'Todo' }])
     end
 
     it do
@@ -38,13 +32,7 @@ describe 'add feature_id to board' do
 
   context 'no state phase, wip limit = 3' do
     let(:workflow) do
-      Project::Workflow.new([
-        Project::PhaseSpec.new(
-          Project::Phase.new('Todo'),
-          Project::Transition::None.new,
-          Project::WipLimit.new(3)
-        )
-      ])
+      Workflow([{ phase: 'Todo', wip_limit: 3 }])
     end
 
     context 'wip = 0' do
@@ -87,16 +75,7 @@ describe 'add feature_id to board' do
 
   context 'multi state phase no wip limit' do
     let(:workflow) do
-      Project::Workflow.new([
-        Project::PhaseSpec.new(
-          Project::Phase.new('Todo'),
-          Project::Transition.new([
-            Project::State.new('Check'),
-            Project::State.new('Ready')
-          ]),
-          Project::WipLimit::None.new
-        )
-      ])
+      Workflow([{ phase: 'Todo', transition: ['Check', 'Ready'] }])
     end
 
     it do
@@ -111,15 +90,8 @@ describe 'add feature_id to board' do
 
   context 'multi state phase, wip limit = 3' do
     let(:workflow) do
-      Project::Workflow.new([
-        Project::PhaseSpec.new(
-          Project::Phase.new('Todo'),
-          Project::Transition.new([
-            Project::State.new('Check'),
-            Project::State.new('Ready')
-          ]),
-          Project::WipLimit.new(3)
-        )
+      Workflow([
+        { phase: 'Todo', transition: ['Check', 'Ready'], wip_limit: 3 }
       ])
     end
 

@@ -38,6 +38,13 @@ module Kanban
       end
 
       let(:rule) do
+        Rule.new(
+          Workflow([
+            { phase: 'Todo' },
+            { phase: 'Dev', transition: ['Doing', 'Done'], wip_limit: 2 },
+            { phase: 'QA', wip_limit: 1 },
+          ])
+        )
         double(:kanban_rule).tap do |d|
           allow(d).to receive(:can_put_card?) { true }
           allow(d).to receive(:valid_positions_for_pull?) { true }

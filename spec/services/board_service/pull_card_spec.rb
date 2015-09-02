@@ -17,25 +17,10 @@ describe 'pull card' do
 
   context 'multi state phase, wip limit = 0' do
     let(:workflow) do
-      Project::Workflow.new([
-        Project::PhaseSpec.new(
-          Project::Phase.new('Todo'),
-          Project::Transition::None.new,
-          Project::WipLimit::None.new
-        ),
-        Project::PhaseSpec.new(
-          Project::Phase.new('Dev'),
-          Project::Transition.new([
-            Project::State.new('Doing'),
-            Project::State.new('Done')
-          ]),
-          Project::WipLimit::None.new
-        ),
-        Project::PhaseSpec.new(
-          Project::Phase.new('QA'),
-          Project::Transition::None.new,
-          Project::WipLimit::None.new
-        )
+      Workflow([
+        { phase: 'Todo' },
+        { phase: 'Dev', transition: ['Doing', 'Done'] },
+        { phase: 'QA' }
       ])
     end
 
@@ -68,20 +53,9 @@ describe 'pull card' do
 
   context 'multi state phase, wip limit = 2' do
     let(:workflow) do
-      Project::Workflow.new([
-        Project::PhaseSpec.new(
-          Project::Phase.new('Todo'),
-          Project::Transition::None.new,
-          Project::WipLimit::None.new
-        ),
-        Project::PhaseSpec.new(
-          Project::Phase.new('Dev'),
-          Project::Transition.new([
-            Project::State.new('Doing'),
-            Project::State.new('Done')
-          ]),
-          Project::WipLimit.new(2)
-        )
+      Workflow([
+        { phase: 'Todo' },
+        { phase: 'Dev', transition: ['Doing', 'Done'], wip_limit: 2 }
       ])
     end
 
@@ -144,22 +118,10 @@ describe 'pull card' do
 
   context 'workflow contains 3 phases' do
     let(:workflow) do
-      Project::Workflow.new([
-        Project::PhaseSpec.new(
-          Project::Phase.new('Phase1'),
-          Project::Transition::None.new,
-          Project::WipLimit::None.new
-        ),
-        Project::PhaseSpec.new(
-          Project::Phase.new('Phase2'),
-          Project::Transition::None.new,
-          Project::WipLimit::None.new
-        ),
-        Project::PhaseSpec.new(
-          Project::Phase.new('Phase3'),
-          Project::Transition::None.new,
-          Project::WipLimit::None.new
-        )
+      Workflow([
+        { phase: 'Phase1' },
+        { phase: 'Phase2' },
+        { phase: 'Phase3' }
       ])
     end
 

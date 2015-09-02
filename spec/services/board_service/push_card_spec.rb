@@ -17,21 +17,9 @@ describe 'push card' do
 
   context '3 state phase' do
     let(:workflow) do
-      Project::Workflow.new([
-        Project::PhaseSpec.new(
-          Project::Phase.new('Dev'),
-          Project::Transition.new([
-            Project::State.new('Doing'),
-            Project::State.new('Review'),
-            Project::State.new('Done')
-          ]),
-          Project::WipLimit.new(2)
-        ),
-        Project::PhaseSpec.new(
-          Project::Phase.new('Other'),
-          Project::Transition::None.new,
-          Project::WipLimit::None.new
-        )
+      Workflow([
+        { phase: 'Dev', transition: ['Doing', 'Review', 'Done'], wip_limit: 2 },
+        { phase: 'Other' }
       ])
     end
 
