@@ -6,14 +6,7 @@ describe 'add feature' do
   end
   let(:feature_repository) { FakeFeatureRepository.new }
 
-  let(:project_service) do
-    ProjectService.new(project_repository, board_builder)
-  end
-  let(:project_repository) { ProjectRepository.new }
-  let(:board_builder) { Kanban::BoardBuilder.new(board_repository) }
-  let(:board_repository) { BoardRepository.new }
-
-  let(:project_id) { project_service.launch(Project::Description.new('Name', 'Goal')) }
+  let(:project_id) { Project('Name', 'Goal') }
 
   it do
     description = Feature::Description.new('Summary', 'Detail')
