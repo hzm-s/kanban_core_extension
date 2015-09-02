@@ -30,10 +30,6 @@ module Kanban
       card.locate_to(to, self)
     end
 
-    def get_card(feature_id)
-      retrieve_card(feature_id)
-    end
-
     def get_card_from(position, feature_id)
       card = retrieve_card(feature_id)
       return card if card.position == position

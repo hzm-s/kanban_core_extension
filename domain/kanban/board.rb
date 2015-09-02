@@ -22,7 +22,7 @@ module Kanban
     end
 
     def get_card(feature_id)
-      stage.get_card(feature_id)
+      stage.retrieve_card(feature_id)
     end
 
     # for AR::Base
