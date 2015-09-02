@@ -1,5 +1,6 @@
 module Kanban
   class Card < ActiveRecord::Base
+    include Arize::Card
 
     def self.write(feature_id)
       new.tap do |card|
@@ -22,36 +23,6 @@ module Kanban
       else
         self.feature_id == other
       end
-    end
-
-    # for AR::Base
-
-    self.table_name = 'card_records'
-
-    def feature_id=(a_feature_id)
-      self.feature_id_str = a_feature_id.to_s
-    end
-
-    def position=(a_position)
-      self.position_phase = a_position.phase.to_s
-      self.position_state = if a_position.state.none?
-                              nil
-                            else
-                              a_position.state.to_s
-                            end
-    end
-
-    def feature_id
-      Project::FeatureId.new(feature_id_str)
-    end
-
-    def position
-      state = if position_state.nil?
-                Project::State::None.new
-              else
-                Project::State.new(position_state)
-              end
-      Position.new(Project::Phase.new(position_phase), state)
     end
   end
 end
