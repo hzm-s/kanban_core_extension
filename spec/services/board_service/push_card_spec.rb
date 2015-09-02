@@ -35,6 +35,20 @@ describe 'push card' do
       ])
     end
 
+    context 'card is NOT locate to FROM position' do
+      it do
+        feature_id = Project::FeatureId.new('feat_1')
+        service.add_card(project_id, feature_id)
+
+        expect {
+          service.push_card(project_id, feature_id,
+            Position('Dev', 'Review'),
+            Position('Dev', 'Done')
+          )
+        }.to raise_error(Kanban::CardNotFound)
+      end
+    end
+
     context '1 => 2' do
       it do
         feature_id = Project::FeatureId.new('feat_1')

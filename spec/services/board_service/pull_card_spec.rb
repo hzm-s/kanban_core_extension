@@ -30,6 +30,11 @@ describe 'pull card' do
             Project::State.new('Done')
           ]),
           Project::WipLimit::None.new
+        ),
+        Project::PhaseSpec.new(
+          Project::Phase.new('QA'),
+          Project::Transition::None.new,
+          Project::WipLimit::None.new
         )
       ])
     end
@@ -44,6 +49,20 @@ describe 'pull card' do
 
       board = board_repository.find(project_id)
       expect(board.get_card(feature_id).position).to eq(to)
+    end
+
+    context 'card is NOT locate to FROM position' do
+      it do
+        feature_id = Project::FeatureId.new('feat_1')
+        service.add_card(project_id, feature_id)
+
+        expect {
+          service.pull_card(project_id, feature_id,
+            Position('Dev', 'Done'),
+            Position('QA', nil)
+          )
+        }.to raise_error(Kanban::CardNotFound)
+      end
     end
   end
 

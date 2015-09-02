@@ -1,4 +1,6 @@
 module Kanban
+  class CardNotFound < StandardError; end
+
   class Stage
 
     def initialize(cards = [])
@@ -15,9 +17,7 @@ module Kanban
 
     def pull_card(feature_id, from, to, rule)
       raise Project::OutOfWorkflow unless rule.valid_positions_for_pull?(from, to)
-
-      # TODO check card on from position
-      card = get_card(feature_id)
+      raise CardNotFound unless card = get_card_from(from, feature_id)
 
       card_size = count_by_phase(to.phase)
       raise WipLimitReached unless rule.can_put_card?(to.phase, card_size)
@@ -27,9 +27,7 @@ module Kanban
 
     def push_card(feature_id, from, to, rule)
       raise Project::OutOfWorkflow unless rule.valid_positions_for_push?(from, to)
-
-      # TODO check card on from position
-      card = get_card(feature_id)
+      raise CardNotFound unless card = get_card_from(from, feature_id)
 
       card_size = count_by_phase(to.phase)
       raise WipLimitReached unless rule.can_put_card?(to.phase, card_size)
@@ -39,6 +37,12 @@ module Kanban
 
     def get_card(feature_id)
       retrieve_card(feature_id)
+    end
+
+    def get_card_from(position, feature_id)
+      card = retrieve_card(feature_id)
+      return nil unless card.position == position
+      card
     end
 
     def count_by_phase(phase)
