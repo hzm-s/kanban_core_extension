@@ -1,6 +1,6 @@
-module Backlog
+module Feature
   class Feature
-    attr_accessor :feature_id, :description
+    attr_accessor :project_id, :feature_id, :description
 
     def eql?(other)
       self == other

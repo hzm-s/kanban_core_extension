@@ -1,5 +1,5 @@
-module Backlog
-  class FeatureDescription
+module Feature
+  class Description
 
     def initialize(summary, detail)
       @summary = summary
