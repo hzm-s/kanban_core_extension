@@ -22,7 +22,7 @@ module Kanban
       card_size = count_by_phase(to.phase)
       raise WipLimitReached unless rule.can_put_card?(to.phase, card_size)
 
-      card.locate(to)
+      card.locate_to(to, self)
     end
 
     def push_card(feature_id, from, to, rule)
@@ -48,7 +48,15 @@ module Kanban
     # for AR::Association
 
     def put(card_record)
-      @cards.build(card_record)
+      if card_record.persisted?
+        card_record.save!
+      else
+        @cards.build(
+          feature_id_str: card_record.feature_id_str,
+          position_phase: card_record.position_phase,
+          position_state: card_record.position_state
+        )
+      end
     end
 
     def retrieve_card(feature_id)

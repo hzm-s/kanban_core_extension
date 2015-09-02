@@ -9,7 +9,7 @@ module Kanban
 
     def locate_to(a_position, stage)
       self.position = a_position
-      put_to_stage(stage)
+      stage.put(self)
     end
 
     def same_phase?(phase)
@@ -23,6 +23,10 @@ module Kanban
         self.feature_id == other
       end
     end
+
+    # for AR::Base
+
+    self.table_name = 'card_records'
 
     def feature_id=(a_feature_id)
       self.feature_id_str = a_feature_id.to_s
@@ -48,18 +52,6 @@ module Kanban
                 Project::State.new(position_state)
               end
       Position.new(Project::Phase.new(position_phase), state)
-    end
-
-    # for AR::Base
-
-    self.table_name = 'card_records'
-
-    def put_to_stage(stage)
-      stage.put(
-        feature_id_str: feature_id_str,
-        position_phase: position_phase,
-        position_state: position_state
-      )
     end
   end
 end

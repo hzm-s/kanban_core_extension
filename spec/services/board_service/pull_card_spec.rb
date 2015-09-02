@@ -5,7 +5,7 @@ describe 'pull card' do
     BoardService.new(project_repository, board_repository)
   end
   let(:project_repository) { ProjectRepository.new }
-  let(:board_repository) { FakeBoardRepository.new }
+  let(:board_repository) { BoardRepository.new }
   let(:project_service) { ProjectService.new(project_repository, board_builder) }
   let(:board_builder) { Kanban::BoardBuilder.new(board_repository) }
 
@@ -38,12 +38,12 @@ describe 'pull card' do
       feature_id = Project::FeatureId.new('feat_1')
       service.add_card(project_id, feature_id)
 
-      before = Kanban::Position.new(Project::Phase.new('Todo'), Project::State::None.new)
-      after = Kanban::Position.new(Project::Phase.new('Dev'), Project::State.new('Doing'))
-      service.pull_card(project_id, feature_id, before, after)
+      from = Kanban::Position.new(Project::Phase.new('Todo'), Project::State::None.new)
+      to = Kanban::Position.new(Project::Phase.new('Dev'), Project::State.new('Doing'))
+      service.pull_card(project_id, feature_id, from, to)
 
       board = board_repository.find(project_id)
-      expect(board.get_card(feature_id).position).to eq(after)
+      expect(board.get_card(feature_id).position).to eq(to)
     end
   end
 
@@ -71,12 +71,12 @@ describe 'pull card' do
         feature_id = Project::FeatureId.new('feat_1')
         service.add_card(project_id, feature_id)
 
-        before = Position('Todo', nil)
-        after = Position('Dev', 'Doing')
-        service.pull_card(project_id, feature_id, before, after)
+        from = Position('Todo', nil)
+        to = Position('Dev', 'Doing')
+        service.pull_card(project_id, feature_id, from, to)
 
         board = board_repository.find(project_id)
-        expect(board.get_card(feature_id).position).to eq(after)
+        expect(board.get_card(feature_id).position).to eq(to)
       end
     end
 
@@ -91,12 +91,12 @@ describe 'pull card' do
         feature_id = Project::FeatureId.new('feat_1')
         service.add_card(project_id, feature_id)
 
-        before = Position('Todo', nil)
-        after = Position('Dev', 'Doing')
-        service.pull_card(project_id, feature_id, before, after)
+        from = Position('Todo', nil)
+        to = Position('Dev', 'Doing')
+        service.pull_card(project_id, feature_id, from, to)
 
         board = board_repository.find(project_id)
-        expect(board.get_card(feature_id).position).to eq(after)
+        expect(board.get_card(feature_id).position).to eq(to)
       end
     end
 
@@ -114,10 +114,10 @@ describe 'pull card' do
         feature_id = Project::FeatureId.new('feat_1')
         service.add_card(project_id, feature_id)
 
-        before = Position('Todo', nil)
-        after = Position('Dev', 'Doing')
+        from = Position('Todo', nil)
+        to = Position('Dev', 'Doing')
         expect {
-          service.pull_card(project_id, feature_id, before, after)
+          service.pull_card(project_id, feature_id, from, to)
         }.to raise_error(Kanban::WipLimitReached)
       end
     end
@@ -148,10 +148,10 @@ describe 'pull card' do
       feature_id = Project::FeatureId.new('feat_1')
       service.add_card(project_id, feature_id)
 
-      before = Position('Phase1', nil)
-      after = Position('Phase3', nil)
+      from = Position('Phase1', nil)
+      to = Position('Phase3', nil)
       expect {
-        service.pull_card(project_id, feature_id, before, after)
+        service.pull_card(project_id, feature_id, from, to)
       }.to raise_error(Project::OutOfWorkflow)
     end
   end
