@@ -8,19 +8,16 @@ module Kanban
     end
 
     def add_card(card, rule)
-      position = rule.initial_position
-      card_size = count_by_phase(position.phase)
-      raise WipLimitReached unless rule.can_put_card?(position.phase, card_size)
+      to = rule.initial_position
+      raise WipLimitReached unless rule.can_put_card?(to.phase, card_count(to.phase))
 
-      card.locate_to(position, self)
+      card.locate_to(to, self)
     end
 
     def pull_card(feature_id, from, to, rule)
       raise Project::OutOfWorkflow unless rule.valid_positions_for_pull?(from, to)
       raise CardNotFound unless card = get_card_from(from, feature_id)
-
-      card_size = count_by_phase(to.phase)
-      raise WipLimitReached unless rule.can_put_card?(to.phase, card_size)
+      raise WipLimitReached unless rule.can_put_card?(to.phase, card_count(to.phase))
 
       card.locate_to(to, self)
     end
@@ -28,9 +25,7 @@ module Kanban
     def push_card(feature_id, from, to, rule)
       raise Project::OutOfWorkflow unless rule.valid_positions_for_push?(from, to)
       raise CardNotFound unless card = get_card_from(from, feature_id)
-
-      card_size = count_by_phase(to.phase)
-      raise WipLimitReached unless rule.can_put_card?(to.phase, card_size)
+      raise WipLimitReached unless rule.can_put_card?(to.phase, card_count(to.phase))
 
       card.locate_to(to, self)
     end
@@ -41,12 +36,12 @@ module Kanban
 
     def get_card_from(position, feature_id)
       card = retrieve_card(feature_id)
-      return nil unless card.position == position
-      card
+      return card if card.position == position
+      nil
     end
 
-    def count_by_phase(phase)
-      @cards.select {|card| card.same_phase?(phase) }.size
+    def card_count(phase)
+      count_card_by_phase(phase)
     end
 
     # for AR::Association
@@ -61,6 +56,10 @@ module Kanban
           position_state: card_record.position_state
         )
       end
+    end
+
+    def count_card_by_phase(phase)
+      @cards.where(position_phase: phase.to_s).count
     end
 
     def retrieve_card(feature_id)
