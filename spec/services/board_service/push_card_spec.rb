@@ -23,7 +23,7 @@ describe 'push card' do
 
     context 'card is NOT locate to FROM position' do
       it do
-        feature_id = Feature::FeatureId.new('feat_1')
+        feature_id = FeatureId('feat_1')
         service.add_card(project_id, feature_id)
 
         expect {
@@ -37,7 +37,7 @@ describe 'push card' do
 
     context '1 => 2' do
       it do
-        feature_id = Feature::FeatureId.new('feat_1')
+        feature_id = FeatureId('feat_1')
         service.add_card(project_id, feature_id)
 
         from = Position('Dev', 'Doing')
@@ -51,7 +51,7 @@ describe 'push card' do
 
     context '2 => 3' do
       it do
-        feature_id = Feature::FeatureId.new('feat_1')
+        feature_id = FeatureId('feat_1')
         service.add_card(project_id, feature_id)
         service.push_card(project_id, feature_id, Position('Dev', 'Doing'), Position('Dev', 'Review'))
 
@@ -66,7 +66,7 @@ describe 'push card' do
 
     context '1 => 3' do
       it do
-        feature_id = Feature::FeatureId.new('feat_1')
+        feature_id = FeatureId('feat_1')
         service.add_card(project_id, feature_id)
 
         from = Position('Dev', 'Doing')
@@ -79,7 +79,7 @@ describe 'push card' do
 
     context '3 => next phase' do
       it do
-        feature_id = Feature::FeatureId.new('feat_1')
+        feature_id = FeatureId('feat_1')
         service.add_card(project_id, feature_id)
         service.push_card(project_id, feature_id, Position('Dev', 'Doing'), Position('Dev', 'Review'))
         service.push_card(project_id, feature_id, Position('Dev', 'Review'), Position('Dev', 'Done'))
