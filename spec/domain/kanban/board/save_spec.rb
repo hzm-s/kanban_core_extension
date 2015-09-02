@@ -2,18 +2,104 @@ require 'rails_helper'
 
 module Kanban
   describe Board do
-    describe '#save!' do
-      subject do
-        described_class
-          .new
-          .tap {|board| board.prepare(project_id) }
-          .save!
-        described_class.find_by(project_id_str: project_id.to_s)
+    describe 'save as active record' do
+      before do
+        described_class.new.tap do |board|
+          board.prepare(Project::ProjectId.new('prj_789'))
+          board.save!
+
+          board.add_card(Project::FeatureId.new('feat_100'), rule)
+          board.add_card(Project::FeatureId.new('feat_200'), rule)
+          board.add_card(Project::FeatureId.new('feat_300'), rule)
+          board.save!
+
+          board.pull_card(
+            Project::FeatureId.new('feat_200'),
+            Position('Todo', nil),
+            Position('Dev', 'Doing'),
+            rule
+          )
+          board.pull_card(
+            Project::FeatureId.new('feat_300'),
+            Position('Todo', nil),
+            Position('Dev', 'Doing'),
+            rule
+          )
+
+          board.push_card(
+            Project::FeatureId.new('feat_300'),
+            Position('Dev', 'Doing'),
+            Position('Dev', 'Review'),
+            rule
+          )
+
+          board.save!
+        end
       end
 
-      let(:project_id) { Project::ProjectId.new('prj_123') }
+      let(:rule) do
+        double(:kanban_rule).tap do |d|
+          allow(d).to receive(:can_put_card?) { true }
+          allow(d).to receive(:valid_positions_for_pull?) { true }
+          allow(d).to receive(:valid_positions_for_push?) { true }
+          allow(d).to receive(:initial_position) { Position('Todo', nil) }
+        end
+      end
 
-      it { is_expected.to_not be_nil }
+      let(:board_record) { Kanban::Board.last }
+
+      describe 'BoardRecord', 'project_id_str' do
+        subject { board_record.project_id_str }
+        it { is_expected.to eq('prj_789') }
+      end
+
+      describe 'CardRecord for feat_100' do
+        let(:card_record) do
+          board_record.cards.where(feature_id_str: 'feat_100').first
+        end
+
+        describe 'position_phase_name' do
+          subject { card_record.position_phase_name }
+          it { is_expected.to eq('Todo') }
+        end
+
+        describe 'position_state_name' do
+          subject { card_record.position_state_name }
+          it { is_expected.to be_nil }
+        end
+      end
+
+      describe 'CardRecord for feat_200' do
+        let(:card_record) do
+          board_record.cards.where(feature_id_str: 'feat_200').first
+        end
+
+        describe 'position_phase_name' do
+          subject { card_record.position_phase_name }
+          it { is_expected.to eq('Dev') }
+        end
+
+        describe 'position_state_name' do
+          subject { card_record.position_state_name }
+          it { is_expected.to eq('Doing') }
+        end
+      end
+
+      describe 'CardRecord for feat_300' do
+        let(:card_record) do
+          board_record.cards.where(feature_id_str: 'feat_300').first
+        end
+
+        describe 'position_phase_name' do
+          subject { card_record.position_phase_name }
+          it { is_expected.to eq('Dev') }
+        end
+
+        describe 'position_state_name' do
+          subject { card_record.position_state_name }
+          it { is_expected.to eq('Review') }
+        end
+      end
     end
   end
 end

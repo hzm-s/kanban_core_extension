@@ -49,7 +49,7 @@ module Kanban
         @cards.build(
           feature_id_str: card_record.feature_id_str,
           position_phase_name: card_record.position_phase_name,
-          position_state: card_record.position_state
+          position_state_name: card_record.position_state_name
         )
       end
     end

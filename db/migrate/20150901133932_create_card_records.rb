@@ -4,7 +4,7 @@ class CreateCardRecords < ActiveRecord::Migration
       t.references :board, null: false
       t.string :feature_id_str, null: false
       t.string :position_phase_name, null: false
-      t.string :position_state
+      t.string :position_state_name
     end
   end
 end
