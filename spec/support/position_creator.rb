@@ -1,9 +1,9 @@
 module PositionCreator
 
-  def Position(phase_name, state_description)
+  def Position(phase_name, state_name)
     Kanban::Position.new(
       Phase(phase_name),
-      State(state_description)
+      State(state_name)
     )
   end
 
@@ -11,8 +11,8 @@ module PositionCreator
     Project::Phase.new(name)
   end
 
-  def State(description)
-    return Project::State::None.new unless description
-    Project::State.new(description)
+  def State(name)
+    return Project::State::None.new unless name
+    Project::State.new(name)
   end
 end
