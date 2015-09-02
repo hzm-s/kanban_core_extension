@@ -2,123 +2,129 @@ require 'rails_helper'
 
 module Project
   describe Project do
-    describe '#save!' do
+    describe 'save as active record' do
       before do
+        project = ::Project::Project.new.tap do |project|
+          project.project_id = ProjectId.new('prj_123')
+          project.description = Description.new('name', 'goal')
+        end
+        workflow = Workflow.new([
+          PhaseSpec.new(
+            Phase.new('Todo'),
+            Transition::None.new,
+            WipLimit::None.new
+          ),
+          PhaseSpec.new(
+            Phase.new('Dev'),
+            Transition.new([
+              State.new('Doing'),
+              State.new('Done')
+            ]),
+            WipLimit.new(2)
+          ),
+          PhaseSpec.new(
+            Phase.new('QA'),
+            Transition::None.new,
+            WipLimit.new(1)
+          ),
+        ])
         project.specify_workflow(workflow)
         project.save!
       end
 
-      let(:project_id) { ProjectId.new('prj_123') }
+      let(:project_record) { ::Project::Project.last }
 
-      let(:project) do
-        ::Project::Project.new.tap do |project|
-          project.project_id = project_id
-          project.description = Description.new('name', 'goal')
+      describe 'ProjectRecord', 'project_id_str' do
+        subject { project_record.project_id_str }
+        it { is_expected.to eq('prj_123') }
+      end
+
+      describe 'ProjectRecord', 'description_name' do
+        subject { project_record.description_name }
+        it { is_expected.to eq('name') }
+      end
+
+      describe 'ProjectRecord', 'description_goal' do
+        subject { project_record.description_goal }
+        it { is_expected.to eq('goal') }
+      end
+
+      describe 'PhaseSpecRecord#1' do
+        let(:record) { project_record.phase_spec_records.where(order: 1).first }
+
+        describe 'phase_name' do
+          subject { record.phase_name }
+          it { is_expected.to eq('Todo') }
+        end
+
+        describe 'wip_limit_count' do
+          subject { record.wip_limit_count }
+          it { is_expected.to be_nil }
         end
       end
 
-      context 'NO wip_limit, NO states' do
-        let(:workflow) do
-          Workflow.new([
-            PhaseSpec.new(
-              Phase.new('Todo'),
-              Transition::None.new,
-              WipLimit::None.new
-            )
-          ])
+      describe 'PhaseSpecRecord#2' do
+        let(:record) { project_record.phase_spec_records.where(order: 2).first }
+
+        describe 'phase_name' do
+          subject { record.phase_name }
+          it { is_expected.to eq('Dev') }
         end
 
-        it do
-          project_record = ::Project::Project.find_by(project_id_str: project_id.to_s)
-          expect(project_record).to_not be_nil
-
-          phase_spec_record = project_record.phase_spec_records.where(order: 1).first
-          expect(phase_spec_record.phase_name).to eq('Todo')
-          expect(phase_spec_record.wip_limit_count).to be_nil
-
-          expect(project_record.state_records).to be_empty
+        describe 'wip_limit_count' do
+          subject { record.wip_limit_count }
+          it { is_expected.to eq(2) }
         end
       end
 
-      context 'NO wip_limit, states are Doing Done' do
-        let(:workflow) do
-          Workflow.new([
-            PhaseSpec.new(
-              Phase.new('Todo'),
-              Transition.new([State.new('Doing'), State.new('Done')]),
-              WipLimit::None.new
-            )
-          ])
+      describe 'PhaseSpecRecord#3' do
+        let(:record) { project_record.phase_spec_records.where(order: 3).first }
+
+        describe 'phase_name' do
+          subject { record.phase_name }
+          it { is_expected.to eq('QA') }
         end
 
-        it do
-          project_record = ::Project::Project.find_by(project_id_str: project_id.to_s)
-          expect(project_record).to_not be_nil
-
-          phase_spec_record = project_record.phase_spec_records.where(order: 1).first
-          expect(phase_spec_record.phase_name).to eq('Todo')
-          expect(phase_spec_record.wip_limit_count).to be_nil
-
-          state_record1 = project_record.state_records.where(order: 1).first
-          expect(state_record1.phase_name).to eq('Todo')
-          expect(state_record1.state_name).to eq('Doing')
-
-          state_record2 = project_record.state_records.where(order: 2).first
-          expect(state_record2.phase_name).to eq('Todo')
-          expect(state_record2.state_name).to eq('Done')
+        describe 'wip_limit_count' do
+          subject { record.wip_limit_count }
+          it { is_expected.to eq(1) }
         end
       end
 
-      context 'wip_limit = 10, NO states' do
-        let(:workflow) do
-          Workflow.new([
-            PhaseSpec.new(
-              Phase.new('Todo'),
-              Transition::None.new,
-              WipLimit.new(10)
-            )
-          ])
+      describe 'StateRecords for Todo' do
+        subject do
+          project_record.state_records.where(phase_name: 'Todo')
+        end
+        it { is_expected.to be_empty }
+      end
+
+      describe 'StateRecord for Dev #1' do
+        let(:record) do
+          project_record.state_records.where(phase_name: 'Dev', order: 1).first
         end
 
-        it do
-          project_record = ::Project::Project.find_by(project_id_str: project_id.to_s)
-          expect(project_record).to_not be_nil
-
-          phase_spec_record = project_record.phase_spec_records.where(order: 1).first
-          expect(phase_spec_record.phase_name).to eq('Todo')
-          expect(phase_spec_record.wip_limit_count).to eq(10)
-
-          expect(project_record.state_records).to be_empty
+        describe 'state_name' do
+          subject { record.state_name }
+          it { is_expected.to eq('Doing') }
         end
       end
 
-      context 'wip_limit = 10, states are Doing Done' do
-        let(:workflow) do
-          Workflow.new([
-            PhaseSpec.new(
-              Phase.new('Todo'),
-              Transition.new([State.new('Doing'), State.new('Done')]),
-              WipLimit.new(10)
-            )
-          ])
+      describe 'StateRecord for Dev #2' do
+        let(:record) do
+          project_record.state_records.where(phase_name: 'Dev', order: 2).first
         end
 
-        it do
-          project_record = ::Project::Project.find_by(project_id_str: project_id.to_s)
-          expect(project_record).to_not be_nil
-
-          phase_spec_record = project_record.phase_spec_records.where(order: 1).first
-          expect(phase_spec_record.phase_name).to eq('Todo')
-          expect(phase_spec_record.wip_limit_count).to eq(10)
-
-          state_record1 = project_record.state_records.where(order: 1).first
-          expect(state_record1.phase_name).to eq('Todo')
-          expect(state_record1.state_name).to eq('Doing')
-
-          state_record2 = project_record.state_records.where(order: 2).first
-          expect(state_record2.phase_name).to eq('Todo')
-          expect(state_record2.state_name).to eq('Done')
+        describe 'state_name' do
+          subject { record.state_name }
+          it { is_expected.to eq('Done') }
         end
+      end
+
+      describe 'StateRecords for QA' do
+        subject do
+          project_record.state_records.where(phase_name: 'QA')
+        end
+        it { is_expected.to be_empty }
       end
     end
   end
