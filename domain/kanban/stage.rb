@@ -34,7 +34,7 @@ module Kanban
       card_size = count_by_phase(to.phase)
       raise WipLimitReached unless rule.can_put_card?(to.phase, card_size)
 
-      card.locate(to)
+      card.locate_to(to, self)
     end
 
     def get_card(feature_id)
