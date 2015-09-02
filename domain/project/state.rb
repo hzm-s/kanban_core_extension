@@ -5,6 +5,10 @@ module Project
       @state = state
     end
 
+    def none?
+      false
+    end
+
     def to_s
       @state
     end
@@ -25,6 +29,10 @@ module Project
 
   class State
     class None
+
+      def none?
+        true
+      end
 
       def to_s
         'none'
