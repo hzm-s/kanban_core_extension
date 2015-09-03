@@ -1,18 +1,16 @@
 require 'rails_helper'
 
-describe 'add feature_id to board' do
+describe 'add feature to board' do
   let(:service) do
     BoardService.new(project_repository, board_repository)
   end
   let(:project_repository) { ProjectRepository.new }
   let(:board_repository) { BoardRepository.new }
-  let(:project_service) { ProjectService.new(project_repository, board_builder) }
-  let(:board_builder) { Kanban::BoardBuilder.new(board_repository) }
 
-  let(:project_id) { project_service.launch(Project::Description.new('Name', 'Goal')) }
+  let(:project_id) { Project('Name', 'Goal') }
 
   before do
-    project_service.specify_workflow(project_id, workflow)
+    ProjectService().specify_workflow(project_id, workflow)
   end
 
   context 'no state phase no wip limit' do
@@ -21,7 +19,7 @@ describe 'add feature_id to board' do
     end
 
     it do
-      feature_id = Project::FeatureId.new('feat_1')
+      feature_id = FeatureId('feat_1')
 
       service.add_card(project_id, feature_id)
 
@@ -37,7 +35,7 @@ describe 'add feature_id to board' do
 
     context 'wip = 0' do
       it do
-        feature_id = Project::FeatureId.new('feat_1')
+        feature_id = FeatureId('feat_1')
 
         service.add_card(project_id, feature_id)
 
@@ -48,10 +46,10 @@ describe 'add feature_id to board' do
 
     context 'wip = 2' do
       it do
-        feature_id = Project::FeatureId.new('feat_1')
+        feature_id = FeatureId('feat_1')
 
-        service.add_card(project_id, Project::FeatureId.new('feat_2'))
-        service.add_card(project_id, Project::FeatureId.new('feat_3'))
+        service.add_card(project_id, FeatureId('feat_2'))
+        service.add_card(project_id, FeatureId('feat_3'))
         service.add_card(project_id, feature_id)
 
         board = board_repository.find(project_id)
@@ -61,11 +59,11 @@ describe 'add feature_id to board' do
 
     context 'wip = 3' do
       it do
-        feature_id = Project::FeatureId.new('feat_1')
+        feature_id = FeatureId('feat_1')
 
-        service.add_card(project_id, Project::FeatureId.new('feat_2'))
-        service.add_card(project_id, Project::FeatureId.new('feat_3'))
-        service.add_card(project_id, Project::FeatureId.new('feat_4'))
+        service.add_card(project_id, FeatureId('feat_2'))
+        service.add_card(project_id, FeatureId('feat_3'))
+        service.add_card(project_id, FeatureId('feat_4'))
         expect {
           service.add_card(project_id, feature_id)
         }.to raise_error(Kanban::WipLimitReached)
@@ -79,7 +77,7 @@ describe 'add feature_id to board' do
     end
 
     it do
-      feature_id = Project::FeatureId.new('feat_1')
+      feature_id = FeatureId('feat_1')
 
       service.add_card(project_id, feature_id)
 
@@ -97,7 +95,7 @@ describe 'add feature_id to board' do
 
     context 'wip = 0' do
       it do
-        feature_id = Project::FeatureId.new('feat_1')
+        feature_id = FeatureId('feat_1')
 
         service.add_card(project_id, feature_id)
 
@@ -108,10 +106,10 @@ describe 'add feature_id to board' do
 
     context 'wip = 2' do
       it do
-        feature_id = Project::FeatureId.new('feat_1')
+        feature_id = FeatureId('feat_1')
 
-        service.add_card(project_id, Project::FeatureId.new('feat_2'))
-        service.add_card(project_id, Project::FeatureId.new('feat_3'))
+        service.add_card(project_id, FeatureId('feat_2'))
+        service.add_card(project_id, FeatureId('feat_3'))
         service.add_card(project_id, feature_id)
 
         board = board_repository.find(project_id)
@@ -121,11 +119,11 @@ describe 'add feature_id to board' do
 
     context 'wip = 3' do
       it do
-        feature_id = Project::FeatureId.new('feat_1')
+        feature_id = FeatureId('feat_1')
 
-        service.add_card(project_id, Project::FeatureId.new('feat_2'))
-        service.add_card(project_id, Project::FeatureId.new('feat_3'))
-        service.add_card(project_id, Project::FeatureId.new('feat_4'))
+        service.add_card(project_id, FeatureId('feat_2'))
+        service.add_card(project_id, FeatureId('feat_3'))
+        service.add_card(project_id, FeatureId('feat_4'))
         expect {
           service.add_card(project_id, feature_id)
         }.to raise_error(Kanban::WipLimitReached)

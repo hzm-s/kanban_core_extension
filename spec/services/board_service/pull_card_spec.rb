@@ -6,13 +6,11 @@ describe 'pull card' do
   end
   let(:project_repository) { ProjectRepository.new }
   let(:board_repository) { BoardRepository.new }
-  let(:project_service) { ProjectService.new(project_repository, board_builder) }
-  let(:board_builder) { Kanban::BoardBuilder.new(board_repository) }
 
-  let(:project_id) { project_service.launch(Project::Description.new('Name', 'Goal')) }
+  let(:project_id) { Project('Name', 'Goal') }
 
   before do
-    project_service.specify_workflow(project_id, workflow)
+    ProjectService().specify_workflow(project_id, workflow)
   end
 
   context 'multi state phase, wip limit = 0' do
@@ -25,7 +23,7 @@ describe 'pull card' do
     end
 
     it do
-      feature_id = Project::FeatureId.new('feat_1')
+      feature_id = FeatureId('feat_1')
       service.add_card(project_id, feature_id)
 
       from = Position('Todo', nil)
@@ -38,7 +36,7 @@ describe 'pull card' do
 
     context 'card is NOT locate to FROM position' do
       it do
-        feature_id = Project::FeatureId.new('feat_1')
+        feature_id = FeatureId('feat_1')
         service.add_card(project_id, feature_id)
 
         expect {
@@ -61,7 +59,7 @@ describe 'pull card' do
 
     context 'wip = 0' do
       it do
-        feature_id = Project::FeatureId.new('feat_1')
+        feature_id = FeatureId('feat_1')
         service.add_card(project_id, feature_id)
 
         from = Position('Todo', nil)
@@ -75,13 +73,13 @@ describe 'pull card' do
 
     context 'wip = 1' do
       before do
-        other = Project::FeatureId.new('feat_other')
+        other = FeatureId('feat_other')
         service.add_card(project_id, other)
         service.pull_card(project_id, other, Position('Todo', nil), Position('Dev', 'Doing'))
       end
 
       it do
-        feature_id = Project::FeatureId.new('feat_1')
+        feature_id = FeatureId('feat_1')
         service.add_card(project_id, feature_id)
 
         from = Position('Todo', nil)
@@ -95,8 +93,8 @@ describe 'pull card' do
 
     context 'wip = 2' do
       before do
-        other1 = Project::FeatureId.new('feat_other1')
-        other2 = Project::FeatureId.new('feat_other2')
+        other1 = FeatureId('feat_other1')
+        other2 = FeatureId('feat_other2')
         service.add_card(project_id, other1)
         service.add_card(project_id, other2)
         service.pull_card(project_id, other1, Position('Todo', nil), Position('Dev', 'Doing'))
@@ -104,7 +102,7 @@ describe 'pull card' do
       end
 
       it do
-        feature_id = Project::FeatureId.new('feat_1')
+        feature_id = FeatureId('feat_1')
         service.add_card(project_id, feature_id)
 
         from = Position('Todo', nil)
@@ -126,7 +124,7 @@ describe 'pull card' do
     end
 
     it do
-      feature_id = Project::FeatureId.new('feat_1')
+      feature_id = FeatureId('feat_1')
       service.add_card(project_id, feature_id)
 
       from = Position('Phase1', nil)

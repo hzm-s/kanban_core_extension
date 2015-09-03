@@ -5,6 +5,7 @@ describe 'launch project' do
     ProjectService.new(project_repository, board_builder)
   end
   let(:project_repository) { ProjectRepository.new }
+
   let(:board_builder) { double(:board_builder) }
 
   it do

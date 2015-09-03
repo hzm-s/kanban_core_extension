@@ -6,13 +6,11 @@ describe 'push card' do
   end
   let(:project_repository) { ProjectRepository.new }
   let(:board_repository) { BoardRepository.new }
-  let(:project_service) { ProjectService.new(project_repository, board_builder) }
-  let(:board_builder) { Kanban::BoardBuilder.new(board_repository) }
 
-  let(:project_id) { project_service.launch(Project::Description.new('Name', 'Goal')) }
+  let(:project_id) { Project('Name', 'Goal') }
 
   before do
-    project_service.specify_workflow(project_id, workflow)
+    ProjectService().specify_workflow(project_id, workflow)
   end
 
   context '3 state phase' do
@@ -25,7 +23,7 @@ describe 'push card' do
 
     context 'card is NOT locate to FROM position' do
       it do
-        feature_id = Project::FeatureId.new('feat_1')
+        feature_id = FeatureId('feat_1')
         service.add_card(project_id, feature_id)
 
         expect {
@@ -39,7 +37,7 @@ describe 'push card' do
 
     context '1 => 2' do
       it do
-        feature_id = Project::FeatureId.new('feat_1')
+        feature_id = FeatureId('feat_1')
         service.add_card(project_id, feature_id)
 
         from = Position('Dev', 'Doing')
@@ -53,7 +51,7 @@ describe 'push card' do
 
     context '2 => 3' do
       it do
-        feature_id = Project::FeatureId.new('feat_1')
+        feature_id = FeatureId('feat_1')
         service.add_card(project_id, feature_id)
         service.push_card(project_id, feature_id, Position('Dev', 'Doing'), Position('Dev', 'Review'))
 
@@ -68,7 +66,7 @@ describe 'push card' do
 
     context '1 => 3' do
       it do
-        feature_id = Project::FeatureId.new('feat_1')
+        feature_id = FeatureId('feat_1')
         service.add_card(project_id, feature_id)
 
         from = Position('Dev', 'Doing')
@@ -81,7 +79,7 @@ describe 'push card' do
 
     context '3 => next phase' do
       it do
-        feature_id = Project::FeatureId.new('feat_1')
+        feature_id = FeatureId('feat_1')
         service.add_card(project_id, feature_id)
         service.push_card(project_id, feature_id, Position('Dev', 'Doing'), Position('Dev', 'Review'))
         service.push_card(project_id, feature_id, Position('Dev', 'Review'), Position('Dev', 'Done'))
