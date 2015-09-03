@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>KanbanCoreExtension</title>
+  <title>Kanban/core_ext</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
 <body>
-
-<%= yield %>
-
+  <nav>
+    <h1><%= link_to 'Kanban core extension', root_url %></h1>
+  </nav>
+  <hr>
+  <%= render 'layouts/flashes' %>
+  <%= yield %>
 </body>
 </html>

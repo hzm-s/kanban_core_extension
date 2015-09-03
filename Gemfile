@@ -11,6 +11,13 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'wisper'
 
+gem 'simple_form'
+
+gem 'bourbon'
+gem 'neat'
+gem 'bitters'
+gem 'refills'
+
 group :development, :test do
   gem 'byebug'
   gem 'rspec-rails'
