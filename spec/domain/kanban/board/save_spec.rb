@@ -28,10 +28,9 @@ module Kanban
         board.push_card(
           FeatureId('feat_300'),
           Position('Dev', 'Doing'),
-          Position('Dev', 'Review'),
+          Position('Dev', 'Done'),
           rule
         )
-
         board.save!
       end
     end
@@ -41,15 +40,9 @@ module Kanban
         Workflow([
           { phase: 'Todo' },
           { phase: 'Dev', transition: ['Doing', 'Done'], wip_limit: 2 },
-          { phase: 'QA', wip_limit: 1 },
+          { phase: 'QA', wip_limit: 1 }
         ])
       )
-      double(:kanban_rule).tap do |d|
-        allow(d).to receive(:can_put_card?) { true }
-        allow(d).to receive(:valid_positions_for_pull?) { true }
-        allow(d).to receive(:valid_positions_for_push?) { true }
-        allow(d).to receive(:initial_position) { Position('Todo', nil) }
-      end
     end
 
     let(:board_record) { Kanban::Board.last }
@@ -103,7 +96,7 @@ module Kanban
 
       describe 'position_state_name' do
         subject { card_record.position_state_name }
-        it { is_expected.to eq('Review') }
+        it { is_expected.to eq('Done') }
       end
     end
   end

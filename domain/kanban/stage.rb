@@ -25,7 +25,6 @@ module Kanban
     def push_card(feature_id, from, to, rule)
       raise Project::OutOfWorkflow unless rule.valid_positions_for_push?(from, to)
       raise CardNotFound unless card = get_card_from(from, feature_id)
-      raise WipLimitReached unless rule.can_put_card?(to.phase, card_count(to.phase))
 
       card.locate_to(to, self)
     end
