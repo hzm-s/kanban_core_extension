@@ -21,4 +21,9 @@ class ProjectService
 
     @project_repository.store(project)
   end
+
+  def launch_with_workflow(description, workflow)
+    project_id = launch(description)
+    specify_workflow(project_id, workflow)
+  end
 end

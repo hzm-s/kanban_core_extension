@@ -1,0 +1,30 @@
+<header class="main">
+  <nav class="actions">
+    <%= link_to 'Launch new project', new_project_launching_url %>
+  </nav>
+</header>
+<section class="container">
+  <div class="wrapper">
+    <table class="table-minimal">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Goal</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @projects.each do |project| %>
+          <tr>
+            <td><%= project.name %></td>
+            <td><%= project.goal %></td>
+            <td>
+              <%= link_to 'Backlog' %> |
+              <%= link_to 'Board' %>
+            </td>
+          </tr>
+        <% end -%>
+      </tbody>
+    </table>
+  </div>
+</section>

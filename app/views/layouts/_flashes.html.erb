@@ -1,0 +1,7 @@
+<% flash.each do |name, msg| %>
+  <% if msg.is_a?(String) %>
+    <div class="flash-<%= name.to_s == 'notice' ? 'success' : 'error' %>">
+      <span><%= msg %></span>
+    </div>
+  <% end %>
+<% end %>

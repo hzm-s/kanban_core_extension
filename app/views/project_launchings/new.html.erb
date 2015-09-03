@@ -1,0 +1,15 @@
+<header class="main">
+  <h1>Project description<h1>
+</header>
+<section class="container">
+  <div class="wrapper">
+    <fieldset>
+      <%= simple_form_for @form, url: project_launchings_url do |f| %>
+        <%= f.input :name %>
+        <%= f.input :goal, as: :text, input_html: { rows: 5 } %>
+        <%= f.input :kickstart, as: :boolean, checked_value: true, unchecked_value: false %>
+        <%= f.button :submit, 'Launch new project' %>
+      <% end -%>
+    </fieldset>
+  </div>
+</section>
