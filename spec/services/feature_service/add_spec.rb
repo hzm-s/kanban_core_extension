@@ -4,7 +4,7 @@ describe 'add feature' do
   let(:service) do
     FeatureService.new(feature_repository)
   end
-  let(:feature_repository) { FakeFeatureRepository.new }
+  let(:feature_repository) { FeatureRepository.new }
 
   let(:project_id) { Project('Name', 'Goal') }
 
