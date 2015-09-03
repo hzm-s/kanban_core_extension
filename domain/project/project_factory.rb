@@ -11,6 +11,11 @@ module Project
       ::Project::Project.new.tap do |project|
         project.project_id = generate_project_id
         project.description = description
+
+        EventPublisher.publish(
+          :project_launched,
+          ProjectLaunched.new(project)
+        )
       end
     end
 

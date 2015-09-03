@@ -1,0 +1,27 @@
+<header class="main">
+<h1><%= @board.project_name %></h1>
+</header>
+<section class="container">
+  <div class="wrapper">
+    <table>
+      <thead>
+        <tr>
+          <% @board.phase_specs.each do |phase_spec| -%>
+            <td style="text-align: center">
+              <%= phase_spec.phase_name %>&nbsp;<span class="badge-error"><%= phase_spec.wip_limit_count %></span>
+            </td>
+          <% end -%>
+        </tr>
+        <tr>
+          <% @board.phase_specs.each do |phase_spec| -%>
+            <td style="text-align: center">
+              <%= @board.transition(phase_spec.phase_name).join(' | ') %>
+            </td>
+          <% end -%>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+</section>
