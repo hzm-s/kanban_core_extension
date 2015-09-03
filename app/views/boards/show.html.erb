@@ -1,22 +1,20 @@
 <header class="main">
-<h1><%= @board.project_name %></h1>
+<h1><%= @board.header.project_name %></h1>
 </header>
 <section class="container">
   <div class="wrapper">
     <table>
       <thead>
         <tr>
-          <% @board.phase_specs.each do |phase_spec| -%>
-            <td style="text-align: center">
-              <%= phase_spec.phase_name %>&nbsp;<span class="badge-error"><%= phase_spec.wip_limit_count %></span>
-            </td>
+          <% @board.header.phases.each do |phase| -%>
+            <th colspan="<%= phase.state_size %>" style="text-align: center">
+              <%= phase.name %>&nbsp;<span class="badge-error"><%= phase.wip_limit %></span>
+            </th>
           <% end -%>
         </tr>
         <tr>
-          <% @board.phase_specs.each do |phase_spec| -%>
-            <td style="text-align: center">
-              <%= @board.transition(phase_spec.phase_name).join(' | ') %>
-            </td>
+          <% @board.header.phase_states.each do |phase_state| -%>
+            <th style="text-align: center"><%= phase_state %></th>
           <% end -%>
         </tr>
       </thead>
