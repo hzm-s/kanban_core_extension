@@ -1,5 +1,6 @@
 module Feature
   class Description
+    attr_reader :summary, :detail
 
     def initialize(summary, detail)
       @summary = summary
