@@ -7,18 +7,19 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <div class="header-container">
-    <header>
-      <h1 class="brand"><%= link_to "|---|---|---|", root_url %></h1>
-      <h2></h2>
+  <div class="board-container-wrapper">
+    <div class="header-container">
+      <header>
+        <h1 class="brand"><%= link_to "|---|---|---|", root_url %></h1>
+      </header>
+    </div>
+    <%= render 'layouts/flashes' %>
+    <header class="page">
+      <h2><%= @board.project_name %></h2>
     </header>
-  </div>
-  <%= render 'layouts/flashes' %>
-  <header class="page">
-    <h2><%= @board.project_name %></h2>
-  </header>
-  <div class="board-container" style="width: <%= 300 * @board.stage_size %>px">
-    <%= yield %>
+    <div class="board-container">
+      <%= yield %>
+    </div>
   </div>
 </body>
 </html>

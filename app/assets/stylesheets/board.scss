@@ -10,6 +10,8 @@ table.board {
   $base-accent-color: #477DCA !default;
   $base-padding: 0.35em !default;
 
+  font-size: 0.8em;
+
   th {
     text-align: center;
   }
@@ -59,6 +61,7 @@ table.board {
     border: 1px solid $table-border-color;
     padding: $base-padding 0.75em;
     margin-bottom: $base-padding;
+    min-height: 10em;
 
     &:last-child {
       margin-bottom: 0em;
