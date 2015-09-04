@@ -52,7 +52,7 @@ table.board {
   div.card {
     background-color: $table-header-background;
     border: 1px solid $table-border-color;
-    padding: $table-padding;
+    padding: $base-padding 0.75em;
     margin-bottom: $base-padding;
 
     &:last-child {
