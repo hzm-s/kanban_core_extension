@@ -4,7 +4,8 @@ module Arize
 
     included do
       self.table_name = 'board_records'
-      has_many :cards
+
+      has_many :cards, foreign_key: 'board_record_id'
 
       include Readers
       include Writers

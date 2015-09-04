@@ -17,7 +17,7 @@ class LaunchProjectForm
 
   def applicate_with_service(service)
     if kickstart
-      service.launch_with_workflow(description)
+      service.launch_with_workflow(description, kickstart_workflow)
     else
       service.launch(description)
     end

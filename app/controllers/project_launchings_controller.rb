@@ -7,7 +7,7 @@ class ProjectLaunchingsController < ApplicationController
   def create
     @form = LaunchProjectForm.new(params[:launch_project_form])
     if @form.valid?
-      project_service.launch(@form.description)
+      @form.applicate_with_service(project_service)
       redirect_to root_url, notice: 'Project has launched!'
     else
       flash.now[:alert] = "Ooops!"

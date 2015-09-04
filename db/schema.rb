@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 20150903022533) do
   add_index "board_records", ["project_id_str"], name: "index_board_records_on_project_id_str"
 
   create_table "card_records", force: :cascade do |t|
-    t.integer "board_id",            null: false
+    t.integer "board_record_id",     null: false
     t.string  "feature_id_str",      null: false
     t.string  "position_phase_name", null: false
     t.string  "position_state_name"
@@ -34,13 +34,13 @@ ActiveRecord::Schema.define(version: 20150903022533) do
   end
 
   create_table "phase_spec_records", force: :cascade do |t|
-    t.integer "project_id",      null: false
-    t.integer "order",           null: false
-    t.string  "phase_name",      null: false
+    t.integer "project_record_id", null: false
+    t.integer "order",             null: false
+    t.string  "phase_name",        null: false
     t.integer "wip_limit_count"
   end
 
-  add_index "phase_spec_records", ["project_id", "order"], name: "index_phase_spec_records_on_project_id_and_order"
+  add_index "phase_spec_records", ["project_record_id", "order"], name: "index_phase_spec_records_on_project_record_id_and_order"
 
   create_table "project_records", force: :cascade do |t|
     t.string "project_id_str",   null: false
@@ -51,12 +51,12 @@ ActiveRecord::Schema.define(version: 20150903022533) do
   add_index "project_records", ["project_id_str"], name: "index_project_records_on_project_id_str"
 
   create_table "state_records", force: :cascade do |t|
-    t.integer "project_id", null: false
-    t.string  "phase_name", null: false
-    t.integer "order",      null: false
-    t.string  "state_name", null: false
+    t.integer "project_record_id", null: false
+    t.string  "phase_name",        null: false
+    t.integer "order",             null: false
+    t.string  "state_name",        null: false
   end
 
-  add_index "state_records", ["project_id", "phase_name", "order"], name: "index_state_records_on_project_id_and_phase_name_and_order"
+  add_index "state_records", ["project_record_id", "phase_name", "order"], name: "project_phase_order"
 
 end

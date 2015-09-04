@@ -1,3 +1,3 @@
 module Project
-  ProjectLaunched = Struct.new(:project_id)
+  ProjectLaunched = Struct.new(:project)
 end

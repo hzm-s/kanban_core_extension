@@ -20,7 +20,7 @@
             <td><%= project.goal %></td>
             <td>
               <%= link_to 'Backlog' %> |
-              <%= link_to 'Board' %>
+              <%= link_to 'Board', board_url(project.project_id_str) %>
             </td>
           </tr>
         <% end -%>

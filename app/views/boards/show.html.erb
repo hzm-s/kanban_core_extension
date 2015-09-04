@@ -1,0 +1,37 @@
+<header class="main">
+<h1><%= @board.header.project_name %></h1>
+</header>
+<section class="container">
+  <div class="wrapper">
+    <table class="board">
+      <thead>
+        <tr>
+          <% @board.header.phases.each do |phase| -%>
+            <th colspan="<%= phase.state_size %>">
+              <%= phase.name %>&nbsp;<span class="badge-error"><%= phase.wip_limit %></span>
+            </th>
+          <% end -%>
+        </tr>
+        <tr>
+          <% @board.header.phase_states.each do |phase_state| -%>
+            <th><%= phase_state %></th>
+          <% end -%>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <% @board.body.stages.each do |stage| %>
+            <td style="vertical-align: top">
+              <% stage.cards.each do |card| %>
+                <div class="card">
+                  <p><%= card.id %></p>
+                  <h3><%= card.summary %></h3>
+                </div>
+              <% end -%>
+            </td>
+          <% end -%>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

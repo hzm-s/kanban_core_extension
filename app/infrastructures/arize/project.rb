@@ -5,14 +5,14 @@ module Arize
     included do
       self.table_name = 'project_records'
 
-      has_many :phase_spec_records, -> { order(:order) }
-      has_many :state_records, -> { order(:order) }
+      has_many :phase_spec_records, { foreign_key: 'project_record_id' }, -> { order(:order) }
+      has_many :state_records, { foreign_key: 'project_record_id' }, -> { order(:order) }
 
-      include Writer
-      include Reader
+      include Writers
+      include Readers
     end
 
-    module Writer
+    module Writers
 
       def project_id=(project_id)
         self.project_id_str = project_id.to_s
@@ -50,7 +50,7 @@ module Arize
       end
     end
 
-    module Reader
+    module Readers
 
       def project_id
         ::Project::ProjectId.new(project_id_str)
