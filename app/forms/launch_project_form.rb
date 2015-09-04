@@ -15,7 +15,7 @@ class LaunchProjectForm
     Project::Description.new(self.name, self.goal)
   end
 
-  def applicate_with_service(service)
+  def prefer(service)
     if kickstart
       service.launch_with_workflow(description, kickstart_workflow)
     else
