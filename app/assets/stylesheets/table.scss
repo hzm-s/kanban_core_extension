@@ -1,0 +1,21 @@
+table {
+  thead.identified {
+    tr {
+      th {
+        &:first-child {
+          width: 5em;
+        }
+      }
+    }
+  }
+
+  thead.actions {
+    tr {
+      th {
+        &:last-child {
+          width: 12em;
+        }
+      }
+    }
+  }
+}

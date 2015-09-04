@@ -5,8 +5,8 @@
 </header>
 <section class="container">
   <div class="wrapper">
-    <table class="table-minimal">
-      <thead>
+    <table class="tables-minimals">
+      <thead class="actions">
         <tr>
           <th>Name</th>
           <th>Goal</th>
@@ -19,8 +19,8 @@
             <td><%= project.name %></td>
             <td><%= project.goal %></td>
             <td>
-              <%= link_to 'Backlog' %> |
-              <%= link_to 'Board', board_url(project.project_id_str) %>
+              <%= link_to 'Board', board_url(project.project_id_str) %> |
+              <%= link_to 'Backlog', backlog_url(project.project_id_str) %>
             </td>
           </tr>
         <% end -%>
