@@ -1,25 +1,22 @@
 module View
-  module BoardBody
+  BoardBody = Struct.new(:map) do
 
-    def self.build
-      stages = 1.upto(7).map {|n| Stage.build(n) }
-      StageList.new(stages)
+    def self.build(board)
+      map = board.card_records.each_with_object({}) do |card_record, map|
+        phase_name = card_record.position_phase_name
+        state_name = card_record.position_state_name || ''
+        key = [phase_name, state_name]
+        if map.key?(key)
+          map[key] << card_record
+        else
+          map[key] = [card_record]
+        end
+      end
+      new(map)
     end
 
-    StageList = Struct.new(:stages) do
-
-      def stage_size
-        stages.size
-      end
-    end
-
-    Stage = Struct.new(:cards) do
-
-      def self.build(n)
-        card_size = (1..5).to_a.sample
-        cards = 1.upto(card_size).map {|m| Card.new(n, m) }
-        new(cards)
-      end
+    def cards(phase_name, state_name)
+      map[[phase_name, state_name]] || []
     end
 
     Card = Struct.new(:state_num, :card_num) do

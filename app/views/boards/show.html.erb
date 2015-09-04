@@ -14,18 +14,17 @@
         </tr>
         <tr>
           <% @board.header.phase_states.each do |phase_state| -%>
-            <th><%= phase_state %></th>
+            <th><%= phase_state.name %></th>
           <% end -%>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <% @board.body.stages.each do |stage| %>
+          <% @board.header.phase_states.each do |state| -%>
             <td style="vertical-align: top">
-              <% stage.cards.each do |card| %>
+              <% @board.body.cards(state.phase_name, state.name).each do |card| -%>
                 <div class="card">
-                  <p><%= card.id %></p>
-                  <h3><%= card.summary %></h3>
+                  <p><%= card.feature_id_str %></p>
                 </div>
               <% end -%>
             </td>

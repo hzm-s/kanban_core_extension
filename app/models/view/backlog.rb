@@ -5,12 +5,13 @@ module View
       project = ProjectRecord.find_by(project_id_str: project_id_str)
 
       added_features = BoardRecord
-                         .with_cards(project_id_str: project_id_str)
+                         .eager_load(:card_records)
+                         .find_by(project_id_str: project.project_id_str)
                          .card_records
                          .pluck(:feature_id_str)
 
       features = FeatureRecord
-                   .where(project_id_str: project_id_str)
+                   .where(project_id_str: project.project_id_str)
                    .order(:id)
                    .reject {|r| added_features.include?(r.feature_id_str) }
                    .map {|r| Feature.new(r) }

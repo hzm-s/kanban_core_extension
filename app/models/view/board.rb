@@ -8,7 +8,7 @@ module View
         new(
           project_with_workflow.description_name,
           header(project_with_workflow),
-          body
+          body(project_id_str)
         )
       end
 
@@ -21,13 +21,14 @@ module View
           )
         end
 
-        def body
-          View::BoardBody.build
+        def body(project_id_str)
+          board = BoardRecord.find_by(project_id_str: project_id_str)
+          View::BoardBody.build(board)
         end
     end
 
     def stage_size
-      body.stage_size
+      header.phase_states.size
     end
   end
 end
