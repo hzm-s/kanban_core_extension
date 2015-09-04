@@ -1,14 +1,5 @@
-BoardHeaderView = Struct.new(:project_name, :phases, :phase_states) do
-
-  Phase = Struct.new(:name, :wip_limit, :state_size)
-
-  def self.generate(project_with_workflow)
-    Generator
-      .new(project_with_workflow)
-      .generate
-  end
-
-  class Generator
+module View
+  class BoardHeaderBuilder
 
     def initialize(project_with_workflow)
       @project_with_workflow = project_with_workflow
@@ -22,10 +13,6 @@ BoardHeaderView = Struct.new(:project_name, :phases, :phase_states) do
           h[phase_spec.phase_name] = []
         end
       end
-    end
-
-    def generate
-      BoardHeaderView.new(project_name, phases, phase_states)
     end
 
     def project_name
@@ -51,5 +38,19 @@ BoardHeaderView = Struct.new(:project_name, :phases, :phase_states) do
              end
       end
     end
+  end
+
+  BoardHeader = Struct.new(:project_name, :phases, :phase_states) do
+
+    def self.build(project_with_workflow)
+      builder = BoardHeaderBuilder.new(project_with_workflow)
+      new(
+        builder.project_name,
+        builder.phases,
+        builder.phase_states
+      )
+    end
+
+    Phase = Struct.new(:name, :wip_limit, :state_size)
   end
 end
