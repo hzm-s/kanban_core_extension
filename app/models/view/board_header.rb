@@ -1,11 +1,8 @@
 module View
   class BoardHeaderBuilder
 
-    def initialize(project_with_workflow)
-      @project_with_workflow = project_with_workflow
-      @phase_specs = project_with_workflow.phase_spec_records.to_a
-
-      states = project_with_workflow.state_records.to_a
+    def initialize(phase_specs, states)
+      @phase_specs = phase_specs
       @states_map = @phase_specs.each_with_object({}) do |phase_spec, h|
         if (phase_states = states.select {|s| s.phase_name == phase_spec.phase_name }).any?
           h[phase_spec.phase_name] = phase_states
@@ -13,10 +10,6 @@ module View
           h[phase_spec.phase_name] = []
         end
       end
-    end
-
-    def project_name
-      @project_with_workflow.description_name
     end
 
     def phases
@@ -40,12 +33,11 @@ module View
     end
   end
 
-  BoardHeader = Struct.new(:project_name, :phases, :phase_states) do
+  BoardHeader = Struct.new(:phases, :phase_states) do
 
-    def self.build(project_with_workflow)
-      builder = BoardHeaderBuilder.new(project_with_workflow)
+    def self.build(phase_specs, states)
+      builder = BoardHeaderBuilder.new(phase_specs, states)
       new(
-        builder.project_name,
         builder.phases,
         builder.phase_states
       )

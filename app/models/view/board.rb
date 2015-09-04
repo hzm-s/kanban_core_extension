@@ -1,19 +1,24 @@
 module View
-  class Board
+  Board = Struct.new(:project_name, :header, :body) do
     class << self
 
       def build(project_id_str)
+        project_with_workflow = ProjectRecord.with_workflow(project_id_str)
+
         new(
-          header(project_id_str),
+          project_with_workflow.description_name,
+          header(project_with_workflow),
           body
         )
       end
 
       private
 
-        def header(project_id_str)
-          project_with_workflow = ProjectRecord.with_workflow(project_id_str)
-          View::BoardHeader.build(project_with_workflow)
+        def header(project_with_workflow)
+          View::BoardHeader.build(
+            project_with_workflow.phase_spec_records.to_a,
+            project_with_workflow.state_records.to_a
+          )
         end
 
         def body
@@ -21,15 +26,8 @@ module View
         end
     end
 
-    attr_reader :header, :body
-
-    def initialize(header, body)
-      @header = header
-      @body = body
-    end
-
     def stage_size
-      @body.stage_size
+      body.stage_size
     end
   end
 end
