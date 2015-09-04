@@ -22,8 +22,8 @@ module View
         end
 
         def body(project_id_str)
-          board = BoardRecord.find_by(project_id_str: project_id_str)
-          View::BoardBody.build(board)
+          cards = CardRecord.with_feature(project_id_str)
+          View::BoardBody.build(cards)
         end
     end
 

@@ -1,17 +1,18 @@
 module View
   BoardBody = Struct.new(:map) do
 
-    def self.build(board)
-      map = board.card_records.each_with_object({}) do |card_record, map|
-        phase_name = card_record.position_phase_name
-        state_name = card_record.position_state_name || ''
-        key = [phase_name, state_name]
+    def self.build(card_hashes)
+      map = card_hashes.each_with_object({}) do |card_hash, map|
+        feature_card = FeatureCard.new(card_hash)
+
+        key = [feature_card.phase_name, feature_card.state_name]
         if map.key?(key)
-          map[key] << card_record
+          map[key] << feature_card
         else
-          map[key] = [card_record]
+          map[key] = [feature_card]
         end
       end
+
       new(map)
     end
 
@@ -19,18 +20,17 @@ module View
       map[[phase_name, state_name]] || []
     end
 
-    Card = Struct.new(:state_num, :card_num) do
+    FeatureCard = Struct.new(:id, :feature_id_str, :phase_name, :state_name, :summary, :detail) do
 
-      def full_num
-        "#{state_num}-#{card_num}"
-      end
-
-      def id
-        "##{full_num}"
-      end
-
-      def summary
-        "機能の概要#{full_num}"
+      def initialize(hash)
+        super(
+          hash['id'],
+          hash['feature_id_str'],
+          hash['position_phase_name'],
+          hash['position_state_name'] || '',
+          hash['description_summary'],
+          hash['description_detail']
+        )
       end
     end
   end

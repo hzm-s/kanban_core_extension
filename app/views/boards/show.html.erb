@@ -24,7 +24,8 @@
             <td style="vertical-align: top">
               <% @board.body.cards(state.phase_name, state.name).each do |card| -%>
                 <div class="card">
-                  <p><%= card.feature_id_str %></p>
+                  <p>#<%= card.id %></p>
+                  <h3><%= card.summary %></h3>
                 </div>
               <% end -%>
             </td>
