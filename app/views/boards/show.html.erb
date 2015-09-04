@@ -1,37 +1,30 @@
-<header class="main">
-  <h1><%= @board.project_name %></h1>
-</header>
-<section class="container">
-  <div class="wrapper">
-    <table class="board">
-      <thead>
-        <tr>
-          <% @board.header.phases.each do |phase| -%>
-            <th colspan="<%= phase.state_size %>">
-              <%= phase.name %>&nbsp;<span class="badge-error"><%= phase.wip_limit %></span>
-            </th>
+<table class="board">
+  <thead>
+    <tr>
+      <% @board.header.phases.each do |phase| -%>
+        <th colspan="<%= phase.state_size %>">
+          <%= phase.name %>&nbsp;<span class="badge-error"><%= phase.wip_limit %></span>
+        </th>
+      <% end -%>
+    </tr>
+    <tr>
+      <% @board.header.phase_states.each do |phase_state| -%>
+        <th><%= phase_state.name %></th>
+      <% end -%>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <% @board.header.phase_states.each do |state| -%>
+        <td style="vertical-align: top">
+          <% @board.body.cards(state.phase_name, state.name).each do |card| -%>
+            <div class="card">
+              <p>#<%= card.id %></p>
+              <h3><%= card.summary %></h3>
+            </div>
           <% end -%>
-        </tr>
-        <tr>
-          <% @board.header.phase_states.each do |phase_state| -%>
-            <th><%= phase_state.name %></th>
-          <% end -%>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <% @board.header.phase_states.each do |state| -%>
-            <td style="vertical-align: top">
-              <% @board.body.cards(state.phase_name, state.name).each do |card| -%>
-                <div class="card">
-                  <p>#<%= card.id %></p>
-                  <h3><%= card.summary %></h3>
-                </div>
-              <% end -%>
-            </td>
-          <% end -%>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</section>
+        </td>
+      <% end -%>
+    </tr>
+  </tbody>
+</table>
