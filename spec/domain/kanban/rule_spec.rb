@@ -12,7 +12,8 @@ module Kanban
         Workflow([
           { phase: 'Todo', wip_limit: 2 },
           { phase: 'Dev', transition: ['Doing', 'Review', 'Done'], wip_limit: 2 },
-          { phase: 'QA', transition: ['Doing', 'Done'], wip_limit: 1 }
+          { phase: 'QA', wip_limit: 1 },
+          { phase: 'Deploy' }
         ])
       end
 
@@ -31,9 +32,14 @@ module Kanban
         it { is_expected.to eq(Position('Dev', 'Done')) }
       end
 
-      context '' do
+      context 'Dev:Done' do
         let(:current_position) { Position('Dev', 'Done') }
-        it { is_expected.to eq(Position('QA', 'Doing')) }
+        it { is_expected.to eq(Position('QA', nil)) }
+      end
+
+      context 'QA' do
+        let(:current_position) { Position('QA', nil) }
+        it { is_expected.to eq(Position('Deploy', nil)) }
       end
     end
   end

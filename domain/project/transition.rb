@@ -47,12 +47,20 @@ module Project
         @state = State::None.new
       end
 
-      def none?
+      def first
+        @state
+      end
+
+      def next(state)
+        raise 'Transition::None'
+      end
+
+      def last?(state)
         true
       end
 
-      def first
-        @state
+      def none?
+        true
       end
 
       def eql?(other)
