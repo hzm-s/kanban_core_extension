@@ -1,4 +1,4 @@
-class ForwardCardForm
+class ForwardCardCommand
   include ActiveModel::Model
 
   attr_accessor :project_id_str, :feature_id_str, :position_phase_name, :position_state_name
@@ -29,7 +29,7 @@ class ForwardCardForm
     Kanban::Position.new(phase, state)
   end
 
-  def prefer(service)
+  def execute(service)
     service.forward_card(project_id, feature_id, current_position)
   rescue Kanban::WipLimitReached
     errors.add(:base, 'WIP制限です。')

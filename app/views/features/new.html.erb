@@ -1,10 +1,10 @@
 <header class="page">
-  <h2>新しい「機能」を追加します。</h2>
+  <h2>新しい「機能」をバックログに追加します。</h2>
 </header>
 <section class="container">
   <div class="wrapper">
     <fieldset>
-      <%= simple_form_for @form, url: features_url do |f| %>
+      <%= simple_form_for @command, url: features_url do |f| %>
         <%= f.hidden_field :project_id_str %>
         <%= f.input :summary %>
         <%= f.input :detail, as: :text, input_html: { rows: 5 } %>

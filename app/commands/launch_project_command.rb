@@ -1,4 +1,4 @@
-class LaunchProjectForm
+class LaunchProjectCommand
   include ActiveModel::Model
 
   attr_accessor :name, :goal, :kickstart
@@ -15,7 +15,9 @@ class LaunchProjectForm
     Project::Description.new(self.name, self.goal)
   end
 
-  def prefer(service)
+  def execute(service)
+    return false unless valid?
+
     if kickstart
       service.launch_with_workflow(description, kickstart_workflow)
     else

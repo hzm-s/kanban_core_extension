@@ -1,4 +1,4 @@
-class AddCardForm
+class AddCardCommand
   include ActiveModel::Model
 
   attr_accessor :project_id_str, :feature_id_str
@@ -14,7 +14,7 @@ class AddCardForm
     Feature::FeatureId.new(feature_id_str)
   end
 
-  def prefer(service)
+  def execute(service)
     return false unless valid?
 
     service.add_card(project_id, feature_id)

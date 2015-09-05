@@ -25,8 +25,8 @@ module View
 
     class Feature < SimpleDelegator
 
-      def add_card_form
-        AddCardForm.new(
+      def add_card_command
+        AddCardCommand.new(
           project_id_str: project_id_str,
           feature_id_str: feature_id_str
         )

@@ -1,4 +1,4 @@
-class AddFeatureForm
+class AddFeatureCommand
   include ActiveModel::Model
 
   attr_accessor :project_id_str, :summary, :detail
@@ -14,7 +14,8 @@ class AddFeatureForm
     Feature::Description.new(summary, detail)
   end
 
-  def prefer(service)
+  def execute(service)
+    return false unless valid?
     service.add(project_id, description)
   end
 end
