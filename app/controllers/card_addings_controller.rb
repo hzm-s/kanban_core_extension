@@ -12,9 +12,6 @@ class CardAddingsController < ApplicationController
   private
 
     def service
-      BoardService.new(
-        ProjectRepository.new,
-        BoardRepository.new
-      )
+      BoardService.new(ProjectRepository.new, BoardRepository.new)
     end
 end
