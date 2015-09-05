@@ -1,6 +1,8 @@
-<header class="main">
-  <h1><%= @backlog.project_name %></h1>
-  <%= link_to 'Add feature', new_feature_url(project_id_str: params[:project_id_str]) %>
+<header class="page">
+  <h2><%= link_to @backlog.project_name, projects_url %> : Backlog</h2>
+  <nav>
+    <%= link_to 'Add feature', new_feature_url(project_id_str: @backlog.project_id_str) %>
+  </nav>
 </header>
 <section class="container">
   <div class="wrapper">
@@ -16,10 +18,15 @@
       <tbody>
         <% @backlog.features.each do |feature| %>
           <tr>
-            <td><%= feature.feature_id %></td>
+            <td><%= feature.id %></td>
             <td><%= feature.summary %></td>
             <td><%= feature.detail %></td>
             <td>
+              <%= form_for feature.add_card_form, url: card_addings_url do |f| %>
+                <%= f.hidden_field :project_id_str %>
+                <%= f.hidden_field :feature_id_str %>
+                <%= f.submit 'Todo', disabled: @can_add_to_board ? false : true %>
+              <% end -%>
             </td>
           </tr>
         <% end -%>

@@ -1,39 +1,36 @@
 module View
-  module BoardBody
+  BoardBody = Struct.new(:map) do
 
-    def self.build
-      stages = 1.upto(7).map {|n| Stage.build(n) }
-      StageList.new(stages)
+    def self.build(card_hashes)
+      map = card_hashes.each_with_object({}) do |card_hash, map|
+        feature_card = FeatureCard.new(card_hash)
+
+        key = [feature_card.phase_name, feature_card.state_name]
+        if map.key?(key)
+          map[key] << feature_card
+        else
+          map[key] = [feature_card]
+        end
+      end
+
+      new(map)
     end
 
-    StageList = Struct.new(:stages) do
-
-      def stage_size
-        stages.size
-      end
+    def cards(phase_name, state_name)
+      map[[phase_name, state_name]] || []
     end
 
-    Stage = Struct.new(:cards) do
+    FeatureCard = Struct.new(:id, :feature_id_str, :phase_name, :state_name, :summary, :detail) do
 
-      def self.build(n)
-        card_size = (1..5).to_a.sample
-        cards = 1.upto(card_size).map {|m| Card.new(n, m) }
-        new(cards)
-      end
-    end
-
-    Card = Struct.new(:state_num, :card_num) do
-
-      def full_num
-        "#{state_num}-#{card_num}"
-      end
-
-      def id
-        "##{full_num}"
-      end
-
-      def summary
-        "機能の概要#{full_num}"
+      def initialize(hash)
+        super(
+          hash['id'],
+          hash['feature_id_str'],
+          hash['position_phase_name'],
+          hash['position_state_name'] || '',
+          hash['description_summary'],
+          hash['description_detail']
+        )
       end
     end
   end

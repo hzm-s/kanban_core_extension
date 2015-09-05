@@ -1,9 +1,16 @@
+.board-container {
+  margin: auto 0em;
+  padding: auto 0em;
+}
+
 table.board {
   $base-border-color: gainsboro !default;
   $base-line-height: 1.5em !default;
   $base-spacing: 1.5em !default;
   $base-accent-color: #477DCA !default;
   $base-padding: 0.35em !default;
+
+  font-size: 0.8em;
 
   th {
     text-align: center;
@@ -54,6 +61,7 @@ table.board {
     border: 1px solid $table-border-color;
     padding: $base-padding 0.75em;
     margin-bottom: $base-padding;
+    min-height: 10em;
 
     &:last-child {
       margin-bottom: 0em;
