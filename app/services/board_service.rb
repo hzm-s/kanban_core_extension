@@ -15,6 +15,16 @@ class BoardService
     @board_repository.store(board)
   end
 
+  def forward_card(project_id, feature_id, current_position)
+    project = @project_repository.find(project_id)
+    board = @board_repository.find(project_id)
+
+    rule = Kanban::Rule.new(project.workflow)
+    board.forward_card(feature_id, current_position, rule)
+
+    @board_repository.store(board)
+  end
+
   def pull_card(project_id, feature_id, from, to)
     project = @project_repository.find(project_id)
     board = @board_repository.find(project_id)

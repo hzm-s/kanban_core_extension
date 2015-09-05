@@ -18,6 +18,10 @@ module Project
       @phase_specs.first.first_situation
     end
 
+    def next_situation(current_situation)
+      @phase_specs[index(current_situation.phase) + 1].first_situation
+    end
+
     def correct_transition?(from, to)
       return false unless from.same_phase?(to)
       retrieve(from.phase).correct_transition?(from, to)

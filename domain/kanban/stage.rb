@@ -14,6 +14,16 @@ module Kanban
       card.locate_to(to, self)
     end
 
+    def forward_card(feature_id, current_position, rule)
+      card = retrieve_card(feature_id)
+      raise CardNotFound unless card.locate?(current_position)
+
+      next_position = rule.next_position(card.position)
+      raise WipLimitReached unless rule.can_put_card?(next_position.phase, card_count(next_position.phase))
+
+      card.locate_to(next_position, self)
+    end
+
     def pull_card(feature_id, from, to, rule)
       raise Project::OutOfWorkflow unless rule.valid_positions_for_pull?(from, to)
       raise CardNotFound unless card = get_card_from(from, feature_id)

@@ -13,6 +13,10 @@ module Kanban
       stage.put(self)
     end
 
+    def locate?(other_position)
+      position == other_position
+    end
+
     def same_phase?(phase)
       position.phase == phase
     end
