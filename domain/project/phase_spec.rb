@@ -8,18 +8,6 @@ module Project
       @wip_limit = wip_limit
     end
 
-    def reach_wip_limit?(wip)
-      @wip_limit.reach?(wip)
-    end
-
-    def correct_transition?(before, after)
-      @transition.partial?(before.state, after.state)
-    end
-
-    def transit?
-      !@transition.none?
-    end
-
     def next_situation(current_situation, next_phase_spec)
       return next_phase_spec.first_situation unless transit?
       return next_phase_spec.first_situation if @transition.last?(current_situation.state)
@@ -28,6 +16,14 @@ module Project
 
     def first_situation
       Situation.new(@phase, @transition.first)
+    end
+
+    def reach_wip_limit?(wip)
+      @wip_limit.reach?(wip)
+    end
+
+    def transit?
+      !@transition.none?
     end
 
     def to_h
