@@ -10,6 +10,9 @@
   <div class="board-container-wrapper">
     <%= render 'layouts/navigation' %>
     <%= render 'layouts/flashes' %>
+    <header class="page">
+    <h2><%= link_to @board.project_name, projects_url %> : Board</h2>
+    </header>
     <div class="board-container">
       <%= yield %>
     </div>
