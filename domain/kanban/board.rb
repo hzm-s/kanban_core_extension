@@ -8,6 +8,10 @@ module Kanban
       self.project_id = a_project_id
     end
 
+    def forward_card(feature_id, current_position, rule)
+      stage.forward_card(feature_id, current_position, rule)
+    end
+
     def add_card(feature_id, rule)
       card = Card.write(feature_id)
       stage.add_card(card, rule)

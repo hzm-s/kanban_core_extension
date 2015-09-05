@@ -6,13 +6,16 @@ module Project
       @states = states
     end
 
-    def partial?(before_state, after_state)
-      before_index = @states.index(before_state)
-      @states[before_index + 1] == after_state
-    end
-
     def first
       @states.first
+    end
+
+    def next(state)
+      @states[@states.index(state) + 1]
+    end
+
+    def last?(state)
+      @states.last == state
     end
 
     def none?
@@ -44,12 +47,20 @@ module Project
         @state = State::None.new
       end
 
-      def none?
+      def first
+        @state
+      end
+
+      def next(state)
+        raise 'Transition::None'
+      end
+
+      def last?(state)
         true
       end
 
-      def first
-        @state
+      def none?
+        true
       end
 
       def eql?(other)

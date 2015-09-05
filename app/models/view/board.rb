@@ -23,7 +23,7 @@ module View
 
         def body(project_id_str)
           cards = CardRecord.with_feature(project_id_str)
-          View::BoardBody.build(cards)
+          View::BoardBody.build(project_id_str, cards)
         end
     end
 

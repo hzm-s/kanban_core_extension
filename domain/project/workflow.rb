@@ -1,31 +1,18 @@
 module Project
-  class OutOfWorkflow < StandardError; end
-
   class Workflow
 
     def initialize(phase_specs)
       @phase_specs = phase_specs
     end
 
-    def build_board_with(board_builder)
-      @phase_specs.each do |phase_spec|
-        board_builder.add_stage(phase_spec)
-      end
-      board_builder.board
-    end
-
     def first_situation
       @phase_specs.first.first_situation
     end
 
-    def correct_transition?(from, to)
-      return false unless from.same_phase?(to)
-      retrieve(from.phase).correct_transition?(from, to)
-    end
-
-    def correct?(from, to)
-      return false if from.same_phase?(to)
-      @phase_specs[index(from.phase) + 1].phase == to.phase
+    def next_situation(current_situation)
+      current_phase_spec = retrieve(current_situation.phase)
+      next_phase_spec = next_of(current_phase_spec)
+      current_phase_spec.next_situation(current_situation, next_phase_spec)
     end
 
     def reach_wip_limit?(phase, wip)
@@ -55,8 +42,8 @@ module Project
         @phase_specs.detect {|ps| ps.phase == phase }
       end
 
-      def index(phase)
-        @phase_specs.index {|ps| ps.phase == phase }
+      def next_of(current)
+        @phase_specs[@phase_specs.index(current) + 1]
       end
   end
 end

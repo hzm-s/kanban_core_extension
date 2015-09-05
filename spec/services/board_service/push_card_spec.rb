@@ -21,20 +21,6 @@ describe 'push card' do
       ])
     end
 
-    context 'card is NOT locate to FROM position' do
-      it do
-        feature_id = FeatureId('feat_1')
-        service.add_card(project_id, feature_id)
-
-        expect {
-          service.push_card(project_id, feature_id,
-            Position('Dev', 'Review'),
-            Position('Dev', 'Done')
-          )
-        }.to raise_error(Kanban::CardNotFound)
-      end
-    end
-
     context '1 => 2' do
       it do
         feature_id = FeatureId('feat_1')
@@ -42,7 +28,7 @@ describe 'push card' do
 
         from = Position('Dev', 'Doing')
         to = Position('Dev', 'Review')
-        service.push_card(project_id, feature_id, from, to)
+        service.forward_card(project_id, feature_id, from)
 
         board = board_repository.find(project_id)
         expect(board.get_card(feature_id).position).to eq(to)
@@ -53,42 +39,40 @@ describe 'push card' do
       it do
         feature_id = FeatureId('feat_1')
         service.add_card(project_id, feature_id)
-        service.push_card(project_id, feature_id, Position('Dev', 'Doing'), Position('Dev', 'Review'))
+        service.forward_card(project_id, feature_id, Position('Dev', 'Doing'))
 
         from = Position('Dev', 'Review')
         to = Position('Dev', 'Done')
-        service.push_card(project_id, feature_id, from, to)
+        service.forward_card(project_id, feature_id, from)
 
         board = board_repository.find(project_id)
         expect(board.get_card(feature_id).position).to eq(to)
       end
     end
 
-    context '1 => 3' do
+    context 'Any cards (WipLimit) on same PHASE' do
       it do
         feature_id = FeatureId('feat_1')
+        service.add_card(project_id, FeatureId('feat_7'))
         service.add_card(project_id, feature_id)
 
         from = Position('Dev', 'Doing')
-        to = Position('Dev', 'Done')
-        expect {
-          service.push_card(project_id, feature_id, from, to)
-        }.to raise_error(Project::OutOfWorkflow)
+        to = Position('Dev', 'Review')
+        service.forward_card(project_id, feature_id, from)
+
+        board = board_repository.find(project_id)
+        expect(board.get_card(feature_id).position).to eq(to)
       end
     end
 
-    context '3 => next phase' do
+    context 'card is NOT locate to FROM position' do
       it do
         feature_id = FeatureId('feat_1')
         service.add_card(project_id, feature_id)
-        service.push_card(project_id, feature_id, Position('Dev', 'Doing'), Position('Dev', 'Review'))
-        service.push_card(project_id, feature_id, Position('Dev', 'Review'), Position('Dev', 'Done'))
 
-        from = Position('Dev', 'Done')
-        to = Position('Other', nil)
         expect {
-          service.push_card(project_id, feature_id, from, to)
-        }.to raise_error(Project::OutOfWorkflow)
+          service.forward_card(project_id, feature_id, Position('Dev', 'Review'))
+        }.to raise_error(Kanban::CardNotFound)
       end
     end
   end
