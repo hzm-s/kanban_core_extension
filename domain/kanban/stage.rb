@@ -19,23 +19,20 @@ module Kanban
       raise CardNotFound unless card.locate?(current_position)
 
       next_position = rule.next_position(card.position)
-      raise WipLimitReached unless rule.can_put_card?(next_position.phase, card_count(next_position.phase))
 
-      card.locate_to(next_position, self)
+      if current_position.same_phase?(next_position)
+        push_card(card, next_position)
+      else
+        pull_card(card, next_position, rule)
+      end
     end
 
-    def pull_card(feature_id, from, to, rule)
-      raise Project::OutOfWorkflow unless rule.valid_positions_for_pull?(from, to)
-      raise CardNotFound unless card = get_card_from(from, feature_id)
-      raise WipLimitReached unless rule.can_put_card?(to.phase, card_count(to.phase))
-
+    def push_card(card, to)
       card.locate_to(to, self)
     end
 
-    def push_card(feature_id, from, to, rule)
-      raise Project::OutOfWorkflow unless rule.valid_positions_for_push?(from, to)
-      raise CardNotFound unless card = get_card_from(from, feature_id)
-
+    def pull_card(card, to, rule)
+      raise WipLimitReached unless rule.can_put_card?(to.phase, card_count(to.phase))
       card.locate_to(to, self)
     end
 

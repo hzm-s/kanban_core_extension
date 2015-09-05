@@ -2,6 +2,16 @@ require 'rails_helper'
 
 module Kanban
   describe 'save Board as active record' do
+    let(:rule) do
+      Rule.new(
+        Workflow([
+          { phase: 'Todo' },
+          { phase: 'Dev', transition: ['Doing', 'Done'], wip_limit: 2 },
+          { phase: 'QA', wip_limit: 1 }
+        ])
+      )
+    end
+
     before do
       Board.new.tap do |board|
         board.prepare(Project::ProjectId.new('prj_789'))
@@ -12,37 +22,12 @@ module Kanban
         board.add_card(FeatureId('feat_300'), rule)
         board.save!
 
-        board.pull_card(
-          FeatureId('feat_200'),
-          Position('Todo', nil),
-          Position('Dev', 'Doing'),
-          rule
-        )
-        board.pull_card(
-          FeatureId('feat_300'),
-          Position('Todo', nil),
-          Position('Dev', 'Doing'),
-          rule
-        )
+        board.forward_card(FeatureId('feat_200'), Position('Todo', nil), rule)
+        board.forward_card(FeatureId('feat_300'), Position('Todo', nil), rule)
 
-        board.push_card(
-          FeatureId('feat_300'),
-          Position('Dev', 'Doing'),
-          Position('Dev', 'Done'),
-          rule
-        )
+        board.forward_card(FeatureId('feat_300'), Position('Dev', 'Doing'), rule)
         board.save!
       end
-    end
-
-    let(:rule) do
-      Rule.new(
-        Workflow([
-          { phase: 'Todo' },
-          { phase: 'Dev', transition: ['Doing', 'Done'], wip_limit: 2 },
-          { phase: 'QA', wip_limit: 1 }
-        ])
-      )
     end
 
     let(:board_record) { Kanban::Board.last }

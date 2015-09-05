@@ -11,6 +11,10 @@ module Kanban
       [@phase, @state]
     end
 
+    def same_phase?(other)
+      self.to_a[0] == other.to_a[0]
+    end
+
     def eql?(other)
       self == other
     end
