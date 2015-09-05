@@ -24,5 +24,9 @@ module Kanban
     def get_card(feature_id)
       stage.retrieve_card(feature_id)
     end
+
+    def count_card_by_phase(phase)
+      stage.card_count(phase)
+    end
   end
 end

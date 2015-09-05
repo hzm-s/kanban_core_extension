@@ -15,6 +15,7 @@ module View
                    .order(:id)
                    .reject {|r| added_features.include?(r.feature_id_str) }
                    .map {|r| Feature.new(r) }
+
       new(
         project.project_id_str,
         project.name,
@@ -23,10 +24,6 @@ module View
     end
 
     class Feature < SimpleDelegator
-
-      def initialize(record)
-        super(record)
-      end
 
       def add_card_form
         AddCardForm.new(

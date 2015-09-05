@@ -25,7 +25,7 @@
               <%= form_for feature.add_card_form, url: card_addings_url do |f| %>
                 <%= f.hidden_field :project_id_str %>
                 <%= f.hidden_field :feature_id_str %>
-                <%= f.submit 'Todo' %>
+                <%= f.submit 'Todo', disabled: @can_add_to_board ? false : true %>
               <% end -%>
             </td>
           </tr>
