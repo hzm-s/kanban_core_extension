@@ -20,6 +20,12 @@ module Project
       !@transition.none?
     end
 
+    def next_situation(current_situation, next_phase_spec)
+      return next_phase_spec.first_situation unless transit?
+      return next_phase_spec.first_situation if @transition.last?(current_situation.state)
+      Situation.new(@phase, @transition.next(current_situation.state))
+    end
+
     def first_situation
       Situation.new(@phase, @transition.first)
     end

@@ -15,6 +15,14 @@ module Project
       @states.first
     end
 
+    def next(state)
+      @states[@states.index(state) + 1]
+    end
+
+    def last?(state)
+      @states.last == state
+    end
+
     def none?
       false
     end

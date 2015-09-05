@@ -19,7 +19,9 @@ module Project
     end
 
     def next_situation(current_situation)
-      @phase_specs[index(current_situation.phase) + 1].first_situation
+      current_phase_spec = retrieve(current_situation.phase)
+      next_phase_spec = @phase_specs[index(current_situation.phase) + 1]
+      current_phase_spec.next_situation(current_situation, next_phase_spec)
     end
 
     def correct_transition?(from, to)
