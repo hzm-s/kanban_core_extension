@@ -7,11 +7,7 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <div class="header-container">
-    <header>
-      <h1 class="brand"><%= link_to '|---|---|---|', root_url %></h1>
-    </header>
-  </div>
+  <%= render 'layouts/navigation' %>
   <div class="container">
     <%= render 'layouts/flashes' %>
   </div>

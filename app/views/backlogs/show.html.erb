@@ -1,5 +1,6 @@
+<% content_for(:project_name) { @backlog.project_name } %>
 <header class="page">
-  <h2><%= @backlog.project_name %></h2>
+  <h2>Backlog</h2>
   <nav>
     <%= link_to 'Add feature', new_feature_url(project_id_str: @backlog.project_id_str) %>
   </nav>

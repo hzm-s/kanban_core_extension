@@ -8,15 +8,8 @@
 </head>
 <body>
   <div class="board-container-wrapper">
-    <div class="header-container">
-      <header>
-        <h1 class="brand"><%= link_to "|---|---|---|", root_url %></h1>
-      </header>
-    </div>
+    <%= render 'layouts/navigation' %>
     <%= render 'layouts/flashes' %>
-    <header class="page">
-      <h2><%= @board.project_name %></h2>
-    </header>
     <div class="board-container">
       <%= yield %>
     </div>

@@ -12,6 +12,14 @@ body {
 
   header {
     @include outer-container;
+
+    h1 {
+      @include span-columns(2);
+    }
+
+    h2 {
+      @include span-columns(10);
+    }
   }
 }
 
