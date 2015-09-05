@@ -19,7 +19,6 @@ module Kanban
       raise CardNotFound unless card.locate?(current_position)
 
       next_position = rule.next_position(card.position)
-
       if current_position.same_phase?(next_position)
         push_card(card, next_position)
       else
@@ -34,12 +33,6 @@ module Kanban
     def pull_card(card, to, rule)
       raise WipLimitReached unless rule.can_put_card?(to.phase, card_count(to.phase))
       card.locate_to(to, self)
-    end
-
-    def get_card_from(position, feature_id)
-      card = retrieve_card(feature_id)
-      return card if card.position == position
-      nil
     end
 
     def card_count(phase)
