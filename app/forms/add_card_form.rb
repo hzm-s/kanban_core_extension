@@ -15,6 +15,14 @@ class AddCardForm
   end
 
   def prefer(service)
+    return false unless valid?
+
     service.add_card(project_id, feature_id)
+
+  rescue Kanban::WipLimitReached
+    errors.add(:base, 'WIP制限です。')
+    false
+  else
+    true
   end
 end
