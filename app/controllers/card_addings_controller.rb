@@ -8,10 +8,4 @@ class CardAddingsController < ApplicationController
       redirect_to backlog_url(command.project_id_str), alert: form.errors.full_messages.join('<br>')
     end
   end
-
-  private
-
-    def board_service
-      BoardService.new(ProjectRepository.new, BoardRepository.new)
-    end
 end

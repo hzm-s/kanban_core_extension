@@ -10,8 +10,4 @@ class BacklogsController < ApplicationController
     def project_id
       Project::ProjectId.new(params[:project_id_str])
     end
-
-    def board_service
-      BoardService.new(ProjectRepository.new, BoardRepository.new)
-    end
 end

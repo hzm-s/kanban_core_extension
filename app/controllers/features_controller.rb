@@ -15,10 +15,4 @@ class FeaturesController < ApplicationController
       render :new
     end
   end
-
-  private
-
-    def feature_service
-      FeatureService.new(FeatureRepository.new)
-    end
 end

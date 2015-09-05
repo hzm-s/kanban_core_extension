@@ -13,13 +13,4 @@ class ProjectLaunchingsController < ApplicationController
       render :new
     end
   end
-
-  private
-
-    def project_service
-      ProjectService.new(
-        ProjectRepository.new,
-        Kanban::BoardBuilder.new(BoardRepository.new)
-      )
-    end
 end

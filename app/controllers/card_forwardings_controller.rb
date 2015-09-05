@@ -8,10 +8,4 @@ class CardForwardingsController < ApplicationController
       redirect_to board_url(command.project_id_str), alert: command.errors.full_messages.join('<br>')
     end
   end
-
-  private
-
-    def board_service
-      BoardService.new(ProjectRepository.new, BoardRepository.new)
-    end
 end
