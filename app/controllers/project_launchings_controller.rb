@@ -1,13 +1,12 @@
 class ProjectLaunchingsController < ApplicationController
 
   def new
-    @form = LaunchProjectForm.new
+    @command = LaunchProjectCommand.new
   end
 
   def create
-    @form = LaunchProjectForm.new(params[:launch_project_form])
-    if @form.valid?
-      @form.prefer(service)
+    @command = LaunchProjectCommand.new(params[:launch_project_command])
+    if @command.execute(project_service)
       redirect_to root_url, notice: 'Project has launched!'
     else
       flash.now[:alert] = 'Ooops!'
@@ -17,7 +16,7 @@ class ProjectLaunchingsController < ApplicationController
 
   private
 
-    def service
+    def project_service
       ProjectService.new(
         ProjectRepository.new,
         Kanban::BoardBuilder.new(BoardRepository.new)

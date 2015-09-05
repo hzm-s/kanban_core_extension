@@ -13,8 +13,8 @@ module View
       )
     end
 
-    def forward_card_form
-      ForwardCardForm.new(
+    def forward_card_command
+      ForwardCardCommand.new(
         project_id_str: project_id_str,
         feature_id_str: feature_id_str,
         position_phase_name: position_phase_name,

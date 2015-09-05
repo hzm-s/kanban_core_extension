@@ -22,7 +22,7 @@
               <p>#<%= card.id %></p>
               <h3><%= card.summary %></h3>
               <p><%= card.detail.gsub(/\r\n|\n|\r/, '<br>').html_safe %></p>
-              <%= form_for card.forward_card_form, url: card_forwardings_url do |f| -%>
+              <%= form_for card.forward_card_command, url: card_forwardings_url do |f| -%>
                 <%= f.hidden_field :project_id_str -%>
                 <%= f.hidden_field :feature_id_str -%>
                 <%= f.hidden_field :position_phase_name -%>
