@@ -14,7 +14,9 @@ module Kanban
     end
 
     def forward_card(feature_id, current_stage, rule)
-      board_stages.forward_card(feature_id, current_stage, rule)
+      from = board_stage(current_stage)
+      to = board_stage(rule.next_stage(current_stage))
+      from.forward_card(feature_id, to, rule)
     end
 
     def staged_card(stage)

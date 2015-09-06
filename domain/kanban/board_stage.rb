@@ -1,16 +1,32 @@
 module Kanban
+  class CardNotFound < StandardError; end
+
   class BoardStage
     attr_reader :cards
 
-    def initialize(cards)
+    def initialize(stage, cards)
+      @stage = stage
       @cards = cards
     end
 
     def add_card(card, rule)
-      stage = rule.initial_stage
-      raise WipLimitReached unless rule.can_put_card?(stage.phase, @cards.size)
+      raise WipLimitReached unless rule.can_put_card?(@stage.phase, @cards.size)
+      card.locate_to(@stage, self)
+    end
 
-      card.locate_to(stage, self)
+    def forward_card(feature_id, to, rule)
+      raise CardNotFound unless contain?(feature_id)
+      card = @cards.find_by(feature_id_str: feature_id.to_s)
+      to.pull_card(card, rule)
+    end
+
+    def pull_card(card, rule)
+      raise WipLimitReached unless rule.can_put_card?(@stage.phase, @cards.size)
+      card.locate_to(@stage, self)
+    end
+
+    def contain?(feature_id)
+      @cards.include?(feature_id)
     end
 
     # for AR::Association

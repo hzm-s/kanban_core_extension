@@ -6,7 +6,7 @@ module Kanban
     end
 
     def retrieve(stage)
-      BoardStage.new(staged_cards(stage))
+      BoardStage.new(stage, staged_cards(stage))
     end
 
     private

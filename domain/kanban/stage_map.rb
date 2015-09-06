@@ -1,5 +1,4 @@
 module Kanban
-  class CardNotFound < StandardError; end
 
   class StageMap
 
