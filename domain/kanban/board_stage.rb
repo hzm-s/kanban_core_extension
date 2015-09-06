@@ -15,15 +15,28 @@ module Kanban
       card.locate_to(@stage, self)
     end
 
-    def forward_card(feature_id, to, rule)
+    def fetch_card(feature_id)
+      raise CardNotFound unless contain?(feature_id)
+      @cards.find_by(feature_id_str: feature_id.to_s)
+    end
+
+    def move_card(feature_id, to)
       raise CardNotFound unless contain?(feature_id)
       card = @cards.find_by(feature_id_str: feature_id.to_s)
-      to.pull_card(card, rule)
+      card.locate_to(to)
     end
 
     def pull_card(card, rule)
       raise WipLimitReached unless rule.can_put_card?(@stage.phase, @cards.size)
       card.locate_to(@stage, self)
+    end
+
+    def push_card(card)
+      card.locate_to(@stage, self)
+    end
+
+    def phase
+      @stage.phase
     end
 
     # for AR::Association

@@ -20,7 +20,8 @@ class BoardService
     board = @board_repository.find(project_id)
 
     rule = Kanban::Rule.new(project.workflow)
-    board.forward_card(feature_id, current_stage, rule)
+    card_forwarding = Kanban::CardForwarding.detect(current_stage, rule)
+    board.update_with(feature_id, card_forwarding)
 
     @board_repository.store(board)
   end

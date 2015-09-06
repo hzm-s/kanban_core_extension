@@ -88,7 +88,7 @@ describe 'pull card' do
       end
     end
 
-    context 'wip = 2' do
+    context 'wip = 2 (Doing:2, Done:0)' do
       before do
         other1 = FeatureId('feat_other1')
         other2 = FeatureId('feat_other2')
@@ -96,6 +96,28 @@ describe 'pull card' do
         service.add_card(project_id, other2)
         service.forward_card(project_id, other1, Stage('Todo'))
         service.forward_card(project_id, other2, Stage('Todo'))
+      end
+
+      it do
+        feature_id = FeatureId('feat_1')
+        service.add_card(project_id, feature_id)
+
+        from = Stage('Todo')
+        expect {
+          service.forward_card(project_id, feature_id, from)
+        }.to raise_error(Kanban::WipLimitReached)
+      end
+    end
+
+    context 'wip = 2 (Doing:1, Done:1)' do
+      before do
+        other1 = FeatureId('feat_other1')
+        other2 = FeatureId('feat_other2')
+        service.add_card(project_id, other1)
+        service.add_card(project_id, other2)
+        service.forward_card(project_id, other1, Stage('Todo'))
+        service.forward_card(project_id, other2, Stage('Todo'))
+        service.forward_card(project_id, other1, Stage('Dev', 'Doing'))
       end
 
       it do
