@@ -1,13 +1,13 @@
 module View
-  FeatureCard = Struct.new(:project_id_str, :id, :feature_id_str, :position_phase_name, :position_state_name, :summary, :detail) do
+  FeatureCard = Struct.new(:project_id_str, :id, :feature_id_str, :stage_phase_name, :stage_state_name, :summary, :detail) do
 
     def initialize(project_id_str, hash)
       super(
         project_id_str,
         hash['id'],
         hash['feature_id_str'],
-        hash['position_phase_name'],
-        hash['position_state_name'] || '',
+        hash['stage_phase_name'],
+        hash['stage_state_name'] || '',
         hash['description_summary'],
         hash['description_detail']
       )
@@ -17,8 +17,8 @@ module View
       ForwardCardCommand.new(
         project_id_str: project_id_str,
         feature_id_str: feature_id_str,
-        position_phase_name: position_phase_name,
-        position_state_name: position_state_name
+        stage_phase_name: stage_phase_name,
+        stage_state_name: stage_state_name
       )
     end
   end

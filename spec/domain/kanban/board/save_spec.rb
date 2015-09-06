@@ -22,10 +22,10 @@ module Kanban
         board.add_card(FeatureId('feat_300'), rule)
         board.save!
 
-        board.forward_card(FeatureId('feat_200'), Position('Todo', nil), rule)
-        board.forward_card(FeatureId('feat_300'), Position('Todo', nil), rule)
+        board.forward_card(FeatureId('feat_200'), Stage('Todo', nil), rule)
+        board.forward_card(FeatureId('feat_300'), Stage('Todo', nil), rule)
 
-        board.forward_card(FeatureId('feat_300'), Position('Dev', 'Doing'), rule)
+        board.forward_card(FeatureId('feat_300'), Stage('Dev', 'Doing'), rule)
         board.save!
       end
     end
@@ -42,13 +42,13 @@ module Kanban
         board_record.cards.where(feature_id_str: 'feat_100').first
       end
 
-      describe 'position_phase_name' do
-        subject { card_record.position_phase_name }
+      describe 'stage_phase_name' do
+        subject { card_record.stage_phase_name }
         it { is_expected.to eq('Todo') }
       end
 
-      describe 'position_state_name' do
-        subject { card_record.position_state_name }
+      describe 'stage_state_name' do
+        subject { card_record.stage_state_name }
         it { is_expected.to be_nil }
       end
     end
@@ -58,13 +58,13 @@ module Kanban
         board_record.cards.where(feature_id_str: 'feat_200').first
       end
 
-      describe 'position_phase_name' do
-        subject { card_record.position_phase_name }
+      describe 'stage_phase_name' do
+        subject { card_record.stage_phase_name }
         it { is_expected.to eq('Dev') }
       end
 
-      describe 'position_state_name' do
-        subject { card_record.position_state_name }
+      describe 'stage_state_name' do
+        subject { card_record.stage_state_name }
         it { is_expected.to eq('Doing') }
       end
     end
@@ -74,13 +74,13 @@ module Kanban
         board_record.cards.where(feature_id_str: 'feat_300').first
       end
 
-      describe 'position_phase_name' do
-        subject { card_record.position_phase_name }
+      describe 'stage_phase_name' do
+        subject { card_record.stage_phase_name }
         it { is_expected.to eq('Dev') }
       end
 
-      describe 'position_state_name' do
-        subject { card_record.position_state_name }
+      describe 'stage_state_name' do
+        subject { card_record.stage_state_name }
         it { is_expected.to eq('Done') }
       end
     end

@@ -6,13 +6,13 @@ module Kanban
       board_record = Board.new(project_id_str: 'prj_789')
       board_record.cards.build(
         feature_id_str: 'feat_100',
-        position_phase_name: 'Todo',
-        position_state_name: nil
+        stage_phase_name: 'Todo',
+        stage_state_name: nil
       )
       board_record.cards.build(
         feature_id_str: 'feat_200',
-        position_phase_name: 'Dev',
-        position_state_name: 'Doing'
+        stage_phase_name: 'Dev',
+        stage_state_name: 'Doing'
       )
       board_record.save!
     end
@@ -27,18 +27,18 @@ module Kanban
     describe 'Card for feat_100' do
       let(:card) { board.get_card(FeatureId('feat_100')) }
 
-      describe 'position' do
-        subject { card.position }
-        it { is_expected.to eq(Position('Todo', nil)) }
+      describe 'stage' do
+        subject { card.stage }
+        it { is_expected.to eq(Stage('Todo', nil)) }
       end
     end
 
     describe 'Card for feat_200' do
       let(:card) { board.get_card(FeatureId('feat_200')) }
 
-      describe 'position' do
-        subject { card.position }
-        it { is_expected.to eq(Position('Dev', 'Doing')) }
+      describe 'stage' do
+        subject { card.stage }
+        it { is_expected.to eq(Stage('Dev', 'Doing')) }
       end
     end
   end

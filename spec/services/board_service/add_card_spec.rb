@@ -24,7 +24,7 @@ describe 'add feature to board' do
       service.add_card(project_id, feature_id)
 
       board = board_repository.find(project_id)
-      expect(board.get_card(feature_id).position).to eq(Position('Todo', nil))
+      expect(board.get_card(feature_id).stage).to eq(Stage('Todo', nil))
     end
   end
 
@@ -40,7 +40,7 @@ describe 'add feature to board' do
         service.add_card(project_id, feature_id)
 
         board = board_repository.find(project_id)
-        expect(board.get_card(feature_id).position).to eq(Position('Todo', nil))
+        expect(board.get_card(feature_id).stage).to eq(Stage('Todo', nil))
       end
     end
 
@@ -53,7 +53,7 @@ describe 'add feature to board' do
         service.add_card(project_id, feature_id)
 
         board = board_repository.find(project_id)
-        expect(board.get_card(feature_id).position).to eq(Position('Todo', nil))
+        expect(board.get_card(feature_id).stage).to eq(Stage('Todo', nil))
       end
     end
 
@@ -82,7 +82,7 @@ describe 'add feature to board' do
       service.add_card(project_id, feature_id)
 
       board = board_repository.find(project_id)
-      expect(board.get_card(feature_id).position).to eq(Position('Todo', 'Check'))
+      expect(board.get_card(feature_id).stage).to eq(Stage('Todo', 'Check'))
     end
   end
 
@@ -100,7 +100,7 @@ describe 'add feature to board' do
         service.add_card(project_id, feature_id)
 
         board = board_repository.find(project_id)
-        expect(board.get_card(feature_id).position).to eq(Position('Todo', 'Check'))
+        expect(board.get_card(feature_id).stage).to eq(Stage('Todo', 'Check'))
       end
     end
 
@@ -113,7 +113,7 @@ describe 'add feature to board' do
         service.add_card(project_id, feature_id)
 
         board = board_repository.find(project_id)
-        expect(board.get_card(feature_id).position).to eq(Position('Todo', 'Check'))
+        expect(board.get_card(feature_id).stage).to eq(Stage('Todo', 'Check'))
       end
     end
 

@@ -26,12 +26,12 @@ describe 'push card' do
         feature_id = FeatureId('feat_1')
         service.add_card(project_id, feature_id)
 
-        from = Position('Dev', 'Doing')
-        to = Position('Dev', 'Review')
+        from = Stage('Dev', 'Doing')
+        to = Stage('Dev', 'Review')
         service.forward_card(project_id, feature_id, from)
 
         board = board_repository.find(project_id)
-        expect(board.get_card(feature_id).position).to eq(to)
+        expect(board.get_card(feature_id).stage).to eq(to)
       end
     end
 
@@ -39,14 +39,14 @@ describe 'push card' do
       it do
         feature_id = FeatureId('feat_1')
         service.add_card(project_id, feature_id)
-        service.forward_card(project_id, feature_id, Position('Dev', 'Doing'))
+        service.forward_card(project_id, feature_id, Stage('Dev', 'Doing'))
 
-        from = Position('Dev', 'Review')
-        to = Position('Dev', 'Done')
+        from = Stage('Dev', 'Review')
+        to = Stage('Dev', 'Done')
         service.forward_card(project_id, feature_id, from)
 
         board = board_repository.find(project_id)
-        expect(board.get_card(feature_id).position).to eq(to)
+        expect(board.get_card(feature_id).stage).to eq(to)
       end
     end
 
@@ -56,22 +56,22 @@ describe 'push card' do
         service.add_card(project_id, FeatureId('feat_7'))
         service.add_card(project_id, feature_id)
 
-        from = Position('Dev', 'Doing')
-        to = Position('Dev', 'Review')
+        from = Stage('Dev', 'Doing')
+        to = Stage('Dev', 'Review')
         service.forward_card(project_id, feature_id, from)
 
         board = board_repository.find(project_id)
-        expect(board.get_card(feature_id).position).to eq(to)
+        expect(board.get_card(feature_id).stage).to eq(to)
       end
     end
 
-    context 'card is NOT locate to FROM position' do
+    context 'card is NOT locate to FROM stage' do
       it do
         feature_id = FeatureId('feat_1')
         service.add_card(project_id, feature_id)
 
         expect {
-          service.forward_card(project_id, feature_id, Position('Dev', 'Review'))
+          service.forward_card(project_id, feature_id, Stage('Dev', 'Review'))
         }.to raise_error(Kanban::CardNotFound)
       end
     end

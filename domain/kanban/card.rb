@@ -8,17 +8,17 @@ module Kanban
       end
     end
 
-    def locate_to(a_position, stage)
-      self.position = a_position
+    def locate_to(a_stage, stage)
+      self.stage = a_stage
       stage.put(self)
     end
 
-    def locate?(other_position)
-      position == other_position
+    def locate?(other_stage)
+      stage == other_stage
     end
 
     def same_phase?(phase)
-      position.phase == phase
+      stage.phase == phase
     end
 
     def ==(other)

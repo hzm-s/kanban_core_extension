@@ -27,7 +27,7 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
-  config.include PositionCreator
+  config.include StageCreator
   config.include WorkflowCreator
   config.include ProjectCreator
   config.include FeatureCreator
