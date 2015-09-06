@@ -1,7 +1,7 @@
-module PositionCreator
+module StageCreator
 
-  def Position(phase_name, state_name)
-    Kanban::Position.new(
+  def Stage(phase_name, state_name)
+    Kanban::Stage.new(
       Phase(phase_name),
       State(state_name)
     )

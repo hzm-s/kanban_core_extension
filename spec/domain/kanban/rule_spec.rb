@@ -2,9 +2,9 @@ require 'rails_helper'
 
 module Kanban
   describe Rule do
-    describe '#next_position' do
+    describe '#next_stage' do
       subject do
-        rule.next_position(current_position)
+        rule.next_stage(current_stage)
       end
 
       let(:rule) { described_class.new(workflow) }
@@ -18,28 +18,28 @@ module Kanban
       end
 
       context 'Todo' do
-        let(:current_position) { Position('Todo', nil) }
-        it { is_expected.to eq(Position('Dev', 'Doing')) }
+        let(:current_stage) { Stage('Todo', nil) }
+        it { is_expected.to eq(Stage('Dev', 'Doing')) }
       end
 
       context 'Dev:Doing' do
-        let(:current_position) { Position('Dev', 'Doing') }
-        it { is_expected.to eq(Position('Dev', 'Review')) }
+        let(:current_stage) { Stage('Dev', 'Doing') }
+        it { is_expected.to eq(Stage('Dev', 'Review')) }
       end
 
       context 'Dev:Review' do
-        let(:current_position) { Position('Dev', 'Review') }
-        it { is_expected.to eq(Position('Dev', 'Done')) }
+        let(:current_stage) { Stage('Dev', 'Review') }
+        it { is_expected.to eq(Stage('Dev', 'Done')) }
       end
 
       context 'Dev:Done' do
-        let(:current_position) { Position('Dev', 'Done') }
-        it { is_expected.to eq(Position('QA', nil)) }
+        let(:current_stage) { Stage('Dev', 'Done') }
+        it { is_expected.to eq(Stage('QA', nil)) }
       end
 
       context 'QA' do
-        let(:current_position) { Position('QA', nil) }
-        it { is_expected.to eq(Position('Deploy', nil)) }
+        let(:current_stage) { Stage('QA', nil) }
+        it { is_expected.to eq(Stage('Deploy', nil)) }
       end
     end
   end

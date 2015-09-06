@@ -20,10 +20,10 @@ ActiveRecord::Schema.define(version: 20150903022533) do
   add_index "board_records", ["project_id_str"], name: "index_board_records_on_project_id_str"
 
   create_table "card_records", force: :cascade do |t|
-    t.integer "board_record_id",     null: false
-    t.string  "feature_id_str",      null: false
-    t.string  "position_phase_name", null: false
-    t.string  "position_state_name"
+    t.integer "board_record_id",  null: false
+    t.string  "feature_id_str",   null: false
+    t.string  "stage_phase_name", null: false
+    t.string  "stage_state_name"
   end
 
   create_table "feature_records", force: :cascade do |t|

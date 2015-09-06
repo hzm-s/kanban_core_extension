@@ -15,9 +15,9 @@ module Arize
         self.feature_id_str = a_feature_id.to_s
       end
 
-      def position=(a_position)
-        self.position_phase_name = a_position.phase.to_s
-        self.position_state_name = serialize_state(a_position.state)
+      def stage=(a_stage)
+        self.stage_phase_name = a_stage.phase.to_s
+        self.stage_state_name = serialize_state(a_stage.state)
       end
 
       def serialize_state(state)
@@ -32,10 +32,10 @@ module Arize
         ::Project::FeatureId.new(feature_id_str)
       end
 
-      def position
-        Kanban::Position.new(
-          build_phase(position_phase_name),
-          build_state(position_state_name)
+      def stage
+        Kanban::Stage.new(
+          build_phase(stage_phase_name),
+          build_state(stage_state_name)
         )
       end
 

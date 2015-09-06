@@ -15,12 +15,12 @@ class BoardService
     @board_repository.store(board)
   end
 
-  def forward_card(project_id, feature_id, current_position)
+  def forward_card(project_id, feature_id, current_stage)
     project = @project_repository.find(project_id)
     board = @board_repository.find(project_id)
 
     rule = Kanban::Rule.new(project.workflow)
-    board.forward_card(feature_id, current_position, rule)
+    board.forward_card(feature_id, current_stage, rule)
 
     @board_repository.store(board)
   end
@@ -50,7 +50,7 @@ class BoardService
     board = @board_repository.find(project_id)
 
     rule = Kanban::Rule.new(project.workflow)
-    first_phase = rule.initial_position.phase
+    first_phase = rule.initial_stage.phase
 
     rule.can_put_card?(first_phase, board.count_card_by_phase(first_phase))
   end
