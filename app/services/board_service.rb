@@ -31,6 +31,6 @@ class BoardService
 
     rule = Kanban::Rule.new(project.workflow)
     first_stage = rule.initial_stage
-    rule.can_put_card?(first_stage, board.staged_card(first_stage).size)
+    rule.can_put_card?(first_stage.phase, board.staged_card(first_stage).size)
   end
 end

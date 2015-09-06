@@ -2,7 +2,7 @@ module Project
   class State
 
     def self.from_string(string)
-      return None.new if string.blank?
+      return None.new if string == ''
       new(string)
     end
 
