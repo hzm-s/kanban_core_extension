@@ -31,7 +31,7 @@ describe 'push card' do
         service.forward_card(project_id, feature_id, from)
 
         board = board_repository.find(project_id)
-        expect(board.get_card(feature_id).stage).to eq(to)
+        expect(board.staged_card(to)).to include(feature_id)
       end
     end
 
@@ -46,7 +46,7 @@ describe 'push card' do
         service.forward_card(project_id, feature_id, from)
 
         board = board_repository.find(project_id)
-        expect(board.get_card(feature_id).stage).to eq(to)
+        expect(board.staged_card(to)).to include(feature_id)
       end
     end
 
@@ -61,7 +61,7 @@ describe 'push card' do
         service.forward_card(project_id, feature_id, from)
 
         board = board_repository.find(project_id)
-        expect(board.get_card(feature_id).stage).to eq(to)
+        expect(board.staged_card(to)).to include(feature_id)
       end
     end
 

@@ -13,9 +13,9 @@ describe 'add feature to board' do
     ProjectService().specify_workflow(project_id, workflow)
   end
 
-  context 'no state phase no wip limit' do
+  context 'Next=State:none, WipLimit:none', 'After the next=State:none, WipLimit:none' do
     let(:workflow) do
-      Workflow([{ phase: 'Todo' }])
+      Workflow([{ phase: 'Todo' }, { phase: 'Analyze' }])
     end
 
     it do
@@ -24,7 +24,7 @@ describe 'add feature to board' do
       service.add_card(project_id, feature_id)
 
       board = board_repository.find(project_id)
-      expect(board.get_card(feature_id).stage).to eq(Stage('Todo', nil))
+      expect(board.staged_card(Stage('Todo'))).to include(feature_id)
     end
   end
 
@@ -40,7 +40,7 @@ describe 'add feature to board' do
         service.add_card(project_id, feature_id)
 
         board = board_repository.find(project_id)
-        expect(board.get_card(feature_id).stage).to eq(Stage('Todo', nil))
+        expect(board.staged_card(Stage('Todo'))).to include(feature_id)
       end
     end
 
@@ -53,7 +53,7 @@ describe 'add feature to board' do
         service.add_card(project_id, feature_id)
 
         board = board_repository.find(project_id)
-        expect(board.get_card(feature_id).stage).to eq(Stage('Todo', nil))
+        expect(board.staged_card(Stage('Todo'))).to include(feature_id)
       end
     end
 
@@ -82,7 +82,7 @@ describe 'add feature to board' do
       service.add_card(project_id, feature_id)
 
       board = board_repository.find(project_id)
-      expect(board.get_card(feature_id).stage).to eq(Stage('Todo', 'Check'))
+      expect(board.staged_card(Stage('Todo', 'Check'))).to include(feature_id)
     end
   end
 
@@ -100,7 +100,7 @@ describe 'add feature to board' do
         service.add_card(project_id, feature_id)
 
         board = board_repository.find(project_id)
-        expect(board.get_card(feature_id).stage).to eq(Stage('Todo', 'Check'))
+        expect(board.staged_card(Stage('Todo', 'Check'))).to include(feature_id)
       end
     end
 
@@ -113,7 +113,7 @@ describe 'add feature to board' do
         service.add_card(project_id, feature_id)
 
         board = board_repository.find(project_id)
-        expect(board.get_card(feature_id).stage).to eq(Stage('Todo', 'Check'))
+        expect(board.staged_card(Stage('Todo', 'Check'))).to include(feature_id)
       end
     end
 

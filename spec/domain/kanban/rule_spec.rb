@@ -18,7 +18,7 @@ module Kanban
       end
 
       context 'Todo' do
-        let(:current_stage) { Stage('Todo', nil) }
+        let(:current_stage) { Stage('Todo') }
         it { is_expected.to eq(Stage('Dev', 'Doing')) }
       end
 
@@ -34,12 +34,12 @@ module Kanban
 
       context 'Dev:Done' do
         let(:current_stage) { Stage('Dev', 'Done') }
-        it { is_expected.to eq(Stage('QA', nil)) }
+        it { is_expected.to eq(Stage('QA')) }
       end
 
       context 'QA' do
-        let(:current_stage) { Stage('QA', nil) }
-        it { is_expected.to eq(Stage('Deploy', nil)) }
+        let(:current_stage) { Stage('QA') }
+        it { is_expected.to eq(Stage('Deploy')) }
       end
     end
   end

@@ -21,8 +21,7 @@ class ForwardCardCommand
   end
 
   def state
-    return Project::State::None.new if stage_state_name.blank?
-    Project::State.new(stage_state_name)
+    Project::State.from_string(stage_state_name)
   end
 
   def current_stage

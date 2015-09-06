@@ -7,7 +7,7 @@ module Kanban
       board_record.cards.build(
         feature_id_str: 'feat_100',
         stage_phase_name: 'Todo',
-        stage_state_name: nil
+        stage_state_name: ''
       )
       board_record.cards.build(
         feature_id_str: 'feat_200',
@@ -24,22 +24,16 @@ module Kanban
       it { is_expected.to eq(Project::ProjectId.new('prj_789')) }
     end
 
-    describe 'Card for feat_100' do
-      let(:card) { board.get_card(FeatureId('feat_100')) }
+    describe 'Todo stage' do
+      let(:stage) { board.staged_card(Stage('Todo')) }
 
-      describe 'stage' do
-        subject { card.stage }
-        it { is_expected.to eq(Stage('Todo', nil)) }
-      end
+      it { expect(stage).to include(FeatureId('feat_100')) }
     end
 
-    describe 'Card for feat_200' do
-      let(:card) { board.get_card(FeatureId('feat_200')) }
+    describe 'Dev-Doing stage' do
+      let(:stage) { board.staged_card(Stage('Dev', 'Doing')) }
 
-      describe 'stage' do
-        subject { card.stage }
-        it { is_expected.to eq(Stage('Dev', 'Doing')) }
-      end
+      it { expect(stage).to include(FeatureId('feat_200')) }
     end
   end
 end

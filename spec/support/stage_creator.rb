@@ -1,6 +1,6 @@
 module StageCreator
 
-  def Stage(phase_name, state_name)
+  def Stage(phase_name, state_name = '')
     Kanban::Stage.new(
       Phase(phase_name),
       State(state_name)
@@ -12,7 +12,6 @@ module StageCreator
   end
 
   def State(name)
-    return Project::State::None.new unless name
-    Project::State.new(name)
+    Project::State.from_string(name)
   end
 end

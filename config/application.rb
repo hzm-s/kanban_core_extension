@@ -19,8 +19,9 @@ module KanbanCoreExtension
   class Application < Rails::Application
     config.autoload_paths += %W(
       #{Rails.root}/domain
-      #{Rails.root}/domain/features
-      #{Rails.root}/domain/works
+      #{Rails.root}/domain/project
+      #{Rails.root}/domain/feature
+      #{Rails.root}/domain/kanban
     )
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers

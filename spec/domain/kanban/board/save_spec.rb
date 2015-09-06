@@ -22,8 +22,8 @@ module Kanban
         board.add_card(FeatureId('feat_300'), rule)
         board.save!
 
-        board.forward_card(FeatureId('feat_200'), Stage('Todo', nil), rule)
-        board.forward_card(FeatureId('feat_300'), Stage('Todo', nil), rule)
+        board.forward_card(FeatureId('feat_200'), Stage('Todo'), rule)
+        board.forward_card(FeatureId('feat_300'), Stage('Todo'), rule)
 
         board.forward_card(FeatureId('feat_300'), Stage('Dev', 'Doing'), rule)
         board.save!
@@ -49,7 +49,7 @@ module Kanban
 
       describe 'stage_state_name' do
         subject { card_record.stage_state_name }
-        it { is_expected.to be_nil }
+        it { is_expected.to eq('') }
       end
     end
 
