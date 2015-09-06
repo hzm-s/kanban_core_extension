@@ -29,7 +29,7 @@ module Arize
     module Readers
 
       def feature_id
-        ::Project::FeatureId.new(feature_id_str)
+        ::Feature::FeatureId.new(feature_id_str)
       end
 
       def stage
