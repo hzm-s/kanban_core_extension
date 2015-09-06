@@ -10,7 +10,7 @@ module Kanban
     end
 
     private
-      # AR::Association
+      # for AR::Association
 
       def staged_cards(stage)
         @cards.where(

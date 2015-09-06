@@ -26,10 +26,6 @@ module Kanban
       card.locate_to(@stage, self)
     end
 
-    def contain?(feature_id)
-      @cards.include?(feature_id)
-    end
-
     # for AR::Association
 
     def put(card_record)
@@ -42,6 +38,10 @@ module Kanban
           stage_state_name: card_record.stage_state_name
         )
       end
+    end
+
+    def contain?(feature_id)
+      @cards.exists?(feature_id_str: feature_id.to_s)
     end
   end
 end
