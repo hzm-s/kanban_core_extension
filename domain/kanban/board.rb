@@ -1,6 +1,4 @@
 module Kanban
-  class WipLimitReached < StandardError; end
-
   class Board < ActiveRecord::Base
     include Arize::Board
 

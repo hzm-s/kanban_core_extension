@@ -1,5 +1,6 @@
 module Kanban
   class CardNotFound < StandardError; end
+  class WipLimitReached < StandardError; end
 
   class BoardStage
     attr_reader :cards
