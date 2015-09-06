@@ -1,4 +1,6 @@
 module Kanban
+  class WipLimitReached < StandardError; end
+
   class Rule
 
     def initialize(workflow)

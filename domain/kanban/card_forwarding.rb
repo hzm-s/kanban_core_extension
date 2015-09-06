@@ -4,11 +4,16 @@ module Kanban
 
     def detect(current_stage, rule)
       next_stage = rule.next_stage(current_stage)
-      #return Push.new(current_stage) if current_stage.same_phase?(next_stage)
-      Pull.new(current_stage, next_stage, rule)
+
+      if current_stage.same_phase?(next_stage)
+        Push.new(current_stage, next_stage)
+      else
+        Pull.new(current_stage, next_stage, rule)
+      end
     end
 
     class Pull
+      attr_reader :from_stage, :to_stage
 
       def initialize(from_stage, to_stage, rule)
         @from_stage = from_stage
@@ -16,16 +21,23 @@ module Kanban
         @rule = rule
       end
 
-      def move_card(feature_id, board)
-        from = board.stage(@from_stage)
-        to = board.phase(@to_stage)
-
-        raise WipLimitReached unless @rule.can_put_card?(@to_stage.phase, to.card_size)
-        to.put_card(from.fetch_card(feature_id))
+      def verify(feature_id, board)
+        to_phase_cards = board.count_card_on_phase(@to_stage.phase)
+        raise WipLimitReached unless @rule.can_put_card?(@to_stage.phase, to_phase_cards)
       end
     end
 
     class Push
+      attr_reader :from_stage, :to_stage
+
+      def initialize(from_stage, to_stage)
+        @from_stage = from_stage
+        @to_stage = to_stage
+      end
+
+      def verify(feature_id, board)
+        # nothing to do
+      end
     end
   end
 end

@@ -6,39 +6,23 @@ module Kanban
       self.project_id = a_project_id
     end
 
-    def add_card(feature_id, rule)
+    def add_card(feature_id, action)
+      action.verify(self)
       card = Card.write(feature_id)
-      first_board_stage = board_stages.as_stage(rule.initial_stage)
-      first_board_stage.add_card(card, rule)
+      board_stages.put_card(card, action.next_stage)
     end
 
-    def forward_card(feature_id, current_stage, rule)
-      next_stage = rule.next_stage(current_stage)
-
-      if current_stage.same_phase?(next_stage)
-        from = board_stages.as_phase(current_stage)
-        from.push_card(next_stage)
-      else
-        from = board_stages.as_stage(current_stage)
-        to = board_stages.as_phase(next_stage)
-        to.pull_card(from)
-      end
+    def forward_card(feature_id, action)
+      action.verify(feature_id, self)
+      board_stages.forward_card(feature_id, action.from_stage, action.to_stage)
     end
 
-    def update_with(feature_id, card_forwarding)
-      card_forwarding.move_card(feature_id, self)
+    def staged_card(stage)
+      board_stages.card_on_stage(stage)
     end
 
-    def staged_card(a_stage)
-      stage(a_stage).cards
-    end
-
-    def stage(a_stage)
-      board_stages.as_stage(a_stage)
-    end
-
-    def phase(a_stage)
-      board_stages.as_phase(a_stage)
+    def count_card_on_phase(phase)
+      board_stages.count_card_on_phase(phase)
     end
   end
 end
