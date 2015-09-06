@@ -26,13 +26,4 @@ class BoardService
 
     @board_repository.store(board)
   end
-
-  def can_add_card?(project_id)
-    project = @project_repository.find(project_id)
-    board = @board_repository.find(project_id)
-
-    rule = Kanban::Rule.new(project.workflow)
-    first_stage = rule.initial_stage
-    rule.can_put_card?(first_stage.phase, board.staged_card(first_stage).size)
-  end
 end
