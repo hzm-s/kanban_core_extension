@@ -21,10 +21,6 @@ module Kanban
       board_stage(stage).cards
     end
 
-    def count_card_by_phase(phase)
-      board_stages.card_count(phase)
-    end
-
     private
 
       def board_stage(stage)
