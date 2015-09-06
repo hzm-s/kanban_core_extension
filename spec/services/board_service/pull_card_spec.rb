@@ -26,7 +26,7 @@ describe 'pull card' do
       feature_id = FeatureId('feat_1')
       service.add_card(project_id, feature_id)
 
-      from = Stage('Todo', nil)
+      from = Stage('Todo')
       to = Stage('Dev', 'Doing')
       service.forward_card(project_id, feature_id, from)
 
@@ -59,7 +59,7 @@ describe 'pull card' do
         feature_id = FeatureId('feat_1')
         service.add_card(project_id, feature_id)
 
-        from = Stage('Todo', nil)
+        from = Stage('Todo')
         to = Stage('Dev', 'Doing')
         service.forward_card(project_id, feature_id, from)
 
@@ -72,14 +72,14 @@ describe 'pull card' do
       before do
         other = FeatureId('feat_other')
         service.add_card(project_id, other)
-        service.forward_card(project_id, other, Stage('Todo', nil))
+        service.forward_card(project_id, other, Stage('Todo'))
       end
 
       it do
         feature_id = FeatureId('feat_1')
         service.add_card(project_id, feature_id)
 
-        from = Stage('Todo', nil)
+        from = Stage('Todo')
         to = Stage('Dev', 'Doing')
         service.forward_card(project_id, feature_id, from)
 
@@ -94,15 +94,15 @@ describe 'pull card' do
         other2 = FeatureId('feat_other2')
         service.add_card(project_id, other1)
         service.add_card(project_id, other2)
-        service.forward_card(project_id, other1, Stage('Todo', nil))
-        service.forward_card(project_id, other2, Stage('Todo', nil))
+        service.forward_card(project_id, other1, Stage('Todo'))
+        service.forward_card(project_id, other2, Stage('Todo'))
       end
 
       it do
         feature_id = FeatureId('feat_1')
         service.add_card(project_id, feature_id)
 
-        from = Stage('Todo', nil)
+        from = Stage('Todo')
         expect {
           service.forward_card(project_id, feature_id, from)
         }.to raise_error(Kanban::WipLimitReached)

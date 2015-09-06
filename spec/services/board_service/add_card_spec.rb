@@ -24,7 +24,7 @@ describe 'add feature to board' do
       service.add_card(project_id, feature_id)
 
       board = board_repository.find(project_id)
-      expect(board.staged_card(Stage('Todo', nil))).to include(feature_id)
+      expect(board.staged_card(Stage('Todo'))).to include(feature_id)
     end
   end
 
@@ -40,7 +40,7 @@ describe 'add feature to board' do
         service.add_card(project_id, feature_id)
 
         board = board_repository.find(project_id)
-        expect(board.staged_card(Stage('Todo', nil))).to include(feature_id)
+        expect(board.staged_card(Stage('Todo'))).to include(feature_id)
       end
     end
 
@@ -53,7 +53,7 @@ describe 'add feature to board' do
         service.add_card(project_id, feature_id)
 
         board = board_repository.find(project_id)
-        expect(board.staged_card(Stage('Todo', nil))).to include(feature_id)
+        expect(board.staged_card(Stage('Todo'))).to include(feature_id)
       end
     end
 

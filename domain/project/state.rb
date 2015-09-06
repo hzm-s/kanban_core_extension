@@ -1,6 +1,11 @@
 module Project
   class State
 
+    def self.from_string(string)
+      return None.new if string.blank?
+      new(string)
+    end
+
     def initialize(name)
       @name = name
     end

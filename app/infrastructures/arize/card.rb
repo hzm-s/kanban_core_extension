@@ -21,7 +21,6 @@ module Arize
       end
 
       def serialize_state(state)
-        return nil if state.none?
         state.to_s
       end
     end
@@ -44,8 +43,7 @@ module Arize
       end
 
       def build_state(state)
-        return ::Project::State::None.new if state.nil?
-        ::Project::State.new(state)
+        ::Project::Stage.from_string(state)
       end
     end
   end

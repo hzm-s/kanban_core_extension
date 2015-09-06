@@ -25,7 +25,7 @@ module Kanban
     end
 
     describe 'Todo stage' do
-      let(:stage) { board.staged_card(Stage('Todo', nil)) }
+      let(:stage) { board.staged_card(Stage('Todo')) }
 
       it { expect(stage).to include(FeatureId('feat_100')) }
     end
