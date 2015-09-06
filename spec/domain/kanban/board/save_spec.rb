@@ -17,15 +17,16 @@ module Kanban
         board.prepare(Project::ProjectId.new('prj_789'))
         board.save!
 
-        board.add_card(FeatureId('feat_100'), rule)
-        board.add_card(FeatureId('feat_200'), rule)
-        board.add_card(FeatureId('feat_300'), rule)
+        adding = CardAdding.new(rule)
+        board.add_card(FeatureId('feat_100'), adding)
+        board.add_card(FeatureId('feat_200'), adding)
+        board.add_card(FeatureId('feat_300'), adding)
         board.save!
 
-        board.forward_card(FeatureId('feat_200'), Stage('Todo'), rule)
-        board.forward_card(FeatureId('feat_300'), Stage('Todo'), rule)
+        board.forward_card(FeatureId('feat_200'), CardForwarding.detect(Stage('Todo'), rule))
+        board.forward_card(FeatureId('feat_300'), CardForwarding.detect(Stage('Todo'), rule))
 
-        board.forward_card(FeatureId('feat_300'), Stage('Dev', 'Doing'), rule)
+        board.forward_card(FeatureId('feat_300'), CardForwarding.detect(Stage('Dev', 'Doing'), rule))
         board.save!
       end
     end
