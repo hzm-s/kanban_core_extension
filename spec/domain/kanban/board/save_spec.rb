@@ -49,7 +49,7 @@ module Kanban
 
       describe 'stage_state_name' do
         subject { card_record.stage_state_name }
-        it { is_expected.to be_nil }
+        it { is_expected.to be_blank }
       end
     end
 
