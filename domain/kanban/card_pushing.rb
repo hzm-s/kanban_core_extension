@@ -7,8 +7,9 @@ module Kanban
       @to_stage = to_stage
     end
 
-    def verify(feature_id, board)
-      # nothing to do
+    def handle_board(feature_id, board)
+      card = board.fetch_card(feature_id, @from_stage)
+      board.put_card(card, @to_stage)
     end
   end
 end

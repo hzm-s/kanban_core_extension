@@ -7,18 +7,14 @@ module Kanban
       @cards = cards
     end
 
-    def put_card(card, to)
-      card.locate_to(to, self)
+    def fetch_card(feature_id, stage)
+      fetch_card_from(feature_id, stage).tap do |card|
+        raise CardNotFound unless card
+      end
     end
 
-    def forward_card(feature_id, from, to)
-      raise CardNotFound unless card = fetch_card_from(feature_id, from)
-
-      if to.complete?
-        remove(card)
-      else
-        put_card(card, to)
-      end
+    def put_card(card, to)
+      card.locate_to(to, self)
     end
 
     # for AR::Association

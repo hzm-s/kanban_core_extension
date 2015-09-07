@@ -17,23 +17,23 @@ module Kanban
         board.prepare(Project::ProjectId.new('prj_789'))
         board.save!
 
-        adding = CardAdding.new(rule)
-        board.add_card(FeatureId('feat_100'), adding)
-        board.add_card(FeatureId('feat_200'), adding)
-        board.add_card(FeatureId('feat_300'), adding)
-        board.add_card(FeatureId('feat_400'), adding)
+        board.add_card(FeatureId('feat_100'), Stage('Todo'))
+        board.add_card(FeatureId('feat_200'), Stage('Todo'))
+        board.add_card(FeatureId('feat_300'), Stage('Todo'))
+        board.add_card(FeatureId('feat_400'), Stage('Todo'))
         board.save!
 
-        board.forward_card(FeatureId('feat_200'), CardForwarding.detect(Stage('Todo'), rule))
-        board.forward_card(FeatureId('feat_300'), CardForwarding.detect(Stage('Todo'), rule))
-
-        board.forward_card(FeatureId('feat_300'), CardForwarding.detect(Stage('Dev', 'Doing'), rule))
-
-        board.forward_card(FeatureId('feat_400'), CardForwarding.detect(Stage('Todo'), rule))
-        board.forward_card(FeatureId('feat_400'), CardForwarding.detect(Stage('Dev', 'Doing'), rule))
-        board.forward_card(FeatureId('feat_400'), CardForwarding.detect(Stage('Dev', 'Done'), rule))
-        board.forward_card(FeatureId('feat_400'), CardForwarding.detect(Stage('QA'), rule))
-
+        board.put_card(
+          board.fetch_card(FeatureId('feat_200'), Stage('Todo')),
+          Stage('Dev', 'Doing')
+        )
+        board.put_card(
+          board.fetch_card(FeatureId('feat_300'), Stage('Todo')),
+          Stage('Dev', 'Done')
+        )
+        board.remove_card(
+          board.fetch_card(FeatureId('feat_400'), Stage('Todo'))
+        )
         board.save!
       end
     end
