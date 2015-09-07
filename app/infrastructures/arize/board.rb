@@ -18,7 +18,7 @@ module Arize
       end
 
       def board_stages
-        @board_stages ||= Kanban::BoardStages.new(cards)
+        Kanban::BoardStages.new(cards)
       end
     end
 
