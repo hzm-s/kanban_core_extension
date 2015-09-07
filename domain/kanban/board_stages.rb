@@ -9,6 +9,10 @@ module Kanban
       fetch_card_by_feature_id_and_stage(feature_id, stage)
     end
 
+    def remove(card)
+      remove_card(card)
+    end
+
     # for AR::Association
 
     def put(card_record)
@@ -23,20 +27,22 @@ module Kanban
       end
     end
 
-    def remove(card_record)
-      @cards.destroy(card_record)
-    end
-
     def count_card_by_phase(phase)
       @cards.where(stage_phase_name: phase.to_s).count
     end
 
-    def fetch_card_by_feature_id_and_stage(feature_id, stage)
-      @cards.where(
-        feature_id_str: feature_id.to_s,
-        stage_phase_name: stage.phase.to_s,
-        stage_state_name: stage.state.to_s
-      ).first
-    end
+    private
+
+      def remove_card(card_record)
+        @cards.destroy(card_record)
+      end
+
+      def fetch_card_by_feature_id_and_stage(feature_id, stage)
+        @cards.where(
+          feature_id_str: feature_id.to_s,
+          stage_phase_name: stage.phase.to_s,
+          stage_state_name: stage.state.to_s
+        ).first
+      end
   end
 end
