@@ -10,20 +10,20 @@ module Kanban
       action.handle_board(self)
     end
 
-    def fetch_card(feature_id, stage)
-      board_stages.fetch(feature_id, stage)
+    def fetch_card(feature_id, progress)
+      stage.fetch(feature_id, progress)
     end
 
-    def put_card(card, stage)
-      card.locate_to(stage, board_stages)
+    def put_card(card, progress)
+      card.locate_to(progress, stage)
     end
 
     def remove_card(card)
-      board_stages.remove(card)
+      stage.remove(card)
     end
 
     def count_card(phase)
-      board_stages.count_card_by_phase(phase)
+      stage.count_card_by_phase(phase)
     end
   end
 end

@@ -1,54 +1,48 @@
 module Kanban
   class Stage
-    attr_reader :phase, :state
 
-    def initialize(phase, state)
-      @phase = phase
-      @state = state
+    def initialize(cards)
+      @cards = cards
     end
 
-    def to_a
-      [@phase, @state]
+    def fetch(feature_id, progress)
+      fetch_card_by_feature_id_and_progress(feature_id, progress)
     end
 
-    def same_phase?(other)
-      self.to_a[0] == other.to_a[0]
+    def remove(card)
+      remove_card(card)
     end
 
-    def complete?
-      false
-    end
+    # for AR::Association
 
-    def eql?(other)
-      self == other
-    end
-
-    def hash
-      to_a.hash
-    end
-
-    def ==(other)
-      other.instance_of?(self.class) &&
-        self.to_a == other.to_a
-    end
-
-    class Complete
-
-      def complete?
-        true
-      end
-
-      def eql?(other)
-        self == other
-      end
-
-      def hash
-        self.class.hash
-      end
-
-      def ==(other)
-        other.instance_of?(self.class)
+    def put(card_record)
+      if card_record.persisted?
+        card_record.save!
+      else
+        @cards.build(
+          feature_id_str: card_record.feature_id_str,
+          progress_phase_name: card_record.progress_phase_name,
+          progress_state_name: card_record.progress_state_name
+        )
       end
     end
+
+    def count_card_by_phase(phase)
+      @cards.where(progress_phase_name: phase.to_s).count
+    end
+
+    private
+
+      def remove_card(card_record)
+        @cards.destroy(card_record)
+      end
+
+      def fetch_card_by_feature_id_and_progress(feature_id, progress)
+        @cards.where(
+          feature_id_str: feature_id.to_s,
+          progress_phase_name: progress.phase.to_s,
+          progress_state_name: progress.state.to_s
+        ).first
+      end
   end
 end

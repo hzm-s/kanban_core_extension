@@ -18,9 +18,9 @@ class BoardService
     @board_repository.store(board)
   end
 
-  def forward_card(project_id, feature_id, current_stage)
+  def forward_card(project_id, feature_id, current_progress)
     board = @board_repository.find(project_id)
-    raise CardNotFound unless card = board.fetch_card(feature_id, current_stage)
+    raise CardNotFound unless card = board.fetch_card(feature_id, current_progress)
 
     project = @project_repository.find(project_id)
     rule = Kanban::Rule.new(project.workflow)

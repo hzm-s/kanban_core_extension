@@ -22,9 +22,9 @@ describe 'pull card' do
   it do
     feature_id = FeatureId('feat_1')
     service.add_card(project_id, feature_id)
-    service.forward_card(project_id, feature_id, Stage('Deploy'))
+    service.forward_card(project_id, feature_id, Progress('Deploy'))
 
     board = board_repository.find(project_id)
-    expect(board.fetch_card(feature_id, Stage('Deploy'))).to be_nil
+    expect(board.fetch_card(feature_id, Progress('Deploy'))).to be_nil
   end
 end

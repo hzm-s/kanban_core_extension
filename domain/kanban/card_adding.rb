@@ -7,17 +7,17 @@ module Kanban
     end
 
     def handle_board(board)
-      first_phase_cards = board.count_card(first_stage.phase)
-      raise WipLimitReached unless @rule.can_put_card?(first_stage.phase, first_phase_cards)
+      first_phase_cards = board.count_card(first_progress.phase)
+      raise WipLimitReached unless @rule.can_put_card?(first_progress.phase, first_phase_cards)
 
       card = Card.write(@feature_id)
-      board.put_card(card, first_stage)
+      board.put_card(card, first_progress)
     end
 
     private
 
-      def first_stage
-        @first_stage ||= @rule.initial_stage
+      def first_progress
+        @first_progress ||= @rule.first_progress
       end
   end
 end

@@ -26,21 +26,21 @@ describe 'pull card' do
       feature_id = FeatureId('feat_1')
       service.add_card(project_id, feature_id)
 
-      from = Stage('Todo')
-      to = Stage('Dev', 'Doing')
+      from = Progress('Todo')
+      to = Progress('Dev', 'Doing')
       service.forward_card(project_id, feature_id, from)
 
       board = board_repository.find(project_id)
       expect(board.fetch_card(feature_id, to)).to_not be_nil
     end
 
-    context 'card is NOT locate to FROM stage' do
+    context 'card is NOT in given progress' do
       it do
         feature_id = FeatureId('feat_1')
         service.add_card(project_id, feature_id)
 
         expect {
-          service.forward_card(project_id, feature_id, Stage('Dev', 'Done'))
+          service.forward_card(project_id, feature_id, Progress('Dev', 'Done'))
         }.to raise_error(CardNotFound)
       end
     end
@@ -60,8 +60,8 @@ describe 'pull card' do
         feature_id = FeatureId('feat_1')
         service.add_card(project_id, feature_id)
 
-        from = Stage('Todo')
-        to = Stage('Dev', 'Doing')
+        from = Progress('Todo')
+        to = Progress('Dev', 'Doing')
         service.forward_card(project_id, feature_id, from)
 
         board = board_repository.find(project_id)
@@ -73,15 +73,15 @@ describe 'pull card' do
       before do
         other = FeatureId('feat_other')
         service.add_card(project_id, other)
-        service.forward_card(project_id, other, Stage('Todo'))
+        service.forward_card(project_id, other, Progress('Todo'))
       end
 
       it do
         feature_id = FeatureId('feat_1')
         service.add_card(project_id, feature_id)
 
-        from = Stage('Todo')
-        to = Stage('Dev', 'Doing')
+        from = Progress('Todo')
+        to = Progress('Dev', 'Doing')
         service.forward_card(project_id, feature_id, from)
 
         board = board_repository.find(project_id)
@@ -95,15 +95,15 @@ describe 'pull card' do
         other2 = FeatureId('feat_other2')
         service.add_card(project_id, other1)
         service.add_card(project_id, other2)
-        service.forward_card(project_id, other1, Stage('Todo'))
-        service.forward_card(project_id, other2, Stage('Todo'))
+        service.forward_card(project_id, other1, Progress('Todo'))
+        service.forward_card(project_id, other2, Progress('Todo'))
       end
 
       it do
         feature_id = FeatureId('feat_1')
         service.add_card(project_id, feature_id)
 
-        from = Stage('Todo')
+        from = Progress('Todo')
         expect {
           service.forward_card(project_id, feature_id, from)
         }.to raise_error(Kanban::WipLimitReached)
@@ -116,16 +116,16 @@ describe 'pull card' do
         other2 = FeatureId('feat_other2')
         service.add_card(project_id, other1)
         service.add_card(project_id, other2)
-        service.forward_card(project_id, other1, Stage('Todo'))
-        service.forward_card(project_id, other2, Stage('Todo'))
-        service.forward_card(project_id, other1, Stage('Dev', 'Doing'))
+        service.forward_card(project_id, other1, Progress('Todo'))
+        service.forward_card(project_id, other2, Progress('Todo'))
+        service.forward_card(project_id, other1, Progress('Dev', 'Doing'))
       end
 
       it do
         feature_id = FeatureId('feat_1')
         service.add_card(project_id, feature_id)
 
-        from = Stage('Todo')
+        from = Progress('Todo')
         expect {
           service.forward_card(project_id, feature_id, from)
         }.to raise_error(Kanban::WipLimitReached)

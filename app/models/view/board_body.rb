@@ -5,7 +5,7 @@ module View
       map = card_hashes.each_with_object({}) do |card_hash, map|
         feature_card = FeatureCard.new(project_id_str, card_hash)
 
-        key = [feature_card.stage_phase_name, feature_card.stage_state_name]
+        key = [feature_card.progress_phase_name, feature_card.progress_state_name]
         if map.key?(key)
           map[key] << feature_card
         else

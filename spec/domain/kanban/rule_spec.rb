@@ -2,9 +2,9 @@ require 'rails_helper'
 
 module Kanban
   describe Rule do
-    describe '#next_stage' do
+    describe '#next_progress' do
       subject do
-        rule.next_stage(current_stage)
+        rule.next_progress(current_progress)
       end
 
       let(:rule) { described_class.new(workflow) }
@@ -18,33 +18,33 @@ module Kanban
       end
 
       context 'Todo' do
-        let(:current_stage) { Stage('Todo') }
-        it { is_expected.to eq(Stage('Dev', 'Doing')) }
+        let(:current_progress) { Progress('Todo') }
+        it { is_expected.to eq(Progress('Dev', 'Doing')) }
       end
 
       context 'Dev:Doing' do
-        let(:current_stage) { Stage('Dev', 'Doing') }
-        it { is_expected.to eq(Stage('Dev', 'Review')) }
+        let(:current_progress) { Progress('Dev', 'Doing') }
+        it { is_expected.to eq(Progress('Dev', 'Review')) }
       end
 
       context 'Dev:Review' do
-        let(:current_stage) { Stage('Dev', 'Review') }
-        it { is_expected.to eq(Stage('Dev', 'Done')) }
+        let(:current_progress) { Progress('Dev', 'Review') }
+        it { is_expected.to eq(Progress('Dev', 'Done')) }
       end
 
       context 'Dev:Done' do
-        let(:current_stage) { Stage('Dev', 'Done') }
-        it { is_expected.to eq(Stage('QA')) }
+        let(:current_progress) { Progress('Dev', 'Done') }
+        it { is_expected.to eq(Progress('QA')) }
       end
 
       context 'QA' do
-        let(:current_stage) { Stage('QA') }
-        it { is_expected.to eq(Stage('Deploy')) }
+        let(:current_progress) { Progress('QA') }
+        it { is_expected.to eq(Progress('Deploy')) }
       end
 
       context 'Deploy' do
-        let(:current_stage) { Stage('Deploy') }
-        it { is_expected.to eq(Stage::Complete.new) }
+        let(:current_progress) { Progress('Deploy') }
+        it { is_expected.to eq(Progress::Complete.new) }
       end
     end
   end
