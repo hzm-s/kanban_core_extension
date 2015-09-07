@@ -25,7 +25,7 @@ class ForwardCardCommand
   end
 
   def current_progress
-    Kanban::Progress.new(phase, state)
+    Project::Progress.new(phase, state)
   end
 
   def execute(service)
