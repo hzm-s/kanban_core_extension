@@ -8,9 +8,7 @@ module Kanban
     end
 
     def next_progress(current_progress)
-      current_situation = Project::Situation.new(*current_progress.to_a)
-      next_situation = @workflow.next_situation(current_situation)
-      convert_situation_to_progress(next_situation)
+      @workflow.next_progress(current_progress)
     end
 
     def can_put_card?(phase, card_size)
@@ -19,15 +17,7 @@ module Kanban
     end
 
     def first_progress
-      situation = @workflow.first_situation
-      convert_situation_to_progress(@workflow.first_situation)
+      @workflow.first_progress
     end
-
-    private
-
-      def convert_situation_to_progress(situation)
-        return Progress::Complete.new if situation.complete?
-        Progress.new(situation.phase, situation.state)
-      end
   end
 end

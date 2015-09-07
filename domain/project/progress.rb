@@ -1,10 +1,14 @@
 module Project
-  class Situation
+  class Progress
     attr_reader :phase, :state
 
     def initialize(phase, state)
       @phase = phase
       @state = state
+    end
+
+    def to_a
+      [@phase, @state]
     end
 
     def same_phase?(other)
@@ -13,10 +17,6 @@ module Project
 
     def complete?
       false
-    end
-
-    def to_a
-      [@phase, @state]
     end
 
     def eql?(other)
@@ -36,6 +36,18 @@ module Project
 
       def complete?
         true
+      end
+
+      def eql?(other)
+        self == other
+      end
+
+      def hash
+        self.class.hash
+      end
+
+      def ==(other)
+        other.instance_of?(self.class)
       end
     end
   end

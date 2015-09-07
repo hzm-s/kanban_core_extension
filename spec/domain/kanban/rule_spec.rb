@@ -44,7 +44,7 @@ module Kanban
 
       context 'Deploy' do
         let(:current_progress) { Progress('Deploy') }
-        it { is_expected.to eq(Progress::Complete.new) }
+        it { is_expected.to eq(Project::Progress::Complete.new) }
       end
     end
   end

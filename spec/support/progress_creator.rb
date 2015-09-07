@@ -1,7 +1,7 @@
 module ProgressCreator
 
   def Progress(phase_name, state_name = '')
-    Kanban::Progress.new(
+    Project::Progress.new(
       Phase(phase_name),
       State(state_name)
     )

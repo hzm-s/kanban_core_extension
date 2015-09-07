@@ -32,7 +32,7 @@ module Arize
       end
 
       def progress
-        Kanban::Progress.new(
+        ::Project::Progress.new(
           build_phase(progress_phase_name),
           build_state(progress_state_name)
         )

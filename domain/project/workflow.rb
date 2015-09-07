@@ -5,16 +5,16 @@ module Project
       @phase_specs = phase_specs
     end
 
-    def first_situation
-      @phase_specs.first.first_situation
+    def first_progress
+      @phase_specs.first.first_progress
     end
 
-    def next_situation(current_situation)
-      current_phase_spec = retrieve(current_situation.phase)
+    def next_progress(current_progress)
+      current_phase_spec = retrieve(current_progress.phase)
       next_phase_spec = next_of(current_phase_spec)
 
-      return Situation::Complete.new unless next_phase_spec
-      current_phase_spec.next_situation(current_situation, next_phase_spec)
+      return Progress::Complete.new unless next_phase_spec
+      current_phase_spec.next_progress(current_progress, next_phase_spec)
     end
 
     def reach_wip_limit?(phase, wip)
