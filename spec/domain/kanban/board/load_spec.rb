@@ -25,15 +25,15 @@ module Kanban
     end
 
     describe 'Todo stage' do
-      let(:stage) { board.staged_card(Stage('Todo')) }
+      subject { board.fetch_card(FeatureId('feat_100'), Stage('Todo')) }
 
-      it { expect(stage).to include(FeatureId('feat_100')) }
+      it { is_expected.to be_truthy }
     end
 
     describe 'Dev-Doing stage' do
-      let(:stage) { board.staged_card(Stage('Dev', 'Doing')) }
+      subject { board.fetch_card(FeatureId('feat_200'), Stage('Dev', 'Doing')) }
 
-      it { expect(stage).to include(FeatureId('feat_200')) }
+      it { is_expected.to be_truthy }
     end
   end
 end

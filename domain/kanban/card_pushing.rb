@@ -9,7 +9,7 @@ module Kanban
     end
 
     def handle_board(board)
-      card = board.fetch_card(@feature_id, @from_stage)
+      raise CardNotFound unless card = board.fetch_card(@feature_id, @from_stage)
       board.put_card(card, @to_stage)
     end
   end

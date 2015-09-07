@@ -22,10 +22,6 @@ module Kanban
       board_stages.remove(card)
     end
 
-    def staged_card(stage)
-      board_stages.card_on_stage(stage)
-    end
-
     def count_card_on_phase(phase)
       board_stages.count_card_on_phase(phase)
     end

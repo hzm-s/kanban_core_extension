@@ -25,6 +25,6 @@ describe 'pull card' do
     service.forward_card(project_id, feature_id, Stage('Deploy'))
 
     board = board_repository.find(project_id)
-    expect(board.staged_card(Stage('Deploy'))).to_not include(feature_id)
+    expect(board.fetch_card(feature_id, Stage('Deploy'))).to be_nil
   end
 end

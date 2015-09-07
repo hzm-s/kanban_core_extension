@@ -31,7 +31,7 @@ describe 'pull card' do
       service.forward_card(project_id, feature_id, from)
 
       board = board_repository.find(project_id)
-      expect(board.staged_card(to)).to include(feature_id)
+      expect(board.fetch_card(feature_id, to)).to_not be_nil
     end
 
     context 'card is NOT locate to FROM stage' do
@@ -65,7 +65,7 @@ describe 'pull card' do
         service.forward_card(project_id, feature_id, from)
 
         board = board_repository.find(project_id)
-        expect(board.staged_card(to)).to include(feature_id)
+        expect(board.fetch_card(feature_id, to)).to_not be_nil
       end
     end
 
@@ -85,7 +85,7 @@ describe 'pull card' do
         service.forward_card(project_id, feature_id, from)
 
         board = board_repository.find(project_id)
-        expect(board.staged_card(to)).to include(feature_id)
+        expect(board.fetch_card(feature_id, to)).to_not be_nil
       end
     end
 

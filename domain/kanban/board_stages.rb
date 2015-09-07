@@ -8,9 +8,7 @@ module Kanban
     end
 
     def fetch_card(feature_id, stage)
-      fetch_card_from(feature_id, stage).tap do |card|
-        raise CardNotFound unless card
-      end
+      fetch_card_from(feature_id, stage)
     end
 
     def put_card(card, to)
