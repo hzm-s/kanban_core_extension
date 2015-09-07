@@ -38,12 +38,5 @@ module Kanban
         stage_state_name: stage.state.to_s
       ).first
     end
-
-    def card_on_stage(stage)
-      @cards.where(
-        stage_phase_name: stage.phase.to_s,
-        stage_state_name: stage.state.to_s
-      )
-    end
   end
 end
