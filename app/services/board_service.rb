@@ -2,9 +2,10 @@ class CardNotFound < StandardError; end
 
 class BoardService
 
-  def initialize(project_repository, board_repository)
+  def initialize(project_repository, board_repository, development_tracker)
     @project_repository = project_repository
     @board_repository = board_repository
+    @development_tracker = development_tracker
   end
 
   def add_card(project_id, feature_id)
@@ -19,6 +20,8 @@ class BoardService
   end
 
   def forward_card(project_id, feature_id, current_progress)
+    EventPublisher.subscribe(@development_tracker)
+
     board = @board_repository.find(project_id)
     raise CardNotFound unless card = board.fetch_card(feature_id, current_progress)
 

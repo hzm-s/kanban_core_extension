@@ -2,10 +2,12 @@ require 'rails_helper'
 
 describe 'push card' do
   let(:service) do
-    BoardService.new(project_repository, board_repository)
+    BoardService.new(project_repository, board_repository, development_tracker)
   end
   let(:project_repository) { ProjectRepository.new }
   let(:board_repository) { BoardRepository.new }
+  let(:development_tracker) { Feature::DevelopmentTracker.new(feature_repository) }
+  let(:feature_repository) { FeatureRepository.new }
 
   let(:project_id) { Project('Name', 'Goal') }
 

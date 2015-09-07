@@ -5,6 +5,8 @@ module Arize
     included do
       self.table_name = 'feature_records'
 
+      has_one :shipped_feature_record, foreign_key: 'feature_record_id'
+
       include Writers
       include Readers
     end
@@ -23,6 +25,10 @@ module Arize
         self.description_summary = a_description.summary
         self.description_detail = a_description.detail
       end
+
+      def log_shipped
+        build_shipped_feature_record(shipped_at: Time.current)
+      end
     end
 
     module Readers
@@ -40,6 +46,10 @@ module Arize
           self.description_summary,
           self.description_detail
         )
+      end
+
+      def shipping_log
+        shipped_feature_record
       end
     end
   end

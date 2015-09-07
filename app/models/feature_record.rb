@@ -1,4 +1,5 @@
 class FeatureRecord < ActiveRecord::Base
+  has_one :shipped_feature_record
 
   def feature_id
     id

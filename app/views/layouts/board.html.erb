@@ -11,8 +11,12 @@
     <%= render 'layouts/navigation' %>
     <%= render 'layouts/flashes' %>
     <header class="page">
-    <h2><%= link_to @board.project_name, projects_url %> : Board</h2>
+      <h2><%= link_to @board.project_name, projects_url %> : Board</h2>
     </header>
+    <div class="statistics">
+      <h3 class="backloged">Backloged: ?</h3>
+      <h3 class="shipped">Shipped: <%= @shipped_count %></h3>
+    </div>
     <div class="board-container">
       <%= yield %>
     </div>

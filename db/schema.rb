@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150903022533) do
+ActiveRecord::Schema.define(version: 20150907133843) do
 
   create_table "board_records", force: :cascade do |t|
     t.string "project_id_str", null: false
@@ -49,6 +49,11 @@ ActiveRecord::Schema.define(version: 20150903022533) do
   end
 
   add_index "project_records", ["project_id_str"], name: "index_project_records_on_project_id_str"
+
+  create_table "shipped_feature_records", force: :cascade do |t|
+    t.integer  "feature_record_id", null: false
+    t.datetime "shipped_at",        null: false
+  end
 
   create_table "state_records", force: :cascade do |t|
     t.integer "project_record_id", null: false
