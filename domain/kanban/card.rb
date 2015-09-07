@@ -13,6 +13,7 @@ module Kanban
       stage.put(self)
     end
 
+    # TODO:remove
     def same_phase?(phase)
       stage.phase == phase
     end
