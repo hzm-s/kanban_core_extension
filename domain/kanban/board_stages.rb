@@ -13,7 +13,12 @@ module Kanban
 
     def forward_card(feature_id, from, to)
       raise CardNotFound unless card = fetch_card_from(feature_id, from)
-      put_card(card, to)
+
+      if to.complete?
+        remove(card)
+      else
+        put_card(card, to)
+      end
     end
 
     # for AR::Association
@@ -28,6 +33,10 @@ module Kanban
           stage_state_name: card_record.stage_state_name
         )
       end
+    end
+
+    def remove(card_record)
+      @cards.destroy(card_record)
     end
 
     def count_card_on_phase(phase)

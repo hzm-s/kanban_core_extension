@@ -5,10 +5,25 @@ module Kanban
     def detect(current_stage, rule)
       next_stage = rule.next_stage(current_stage)
 
+      return Remove.new(current_stage, next_stage) if next_stage.complete?
+
       if current_stage.same_phase?(next_stage)
         Push.new(current_stage, next_stage)
       else
         Pull.new(current_stage, next_stage, rule)
+      end
+    end
+
+    class Remove
+      attr_reader :from_stage, :to_stage
+
+      def initialize(from_stage, to_stage)
+        @from_stage = from_stage
+        @to_stage = to_stage
+      end
+
+      def verify(feature_id, board)
+        # nothing to do
       end
     end
 

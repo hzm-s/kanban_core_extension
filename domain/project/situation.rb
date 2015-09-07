@@ -11,6 +11,10 @@ module Project
       self.to_a[0] == other.to_a[0]
     end
 
+    def complete?
+      false
+    end
+
     def to_a
       [@phase, @state]
     end
@@ -26,6 +30,13 @@ module Project
     def ==(other)
       other.instance_of?(self.class) &&
         self.to_a == other.to_a
+    end
+
+    class Complete
+
+      def complete?
+        true
+      end
     end
   end
 end

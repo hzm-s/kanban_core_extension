@@ -41,6 +41,11 @@ module Kanban
         let(:current_stage) { Stage('QA') }
         it { is_expected.to eq(Stage('Deploy')) }
       end
+
+      context 'Deploy' do
+        let(:current_stage) { Stage('Deploy') }
+        it { is_expected.to eq(Stage::Complete.new) }
+      end
     end
   end
 end

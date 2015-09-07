@@ -6,8 +6,8 @@ module Kanban
       Rule.new(
         Workflow([
           { phase: 'Todo' },
-          { phase: 'Dev', transition: ['Doing', 'Done'], wip_limit: 2 },
-          { phase: 'QA', wip_limit: 1 }
+          { phase: 'Dev', transition: ['Doing', 'Done'] },
+          { phase: 'QA' }
         ])
       )
     end
@@ -21,12 +21,19 @@ module Kanban
         board.add_card(FeatureId('feat_100'), adding)
         board.add_card(FeatureId('feat_200'), adding)
         board.add_card(FeatureId('feat_300'), adding)
+        board.add_card(FeatureId('feat_400'), adding)
         board.save!
 
         board.forward_card(FeatureId('feat_200'), CardForwarding.detect(Stage('Todo'), rule))
         board.forward_card(FeatureId('feat_300'), CardForwarding.detect(Stage('Todo'), rule))
 
         board.forward_card(FeatureId('feat_300'), CardForwarding.detect(Stage('Dev', 'Doing'), rule))
+
+        board.forward_card(FeatureId('feat_400'), CardForwarding.detect(Stage('Todo'), rule))
+        board.forward_card(FeatureId('feat_400'), CardForwarding.detect(Stage('Dev', 'Doing'), rule))
+        board.forward_card(FeatureId('feat_400'), CardForwarding.detect(Stage('Dev', 'Done'), rule))
+        board.forward_card(FeatureId('feat_400'), CardForwarding.detect(Stage('QA'), rule))
+
         board.save!
       end
     end
@@ -84,6 +91,14 @@ module Kanban
         subject { card_record.stage_state_name }
         it { is_expected.to eq('Done') }
       end
+    end
+
+    describe 'CardRecord for feat_400' do
+      let(:card_record) do
+        board_record.cards.where(feature_id_str: 'feat_400').first
+      end
+
+      it { expect(card_record).to be_nil }
     end
   end
 end

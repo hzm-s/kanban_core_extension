@@ -50,7 +50,8 @@ describe 'pull card' do
     let(:workflow) do
       Workflow([
         { phase: 'Todo' },
-        { phase: 'Dev', transition: ['Doing', 'Done'], wip_limit: 2 }
+        { phase: 'Dev', transition: ['Doing', 'Done'], wip_limit: 2 },
+        { phase: 'QA', transition: ['Doing', 'Done'], wip_limit: 1 }
       ])
     end
 
