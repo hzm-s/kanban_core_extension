@@ -7,7 +7,7 @@ module Kanban
     end
 
     def handle_board(board)
-      first_phase_cards = board.count_card_on_phase(first_stage.phase)
+      first_phase_cards = board.count_card(first_stage.phase)
       raise WipLimitReached unless @rule.can_put_card?(first_stage.phase, first_phase_cards)
 
       card = Card.write(@feature_id)

@@ -31,7 +31,7 @@ module Kanban
       @cards.destroy(card_record)
     end
 
-    def count_card_on_phase(phase)
+    def count_card_by_phase(phase)
       @cards.where(stage_phase_name: phase.to_s).count
     end
 

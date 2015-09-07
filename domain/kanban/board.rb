@@ -22,8 +22,8 @@ module Kanban
       board_stages.remove(card)
     end
 
-    def count_card_on_phase(phase)
-      board_stages.count_card_on_phase(phase)
+    def count_card(phase)
+      board_stages.count_card_by_phase(phase)
     end
   end
 end
