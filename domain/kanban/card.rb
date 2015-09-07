@@ -13,11 +13,6 @@ module Kanban
       stage.put(self)
     end
 
-    # TODO:remove
-    def same_phase?(phase)
-      stage.phase == phase
-    end
-
     def ==(other)
       if other.instance_of?(self.class)
         self.feature_id == other.feature_id

@@ -2,25 +2,15 @@ require 'rails_helper'
 
 module Kanban
   describe 'save Board as active record' do
-    let(:rule) do
-      Rule.new(
-        Workflow([
-          { phase: 'Todo' },
-          { phase: 'Dev', transition: ['Doing', 'Done'] },
-          { phase: 'QA' }
-        ])
-      )
-    end
-
     before do
       Board.new.tap do |board|
         board.prepare(Project::ProjectId.new('prj_789'))
         board.save!
 
-        board.add_card(FeatureId('feat_100'), Stage('Todo'))
-        board.add_card(FeatureId('feat_200'), Stage('Todo'))
-        board.add_card(FeatureId('feat_300'), Stage('Todo'))
-        board.add_card(FeatureId('feat_400'), Stage('Todo'))
+        board.put_card(Card.write(FeatureId('feat_100')), Stage('Todo'))
+        board.put_card(Card.write(FeatureId('feat_200')), Stage('Todo'))
+        board.put_card(Card.write(FeatureId('feat_300')), Stage('Todo'))
+        board.put_card(Card.write(FeatureId('feat_400')), Stage('Todo'))
         board.save!
 
         board.put_card(

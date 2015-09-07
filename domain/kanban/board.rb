@@ -6,13 +6,8 @@ module Kanban
       self.project_id = a_project_id
     end
 
-    def update_with(feature_id, action)
-      action.handle_board(feature_id, self)
-    end
-
-    def add_card(feature_id, stage)
-      card = Card.write(feature_id)
-      board_stages.put_card(card, stage)
+    def update_with(action)
+      action.handle_board(self)
     end
 
     def fetch_card(feature_id, stage)
