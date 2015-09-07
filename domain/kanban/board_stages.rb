@@ -6,7 +6,7 @@ module Kanban
     end
 
     def fetch(feature_id, stage)
-      fetch_card_from(feature_id, stage)
+      fetch_card_by_feature_id_and_stage(feature_id, stage)
     end
 
     # for AR::Association
@@ -31,7 +31,7 @@ module Kanban
       @cards.where(stage_phase_name: phase.to_s).count
     end
 
-    def fetch_card_from(feature_id, stage)
+    def fetch_card_by_feature_id_and_stage(feature_id, stage)
       @cards.where(
         feature_id_str: feature_id.to_s,
         stage_phase_name: stage.phase.to_s,
