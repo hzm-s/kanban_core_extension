@@ -11,11 +11,11 @@ module Kanban
     end
 
     def fetch_card(feature_id, stage)
-      board_stages.fetch_card(feature_id, stage)
+      board_stages.fetch(feature_id, stage)
     end
 
     def put_card(card, stage)
-      board_stages.put_card(card, stage)
+      card.locate_to(stage, board_stages)
     end
 
     def remove_card(card)

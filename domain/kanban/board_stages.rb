@@ -5,12 +5,8 @@ module Kanban
       @cards = cards
     end
 
-    def fetch_card(feature_id, stage)
+    def fetch(feature_id, stage)
       fetch_card_from(feature_id, stage)
-    end
-
-    def put_card(card, to)
-      card.locate_to(to, self)
     end
 
     # for AR::Association
