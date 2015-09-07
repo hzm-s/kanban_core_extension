@@ -13,7 +13,6 @@ module Project
       current_phase_spec = retrieve(current_progress.phase)
       next_phase_spec = next_of(current_phase_spec)
 
-      return Progress::Complete.new unless next_phase_spec
       current_phase_spec.next_progress(current_progress, next_phase_spec)
     end
 
@@ -45,7 +44,7 @@ module Project
       end
 
       def next_of(current)
-        @phase_specs[@phase_specs.index(current) + 1]
+        @phase_specs[@phase_specs.index(current) + 1] || EndPhaseSpec.new
       end
   end
 end

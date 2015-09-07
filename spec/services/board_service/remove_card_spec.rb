@@ -13,18 +13,34 @@ describe 'pull card' do
     ProjectService().specify_workflow(project_id, workflow)
   end
 
-  let(:workflow) do
-    Workflow([
-      { phase: 'Deploy' }
-    ])
+  context 'no state phase' do
+    let(:workflow) do
+      Workflow([{ phase: 'Deploy' }])
+    end
+
+    it do
+      feature_id = FeatureId('feat_1')
+      service.add_card(project_id, feature_id)
+      service.forward_card(project_id, feature_id, Progress('Deploy'))
+
+      board = board_repository.find(project_id)
+      expect(board.fetch_card(feature_id, Progress('Deploy'))).to be_nil
+    end
   end
 
-  it do
-    feature_id = FeatureId('feat_1')
-    service.add_card(project_id, feature_id)
-    service.forward_card(project_id, feature_id, Progress('Deploy'))
+  context 'multi state phase' do
+    let(:workflow) do
+      Workflow([{ phase: 'Deploy', transition: ['Doing', 'Done'] }])
+    end
 
-    board = board_repository.find(project_id)
-    expect(board.fetch_card(feature_id, Progress('Deploy'))).to be_nil
+    it do
+      feature_id = FeatureId('feat_1')
+      service.add_card(project_id, feature_id)
+      service.forward_card(project_id, feature_id, Progress('Deploy', 'Doing'))
+      service.forward_card(project_id, feature_id, Progress('Deploy', 'Done'))
+
+      board = board_repository.find(project_id)
+      expect(board.fetch_card(feature_id, Progress('Deploy', 'Done'))).to be_nil
+    end
   end
 end

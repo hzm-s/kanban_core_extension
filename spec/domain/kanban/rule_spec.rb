@@ -13,7 +13,7 @@ module Kanban
           { phase: 'Todo', wip_limit: 2 },
           { phase: 'Dev', transition: ['Doing', 'Review', 'Done'], wip_limit: 2 },
           { phase: 'QA', wip_limit: 1 },
-          { phase: 'Deploy' }
+          { phase: 'Deploy', transition: ['Doing', 'Done'] }
         ])
       end
 
@@ -39,11 +39,16 @@ module Kanban
 
       context 'QA' do
         let(:current_progress) { Progress('QA') }
-        it { is_expected.to eq(Progress('Deploy')) }
+        it { is_expected.to eq(Progress('Deploy', 'Doing')) }
       end
 
-      context 'Deploy' do
-        let(:current_progress) { Progress('Deploy') }
+      context 'Deploy:Doing' do
+        let(:current_progress) { Progress('Deploy', 'Doing') }
+        it { is_expected.to eq(Progress('Deploy', 'Done')) }
+      end
+
+      context 'Deploy:Done' do
+        let(:current_progress) { Progress('Deploy', 'Done') }
         it { is_expected.to eq(Project::Progress::Complete.new) }
       end
     end
