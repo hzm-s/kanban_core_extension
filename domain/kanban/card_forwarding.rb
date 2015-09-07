@@ -2,12 +2,12 @@ module Kanban
   module CardForwarding
     module_function
 
-    def detect(feature_id, current_stage, rule)
-      next_stage = rule.next_stage(current_stage)
+    def detect(card, rule)
+      next_stage = rule.next_stage(card.stage)
 
-      return CardRemoving.new(feature_id, current_stage, next_stage) if next_stage.complete?
-      return CardPushing.new(feature_id, current_stage, next_stage) if current_stage.same_phase?(next_stage)
-      CardPulling.new(feature_id, current_stage, next_stage, rule)
+      return CardRemoving.new(card) if next_stage.complete?
+      return CardPushing.new(card, next_stage) if card.stage.same_phase?(next_stage)
+      CardPulling.new(card, next_stage, rule)
     end
   end
 end

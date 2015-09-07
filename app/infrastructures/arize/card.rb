@@ -43,7 +43,7 @@ module Arize
       end
 
       def build_state(state)
-        ::Project::Stage.from_string(state)
+        ::Project::State.from_string(state)
       end
     end
   end

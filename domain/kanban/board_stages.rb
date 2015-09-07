@@ -1,6 +1,4 @@
 module Kanban
-  class CardNotFound < StandardError; end
-
   class BoardStages
 
     def initialize(cards)

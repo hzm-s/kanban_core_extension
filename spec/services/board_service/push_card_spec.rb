@@ -72,7 +72,7 @@ describe 'push card' do
 
         expect {
           service.forward_card(project_id, feature_id, Stage('Dev', 'Review'))
-        }.to raise_error(Kanban::CardNotFound)
+        }.to raise_error(CardNotFound)
       end
     end
   end

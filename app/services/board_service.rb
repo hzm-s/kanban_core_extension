@@ -1,3 +1,5 @@
+class CardNotFound < StandardError; end
+
 class BoardService
 
   def initialize(project_repository, board_repository)
@@ -17,11 +19,13 @@ class BoardService
   end
 
   def forward_card(project_id, feature_id, current_stage)
-    project = @project_repository.find(project_id)
     board = @board_repository.find(project_id)
+    raise CardNotFound unless card = board.fetch_card(feature_id, current_stage)
 
+    project = @project_repository.find(project_id)
     rule = Kanban::Rule.new(project.workflow)
-    action = Kanban::CardForwarding.detect(feature_id, current_stage, rule)
+
+    action = Kanban::CardForwarding.detect(card, rule)
     board.update_with(action)
 
     @board_repository.store(board)
