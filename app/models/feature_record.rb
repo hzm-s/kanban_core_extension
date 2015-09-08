@@ -1,5 +1,6 @@
 class FeatureRecord < ActiveRecord::Base
-  has_one :shipped_feature_record
+  has_one :backlogged_feature_record, dependent: :destroy
+  has_one :shipped_feature_record, dependent: :destroy
 
   def feature_id
     id
