@@ -1,11 +1,12 @@
 module View
-  Board = Struct.new(:project_name, :header, :body) do
+  Board = Struct.new(:project_id_str, :project_name, :header, :body) do
     class << self
 
       def build(project_id_str)
         project_with_workflow = ProjectRecord.with_workflow(project_id_str)
 
         new(
+          project_id_str,
           project_with_workflow.description_name,
           header(project_with_workflow),
           body(project_id_str)

@@ -1,8 +1,11 @@
-<header class="page">
-  <h2><%= link_to @backlog.project_name, projects_url %> : Backlog</h2>
-  <nav>
+<header class="board-page">
+  <h2><%= link_to @backlog.project_name, projects_url %> Backlog</h2>
+  <div class="statistics">
+    <ul>
+      <li><%= link_to '???', board_url(project_id_str: @backlog.project_id_str) %><span>WIP</span></li>
+    </ul>
     <%= link_to 'Add feature', new_feature_url(project_id_str: @backlog.project_id_str) %>
-  </nav>
+  </div>
 </header>
 <section class="container">
   <div class="wrapper">
