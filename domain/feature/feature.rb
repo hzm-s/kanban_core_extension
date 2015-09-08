@@ -20,9 +20,9 @@ module Feature
     end
 
     def state
-      #return Feature::State::Shipped if shipped_log
-      return Feature::State::Development if development_log
-      return Feature::State::Backlogged if backlogged_log
+      return State::Shipped if shipped_log
+      return State::Development if development_log
+      return State::Backlogged if backlogged_log
       fail 'invalid feature state'
     end
 
