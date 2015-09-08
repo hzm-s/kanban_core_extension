@@ -17,8 +17,8 @@ module Arize
         ::Project::ProjectId.new(self.project_id_str)
       end
 
-      def board_stages
-        @board_stages ||= Kanban::BoardStages.new(cards)
+      def stage
+        Kanban::Stage.new(cards)
       end
     end
 

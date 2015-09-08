@@ -12,6 +12,10 @@ module ServiceRegistry
   end
 
   def board_service
-    BoardService.new(ProjectRepository.new, BoardRepository.new)
+    BoardService.new(
+      ProjectRepository.new,
+      BoardRepository.new,
+      Feature::DevelopmentTracker.new(FeatureRepository.new)
+    )
   end
 end

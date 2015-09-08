@@ -2,10 +2,12 @@ require 'rails_helper'
 
 describe 'add feature to board' do
   let(:service) do
-    BoardService.new(project_repository, board_repository)
+    BoardService.new(project_repository, board_repository, development_tracker)
   end
   let(:project_repository) { ProjectRepository.new }
   let(:board_repository) { BoardRepository.new }
+  let(:development_tracker) { Feature::DevelopmentTracker.new(feature_repository) }
+  let(:feature_repository) { FeatureRepository.new }
 
   let(:project_id) { Project('Name', 'Goal') }
 
@@ -24,7 +26,7 @@ describe 'add feature to board' do
       service.add_card(project_id, feature_id)
 
       board = board_repository.find(project_id)
-      expect(board.staged_card(Stage('Todo'))).to include(feature_id)
+      expect(board.fetch_card(feature_id, Progress('Todo'))).to_not be_nil
     end
   end
 
@@ -40,7 +42,7 @@ describe 'add feature to board' do
         service.add_card(project_id, feature_id)
 
         board = board_repository.find(project_id)
-        expect(board.staged_card(Stage('Todo'))).to include(feature_id)
+        expect(board.fetch_card(feature_id, Progress('Todo'))).to_not be_nil
       end
     end
 
@@ -53,7 +55,7 @@ describe 'add feature to board' do
         service.add_card(project_id, feature_id)
 
         board = board_repository.find(project_id)
-        expect(board.staged_card(Stage('Todo'))).to include(feature_id)
+        expect(board.fetch_card(feature_id, Progress('Todo'))).to_not be_nil
       end
     end
 
@@ -82,7 +84,7 @@ describe 'add feature to board' do
       service.add_card(project_id, feature_id)
 
       board = board_repository.find(project_id)
-      expect(board.staged_card(Stage('Todo', 'Check'))).to include(feature_id)
+      expect(board.fetch_card(feature_id, Progress('Todo', 'Check'))).to_not be_nil
     end
   end
 
@@ -100,7 +102,7 @@ describe 'add feature to board' do
         service.add_card(project_id, feature_id)
 
         board = board_repository.find(project_id)
-        expect(board.staged_card(Stage('Todo', 'Check'))).to include(feature_id)
+        expect(board.fetch_card(feature_id, Progress('Todo', 'Check'))).to_not be_nil
       end
     end
 
@@ -113,7 +115,7 @@ describe 'add feature to board' do
         service.add_card(project_id, feature_id)
 
         board = board_repository.find(project_id)
-        expect(board.staged_card(Stage('Todo', 'Check'))).to include(feature_id)
+        expect(board.fetch_card(feature_id, Progress('Todo', 'Check'))).to_not be_nil
       end
     end
 

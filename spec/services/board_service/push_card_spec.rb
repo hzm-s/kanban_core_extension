@@ -2,10 +2,12 @@ require 'rails_helper'
 
 describe 'push card' do
   let(:service) do
-    BoardService.new(project_repository, board_repository)
+    BoardService.new(project_repository, board_repository, development_tracker)
   end
   let(:project_repository) { ProjectRepository.new }
   let(:board_repository) { BoardRepository.new }
+  let(:development_tracker) { Feature::DevelopmentTracker.new(feature_repository) }
+  let(:feature_repository) { FeatureRepository.new }
 
   let(:project_id) { Project('Name', 'Goal') }
 
@@ -26,12 +28,12 @@ describe 'push card' do
         feature_id = FeatureId('feat_1')
         service.add_card(project_id, feature_id)
 
-        from = Stage('Dev', 'Doing')
-        to = Stage('Dev', 'Review')
+        from = Progress('Dev', 'Doing')
+        to = Progress('Dev', 'Review')
         service.forward_card(project_id, feature_id, from)
 
         board = board_repository.find(project_id)
-        expect(board.staged_card(to)).to include(feature_id)
+        expect(board.fetch_card(feature_id, to)).to_not be_nil
       end
     end
 
@@ -39,14 +41,14 @@ describe 'push card' do
       it do
         feature_id = FeatureId('feat_1')
         service.add_card(project_id, feature_id)
-        service.forward_card(project_id, feature_id, Stage('Dev', 'Doing'))
+        service.forward_card(project_id, feature_id, Progress('Dev', 'Doing'))
 
-        from = Stage('Dev', 'Review')
-        to = Stage('Dev', 'Done')
+        from = Progress('Dev', 'Review')
+        to = Progress('Dev', 'Done')
         service.forward_card(project_id, feature_id, from)
 
         board = board_repository.find(project_id)
-        expect(board.staged_card(to)).to include(feature_id)
+        expect(board.fetch_card(feature_id, to)).to_not be_nil
       end
     end
 
@@ -56,23 +58,23 @@ describe 'push card' do
         service.add_card(project_id, FeatureId('feat_7'))
         service.add_card(project_id, feature_id)
 
-        from = Stage('Dev', 'Doing')
-        to = Stage('Dev', 'Review')
+        from = Progress('Dev', 'Doing')
+        to = Progress('Dev', 'Review')
         service.forward_card(project_id, feature_id, from)
 
         board = board_repository.find(project_id)
-        expect(board.staged_card(to)).to include(feature_id)
+        expect(board.fetch_card(feature_id, to)).to_not be_nil
       end
     end
 
-    context 'card is NOT locate to FROM stage' do
+    context 'card is NOT in given progress' do
       it do
         feature_id = FeatureId('feat_1')
         service.add_card(project_id, feature_id)
 
         expect {
-          service.forward_card(project_id, feature_id, Stage('Dev', 'Review'))
-        }.to raise_error(Kanban::CardNotFound)
+          service.forward_card(project_id, feature_id, Progress('Dev', 'Review'))
+        }.to raise_error(CardNotFound)
       end
     end
   end

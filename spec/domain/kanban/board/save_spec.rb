@@ -2,31 +2,28 @@ require 'rails_helper'
 
 module Kanban
   describe 'save Board as active record' do
-    let(:rule) do
-      Rule.new(
-        Workflow([
-          { phase: 'Todo' },
-          { phase: 'Dev', transition: ['Doing', 'Done'], wip_limit: 2 },
-          { phase: 'QA', wip_limit: 1 }
-        ])
-      )
-    end
-
     before do
       Board.new.tap do |board|
         board.prepare(Project::ProjectId.new('prj_789'))
         board.save!
 
-        adding = CardAdding.new(rule)
-        board.add_card(FeatureId('feat_100'), adding)
-        board.add_card(FeatureId('feat_200'), adding)
-        board.add_card(FeatureId('feat_300'), adding)
+        board.put_card(Card.write(FeatureId('feat_100')), Progress('Todo'))
+        board.put_card(Card.write(FeatureId('feat_200')), Progress('Todo'))
+        board.put_card(Card.write(FeatureId('feat_300')), Progress('Todo'))
+        board.put_card(Card.write(FeatureId('feat_400')), Progress('Todo'))
         board.save!
 
-        board.forward_card(FeatureId('feat_200'), CardForwarding.detect(Stage('Todo'), rule))
-        board.forward_card(FeatureId('feat_300'), CardForwarding.detect(Stage('Todo'), rule))
-
-        board.forward_card(FeatureId('feat_300'), CardForwarding.detect(Stage('Dev', 'Doing'), rule))
+        board.put_card(
+          board.fetch_card(FeatureId('feat_200'), Progress('Todo')),
+          Progress('Dev', 'Doing')
+        )
+        board.put_card(
+          board.fetch_card(FeatureId('feat_300'), Progress('Todo')),
+          Progress('Dev', 'Done')
+        )
+        board.remove_card(
+          board.fetch_card(FeatureId('feat_400'), Progress('Todo'))
+        )
         board.save!
       end
     end
@@ -43,13 +40,13 @@ module Kanban
         board_record.cards.where(feature_id_str: 'feat_100').first
       end
 
-      describe 'stage_phase_name' do
-        subject { card_record.stage_phase_name }
+      describe 'progress_phase_name' do
+        subject { card_record.progress_phase_name }
         it { is_expected.to eq('Todo') }
       end
 
-      describe 'stage_state_name' do
-        subject { card_record.stage_state_name }
+      describe 'progress_state_name' do
+        subject { card_record.progress_state_name }
         it { is_expected.to eq('') }
       end
     end
@@ -59,13 +56,13 @@ module Kanban
         board_record.cards.where(feature_id_str: 'feat_200').first
       end
 
-      describe 'stage_phase_name' do
-        subject { card_record.stage_phase_name }
+      describe 'progress_phase_name' do
+        subject { card_record.progress_phase_name }
         it { is_expected.to eq('Dev') }
       end
 
-      describe 'stage_state_name' do
-        subject { card_record.stage_state_name }
+      describe 'progress_state_name' do
+        subject { card_record.progress_state_name }
         it { is_expected.to eq('Doing') }
       end
     end
@@ -75,15 +72,23 @@ module Kanban
         board_record.cards.where(feature_id_str: 'feat_300').first
       end
 
-      describe 'stage_phase_name' do
-        subject { card_record.stage_phase_name }
+      describe 'progress_phase_name' do
+        subject { card_record.progress_phase_name }
         it { is_expected.to eq('Dev') }
       end
 
-      describe 'stage_state_name' do
-        subject { card_record.stage_state_name }
+      describe 'progress_state_name' do
+        subject { card_record.progress_state_name }
         it { is_expected.to eq('Done') }
       end
+    end
+
+    describe 'CardRecord for feat_400' do
+      let(:card_record) do
+        board_record.cards.where(feature_id_str: 'feat_400').first
+      end
+
+      it { expect(card_record).to be_nil }
     end
   end
 end

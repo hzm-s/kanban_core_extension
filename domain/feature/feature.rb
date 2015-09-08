@@ -2,6 +2,15 @@ module Feature
   class Feature < ActiveRecord::Base
     include Arize::Feature
 
+    def finish_development
+      return if shipped?
+      log_shipped
+    end
+
+    def shipped?
+      !shipping_log.nil?
+    end
+
     def eql?(other)
       self == other
     end

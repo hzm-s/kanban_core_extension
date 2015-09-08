@@ -1,7 +1,7 @@
-module StageCreator
+module ProgressCreator
 
-  def Stage(phase_name, state_name = '')
-    Kanban::Stage.new(
+  def Progress(phase_name, state_name = '')
+    Project::Progress.new(
       Phase(phase_name),
       State(state_name)
     )

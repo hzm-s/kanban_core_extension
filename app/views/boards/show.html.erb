@@ -25,8 +25,8 @@
               <%= form_for card.forward_card_command, url: card_forwardings_url do |f| -%>
                 <%= f.hidden_field :project_id_str -%>
                 <%= f.hidden_field :feature_id_str -%>
-                <%= f.hidden_field :stage_phase_name -%>
-                <%= f.hidden_field :stage_state_name -%>
+                <%= f.hidden_field :progress_phase_name -%>
+                <%= f.hidden_field :progress_state_name -%>
                 <%= f.submit raw('&#10140;') -%>
               <% end -%>
             </div>

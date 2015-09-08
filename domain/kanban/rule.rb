@@ -7,10 +7,8 @@ module Kanban
       @workflow = workflow
     end
 
-    def next_stage(current_stage)
-      current_situation = Project::Situation.new(*current_stage.to_a)
-      next_situation = @workflow.next_situation(current_situation)
-      Stage.new(next_situation.phase, next_situation.state)
+    def next_progress(current_progress)
+      @workflow.next_progress(current_progress)
     end
 
     def can_put_card?(phase, card_size)
@@ -18,9 +16,8 @@ module Kanban
       !@workflow.reach_wip_limit?(phase, card_size)
     end
 
-    def initial_stage
-      situation = @workflow.first_situation
-      Stage.new(situation.phase, situation.state)
+    def first_progress
+      @workflow.first_progress
     end
   end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150903022533) do
+ActiveRecord::Schema.define(version: 20150907133843) do
 
   create_table "board_records", force: :cascade do |t|
     t.string "project_id_str", null: false
@@ -20,10 +20,10 @@ ActiveRecord::Schema.define(version: 20150903022533) do
   add_index "board_records", ["project_id_str"], name: "index_board_records_on_project_id_str"
 
   create_table "card_records", force: :cascade do |t|
-    t.integer "board_record_id",  null: false
-    t.string  "feature_id_str",   null: false
-    t.string  "stage_phase_name", null: false
-    t.string  "stage_state_name"
+    t.integer "board_record_id",     null: false
+    t.string  "feature_id_str",      null: false
+    t.string  "progress_phase_name", null: false
+    t.string  "progress_state_name"
   end
 
   create_table "feature_records", force: :cascade do |t|
@@ -49,6 +49,11 @@ ActiveRecord::Schema.define(version: 20150903022533) do
   end
 
   add_index "project_records", ["project_id_str"], name: "index_project_records_on_project_id_str"
+
+  create_table "shipped_feature_records", force: :cascade do |t|
+    t.integer  "feature_record_id", null: false
+    t.datetime "shipped_at",        null: false
+  end
 
   create_table "state_records", force: :cascade do |t|
     t.integer "project_record_id", null: false

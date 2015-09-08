@@ -6,13 +6,13 @@ module Kanban
       board_record = Board.new(project_id_str: 'prj_789')
       board_record.cards.build(
         feature_id_str: 'feat_100',
-        stage_phase_name: 'Todo',
-        stage_state_name: ''
+        progress_phase_name: 'Todo',
+        progress_state_name: ''
       )
       board_record.cards.build(
         feature_id_str: 'feat_200',
-        stage_phase_name: 'Dev',
-        stage_state_name: 'Doing'
+        progress_phase_name: 'Dev',
+        progress_state_name: 'Doing'
       )
       board_record.save!
     end
@@ -24,16 +24,16 @@ module Kanban
       it { is_expected.to eq(Project::ProjectId.new('prj_789')) }
     end
 
-    describe 'Todo stage' do
-      let(:stage) { board.staged_card(Stage('Todo')) }
+    describe 'Todo progress' do
+      subject { board.fetch_card(FeatureId('feat_100'), Progress('Todo')) }
 
-      it { expect(stage).to include(FeatureId('feat_100')) }
+      it { is_expected.to be_truthy }
     end
 
-    describe 'Dev-Doing stage' do
-      let(:stage) { board.staged_card(Stage('Dev', 'Doing')) }
+    describe 'Dev-Doing progress' do
+      subject { board.fetch_card(FeatureId('feat_200'), Progress('Dev', 'Doing')) }
 
-      it { expect(stage).to include(FeatureId('feat_200')) }
+      it { is_expected.to be_truthy }
     end
   end
 end

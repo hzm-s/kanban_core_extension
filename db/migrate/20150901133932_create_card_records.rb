@@ -3,8 +3,8 @@ class CreateCardRecords < ActiveRecord::Migration
     create_table :card_records do |t|
       t.references :board_record, null: false
       t.string :feature_id_str, null: false
-      t.string :stage_phase_name, null: false
-      t.string :stage_state_name
+      t.string :progress_phase_name, null: false
+      t.string :progress_state_name
     end
   end
 end

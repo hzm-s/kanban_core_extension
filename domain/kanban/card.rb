@@ -8,13 +8,9 @@ module Kanban
       end
     end
 
-    def locate_to(a_stage, stage)
-      self.stage = a_stage
+    def locate_to(a_progress, stage)
+      self.progress = a_progress
       stage.put(self)
-    end
-
-    def same_phase?(phase)
-      stage.phase == phase
     end
 
     def ==(other)
