@@ -11,7 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150907133843) do
+ActiveRecord::Schema.define(version: 20150908023413) do
+
+  create_table "backlogged_feature_records", force: :cascade do |t|
+    t.integer  "feature_record_id", null: false
+    t.datetime "backlogged_at",     null: false
+  end
 
   create_table "board_records", force: :cascade do |t|
     t.string "project_id_str", null: false

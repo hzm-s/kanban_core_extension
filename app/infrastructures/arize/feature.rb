@@ -5,6 +5,7 @@ module Arize
     included do
       self.table_name = 'feature_records'
 
+      has_one :backlogged_feature_record, foreign_key: 'feature_record_id'
       has_one :shipped_feature_record, foreign_key: 'feature_record_id'
 
       include Writers
@@ -24,6 +25,10 @@ module Arize
       def description=(a_description)
         self.description_summary = a_description.summary
         self.description_detail = a_description.detail
+      end
+
+      def log_backloged
+        build_backlogged_feature_record(backlogged_at: Time.current)
       end
 
       def log_shipped
@@ -46,6 +51,10 @@ module Arize
           self.description_summary,
           self.description_detail
         )
+      end
+
+      def backlogging_log
+        backlogged_feature_record
       end
 
       def shipping_log
