@@ -8,6 +8,7 @@ Rails.application.routes.draw do
 
   get 'backlogs/:project_id_str', to: 'backlogs#show', as: :backlog
   get 'boards/:project_id_str', to: 'boards#show', as: :board
+  get 'results/:project_id_str', to: 'results#show', as: :result
 
   root 'projects#index'
 end
