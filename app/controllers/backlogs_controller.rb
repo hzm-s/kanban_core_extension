@@ -1,7 +1,7 @@
 class BacklogsController < ApplicationController
 
   def show
-    @wip_count = CardRecord.count(params[:project_id_str])
+    @stats = View::Stats.build(params[:project_id_str], [:wip, :ships])
     @backlog = View::Backlog.build(params[:project_id_str])
   end
 end
