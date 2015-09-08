@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20150908023413) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "backlogged_feature_records", force: :cascade do |t|
     t.integer  "feature_record_id", null: false
     t.datetime "backlogged_at",     null: false
@@ -22,7 +25,7 @@ ActiveRecord::Schema.define(version: 20150908023413) do
     t.string "project_id_str", null: false
   end
 
-  add_index "board_records", ["project_id_str"], name: "index_board_records_on_project_id_str"
+  add_index "board_records", ["project_id_str"], name: "index_board_records_on_project_id_str", using: :btree
 
   create_table "card_records", force: :cascade do |t|
     t.integer "board_record_id",     null: false
@@ -45,7 +48,7 @@ ActiveRecord::Schema.define(version: 20150908023413) do
     t.integer "wip_limit_count"
   end
 
-  add_index "phase_spec_records", ["project_record_id", "order"], name: "index_phase_spec_records_on_project_record_id_and_order"
+  add_index "phase_spec_records", ["project_record_id", "order"], name: "index_phase_spec_records_on_project_record_id_and_order", using: :btree
 
   create_table "project_records", force: :cascade do |t|
     t.string "project_id_str",   null: false
@@ -53,7 +56,7 @@ ActiveRecord::Schema.define(version: 20150908023413) do
     t.text   "description_goal", null: false
   end
 
-  add_index "project_records", ["project_id_str"], name: "index_project_records_on_project_id_str"
+  add_index "project_records", ["project_id_str"], name: "index_project_records_on_project_id_str", using: :btree
 
   create_table "shipped_feature_records", force: :cascade do |t|
     t.integer  "feature_record_id", null: false
@@ -67,6 +70,6 @@ ActiveRecord::Schema.define(version: 20150908023413) do
     t.string  "state_name",        null: false
   end
 
-  add_index "state_records", ["project_record_id", "phase_name", "order"], name: "project_phase_order"
+  add_index "state_records", ["project_record_id", "phase_name", "order"], name: "project_phase_order", using: :btree
 
 end
