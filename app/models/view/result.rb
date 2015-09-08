@@ -14,8 +14,8 @@ module View
 
   class ShippedFeature < SimpleDelegator
 
-    def backlogged_at
-      backlogged_feature_record.backlogged_at
+    def start_develop_at
+      development_feature_record.start_at
     end
 
     def shipped_at
@@ -23,7 +23,7 @@ module View
     end
 
     def lead_time
-      ((shipped_at - backlogged_at) / (60 * 60)).round(1)
+      ((shipped_at - start_develop_at) / (60 * 60)).round(1)
     end
   end
 end
