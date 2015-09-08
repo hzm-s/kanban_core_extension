@@ -10,8 +10,8 @@ module Feature
     end
 
     def start_development
-      return if development_log
-      log_development
+      return if wip_log
+      log_wip
     end
 
     def finish_development
@@ -21,7 +21,7 @@ module Feature
 
     def state
       return State::Shipped if shipped_log
-      return State::Development if development_log
+      return State::Wip if wip_log
       return State::Backlogged if backlogged_log
       fail 'invalid feature state'
     end

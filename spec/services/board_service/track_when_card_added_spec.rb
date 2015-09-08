@@ -24,6 +24,6 @@ describe 'track when card added' do
     service.add_card(project_id, feature_id)
 
     feature = feature_repository.find(project_id, feature_id)
-    expect(feature.state).to eq(Feature::State::Development)
+    expect(feature.state).to eq(Feature::State::Wip)
   end
 end

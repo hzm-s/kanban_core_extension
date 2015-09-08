@@ -15,7 +15,7 @@ module View
   class ShippedFeature < SimpleDelegator
 
     def start_develop_at
-      development_feature_record.start_at
+      wip_feature_record.started_at
     end
 
     def shipped_at
