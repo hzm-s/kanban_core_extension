@@ -9,17 +9,21 @@ module Feature
       log_backloged
     end
 
+    def start_development
+      return if development_log
+      log_development
+    end
+
     def finish_development
-      return if shipped?
+      return if shipped_log
       log_shipped
     end
 
-    def backlogged?
-      !backlogging_log.nil?
-    end
-
-    def shipped?
-      !shipping_log.nil?
+    def state
+      #return Feature::State::Shipped if shipped_log
+      return Feature::State::Development if development_log
+      return Feature::State::Backlogged if backlogged_log
+      fail 'invalid feature state'
     end
 
     def eql?(other)

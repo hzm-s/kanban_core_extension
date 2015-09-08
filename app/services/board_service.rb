@@ -9,6 +9,8 @@ class BoardService
   end
 
   def add_card(project_id, feature_id)
+    EventPublisher.subscribe(@development_tracker)
+
     project = @project_repository.find(project_id)
     board = @board_repository.find(project_id)
 

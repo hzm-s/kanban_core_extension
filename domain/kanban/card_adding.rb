@@ -12,6 +12,11 @@ module Kanban
 
       card = Card.write(@feature_id)
       board.put_card(card, first_progress)
+
+      EventPublisher.publish(
+        :card_added,
+        CardAdded.new(board.project_id, card)
+      )
     end
 
     private

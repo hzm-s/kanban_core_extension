@@ -1,13 +1,12 @@
 require 'rails_helper'
 
 describe 'add feature to board' do
-  let(:service) do
+  let!(:service) do
     BoardService.new(project_repository, board_repository, development_tracker)
   end
   let(:project_repository) { ProjectRepository.new }
   let(:board_repository) { BoardRepository.new }
-  let(:development_tracker) { Feature::DevelopmentTracker.new(feature_repository) }
-  let(:feature_repository) { FeatureRepository.new }
+  let(:development_tracker) { FakeDevelopmentTracker.new }
 
   let(:project_id) { Project('Name', 'Goal') }
 
@@ -15,7 +14,7 @@ describe 'add feature to board' do
     ProjectService().specify_workflow(project_id, workflow)
   end
 
-  context 'Next=State:none, WipLimit:none', 'After the next=State:none, WipLimit:none' do
+  context 'no state phase, wip_limit = 0' do
     let(:workflow) do
       Workflow([{ phase: 'Todo' }, { phase: 'Analyze' }])
     end
