@@ -5,6 +5,12 @@ module Feature
       @feature_repository = feature_repository
     end
 
+    def card_added(event)
+      feature = @feature_repository.find(event.project_id, event.card.feature_id)
+      feature.start_development
+      @feature_repository.store(feature)
+    end
+
     def card_removed(event)
       feature = @feature_repository.find(event.project_id, event.card.feature_id)
       feature.finish_development

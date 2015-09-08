@@ -5,8 +5,9 @@ module Arize
     included do
       self.table_name = 'feature_records'
 
-      has_one :backlogged_feature_record, foreign_key: 'feature_record_id'
-      has_one :shipped_feature_record, foreign_key: 'feature_record_id'
+      has_one :backlogged_feature_record, foreign_key: 'feature_record_id', dependent: :destroy
+      has_one :wip_feature_record, foreign_key: 'feature_record_id', dependent: :destroy
+      has_one :shipped_feature_record, foreign_key: 'feature_record_id', dependent: :destroy
 
       include Writers
       include Readers
@@ -31,6 +32,10 @@ module Arize
         build_backlogged_feature_record(backlogged_at: Time.current)
       end
 
+      def log_wip
+        build_wip_feature_record(started_at: Time.current)
+      end
+
       def log_shipped
         build_shipped_feature_record(shipped_at: Time.current)
       end
@@ -53,11 +58,15 @@ module Arize
         )
       end
 
-      def backlogging_log
+      def backlogged_log
         backlogged_feature_record
       end
 
-      def shipping_log
+      def wip_log
+        wip_feature_record
+      end
+
+      def shipped_log
         shipped_feature_record
       end
     end

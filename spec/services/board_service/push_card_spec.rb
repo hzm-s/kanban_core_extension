@@ -6,8 +6,7 @@ describe 'push card' do
   end
   let(:project_repository) { ProjectRepository.new }
   let(:board_repository) { BoardRepository.new }
-  let(:development_tracker) { Feature::DevelopmentTracker.new(feature_repository) }
-  let(:feature_repository) { FeatureRepository.new }
+  let(:development_tracker) { FakeDevelopmentTracker.new }
 
   let(:project_id) { Project('Name', 'Goal') }
 
