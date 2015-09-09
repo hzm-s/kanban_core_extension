@@ -15,7 +15,7 @@ module Kanban
     end
 
     def put_card(feature_id, from, to)
-      card_map.move(fetch_card(feature_id, from), to)
+      card_map.update(fetch_card(feature_id, from), to)
     end
 
     def remove_card(feature_id, from)
@@ -28,7 +28,7 @@ module Kanban
     end
 
     def count_card(phase)
-      card_map.count_card_by_phase(phase)
+      card_map.count_by_phase(phase)
     end
   end
 end
