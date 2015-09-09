@@ -1,7 +1,7 @@
-module ProgressCreator
+module StepCreator
 
-  def Progress(phase_name, state_name = '')
-    Project::Progress.new(
+  def Step(phase_name, state_name = '')
+    Project::Step.new(
       Phase(phase_name),
       State(state_name)
     )

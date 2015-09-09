@@ -7,8 +7,8 @@ module Kanban
       @workflow = workflow
     end
 
-    def next_progress(current_progress)
-      @workflow.next_progress(current_progress)
+    def next_step(current_step)
+      @workflow.next_step(current_step)
     end
 
     def can_put_card?(phase, card_size)
@@ -16,8 +16,8 @@ module Kanban
       !@workflow.reach_wip_limit?(phase, card_size)
     end
 
-    def first_progress
-      @workflow.first_progress
+    def first_step
+      @workflow.first_step
     end
   end
 end

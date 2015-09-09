@@ -1,8 +1,8 @@
 module Project
   class EndPhaseSpec
 
-    def first_progress
-      Progress::Complete.new
+    def first_step
+      Step::Complete.new
     end
   end
 end

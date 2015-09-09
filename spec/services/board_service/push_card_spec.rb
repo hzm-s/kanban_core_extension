@@ -27,8 +27,8 @@ describe 'push card' do
         feature_id = FeatureId('feat_1')
         service.add_card(project_id, feature_id)
 
-        from = Progress('Dev', 'Doing')
-        to = Progress('Dev', 'Review')
+        from = Step('Dev', 'Doing')
+        to = Step('Dev', 'Review')
         service.forward_card(project_id, feature_id, from)
 
         board = board_repository.find(project_id)
@@ -40,10 +40,10 @@ describe 'push card' do
       it do
         feature_id = FeatureId('feat_1')
         service.add_card(project_id, feature_id)
-        service.forward_card(project_id, feature_id, Progress('Dev', 'Doing'))
+        service.forward_card(project_id, feature_id, Step('Dev', 'Doing'))
 
-        from = Progress('Dev', 'Review')
-        to = Progress('Dev', 'Done')
+        from = Step('Dev', 'Review')
+        to = Step('Dev', 'Done')
         service.forward_card(project_id, feature_id, from)
 
         board = board_repository.find(project_id)
@@ -57,8 +57,8 @@ describe 'push card' do
         service.add_card(project_id, FeatureId('feat_7'))
         service.add_card(project_id, feature_id)
 
-        from = Progress('Dev', 'Doing')
-        to = Progress('Dev', 'Review')
+        from = Step('Dev', 'Doing')
+        to = Step('Dev', 'Review')
         service.forward_card(project_id, feature_id, from)
 
         board = board_repository.find(project_id)
@@ -66,13 +66,13 @@ describe 'push card' do
       end
     end
 
-    context 'card is NOT in given progress' do
+    context 'card is NOT in given step' do
       it do
         feature_id = FeatureId('feat_1')
         service.add_card(project_id, feature_id)
 
         expect {
-          service.forward_card(project_id, feature_id, Progress('Dev', 'Review'))
+          service.forward_card(project_id, feature_id, Step('Dev', 'Review'))
         }.to raise_error(CardNotFound)
       end
     end

@@ -8,13 +8,13 @@ module Project
       @wip_limit = wip_limit
     end
 
-    def next_progress(current_progress, next_phase_spec)
-      return next_phase_spec.first_progress if @transition.last?(current_progress.state)
-      Progress.new(@phase, @transition.next(current_progress.state))
+    def next_step(current_step, next_phase_spec)
+      return next_phase_spec.first_step if @transition.last?(current_step.state)
+      Step.new(@phase, @transition.next(current_step.state))
     end
 
-    def first_progress
-      Progress.new(@phase, @transition.first)
+    def first_step
+      Step.new(@phase, @transition.first)
     end
 
     def reach_wip_limit?(wip)

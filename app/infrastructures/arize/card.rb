@@ -15,9 +15,9 @@ module Arize
         self.feature_id_str = a_feature_id.to_s
       end
 
-      def progress=(a_progress)
-        self.progress_phase_name = a_progress.phase.to_s
-        self.progress_state_name = serialize_state(a_progress.state)
+      def step=(a_step)
+        self.step_phase_name = a_step.phase.to_s
+        self.step_state_name = serialize_state(a_step.state)
       end
 
       def serialize_state(state)
@@ -31,10 +31,10 @@ module Arize
         ::Feature::FeatureId.new(feature_id_str)
       end
 
-      def progress
-        ::Project::Progress.new(
-          build_phase(progress_phase_name),
-          build_state(progress_state_name)
+      def step
+        ::Project::Step.new(
+          build_phase(step_phase_name),
+          build_state(step_state_name)
         )
       end
 

@@ -28,7 +28,7 @@ module View
         end
     end
 
-    def progress_size
+    def step_size
       header.phase_states.size
     end
   end

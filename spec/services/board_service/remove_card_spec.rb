@@ -22,11 +22,11 @@ describe 'pull card' do
 
     it do
       service.add_card(project_id, feature_id)
-      service.forward_card(project_id, feature_id, Progress('Deploy'))
+      service.forward_card(project_id, feature_id, Step('Deploy'))
 
       board = board_repository.find(project_id)
       expect {
-        board.fetch_card(feature_id, Progress('Deploy'))
+        board.fetch_card(feature_id, Step('Deploy'))
       }.to raise_error(CardNotFound)
     end
   end
@@ -38,12 +38,12 @@ describe 'pull card' do
 
     it do
       service.add_card(project_id, feature_id)
-      service.forward_card(project_id, feature_id, Progress('Deploy', 'Doing'))
-      service.forward_card(project_id, feature_id, Progress('Deploy', 'Done'))
+      service.forward_card(project_id, feature_id, Step('Deploy', 'Doing'))
+      service.forward_card(project_id, feature_id, Step('Deploy', 'Done'))
 
       board = board_repository.find(project_id)
       expect {
-        board.fetch_card(feature_id, Progress('Deploy', 'Done'))
+        board.fetch_card(feature_id, Step('Deploy', 'Done'))
       }.to raise_error(CardNotFound)
     end
   end

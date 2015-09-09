@@ -9,7 +9,7 @@ module Kanban
     end
 
     def relocate(to)
-      self.progress = to
+      self.step = to
     end
 
     def ==(other)

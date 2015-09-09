@@ -2,9 +2,9 @@ require 'rails_helper'
 
 module Kanban
   describe Rule do
-    describe '#next_progress' do
+    describe '#next_step' do
       subject do
-        rule.next_progress(current_progress)
+        rule.next_step(current_step)
       end
 
       let(:rule) { described_class.new(workflow) }
@@ -18,38 +18,38 @@ module Kanban
       end
 
       context 'Todo' do
-        let(:current_progress) { Progress('Todo') }
-        it { is_expected.to eq(Progress('Dev', 'Doing')) }
+        let(:current_step) { Step('Todo') }
+        it { is_expected.to eq(Step('Dev', 'Doing')) }
       end
 
       context 'Dev:Doing' do
-        let(:current_progress) { Progress('Dev', 'Doing') }
-        it { is_expected.to eq(Progress('Dev', 'Review')) }
+        let(:current_step) { Step('Dev', 'Doing') }
+        it { is_expected.to eq(Step('Dev', 'Review')) }
       end
 
       context 'Dev:Review' do
-        let(:current_progress) { Progress('Dev', 'Review') }
-        it { is_expected.to eq(Progress('Dev', 'Done')) }
+        let(:current_step) { Step('Dev', 'Review') }
+        it { is_expected.to eq(Step('Dev', 'Done')) }
       end
 
       context 'Dev:Done' do
-        let(:current_progress) { Progress('Dev', 'Done') }
-        it { is_expected.to eq(Progress('QA')) }
+        let(:current_step) { Step('Dev', 'Done') }
+        it { is_expected.to eq(Step('QA')) }
       end
 
       context 'QA' do
-        let(:current_progress) { Progress('QA') }
-        it { is_expected.to eq(Progress('Deploy', 'Doing')) }
+        let(:current_step) { Step('QA') }
+        it { is_expected.to eq(Step('Deploy', 'Doing')) }
       end
 
       context 'Deploy:Doing' do
-        let(:current_progress) { Progress('Deploy', 'Doing') }
-        it { is_expected.to eq(Progress('Deploy', 'Done')) }
+        let(:current_step) { Step('Deploy', 'Doing') }
+        it { is_expected.to eq(Step('Deploy', 'Done')) }
       end
 
       context 'Deploy:Done' do
-        let(:current_progress) { Progress('Deploy', 'Done') }
-        it { is_expected.to eq(Project::Progress::Complete.new) }
+        let(:current_step) { Step('Deploy', 'Done') }
+        it { is_expected.to eq(Project::Step::Complete.new) }
       end
     end
   end

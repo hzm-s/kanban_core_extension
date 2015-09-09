@@ -1,5 +1,5 @@
 module Project
-  class Progress
+  class Step
     attr_reader :phase, :state
 
     def initialize(phase, state)

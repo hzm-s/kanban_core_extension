@@ -24,7 +24,7 @@ describe 'track when card removed' do
 
     it do
       service.add_card(project_id, feature_id)
-      service.forward_card(project_id, feature_id, Progress('Deploy'))
+      service.forward_card(project_id, feature_id, Step('Deploy'))
 
       feature = feature_repository.find(project_id, feature_id)
       expect(feature.state).to eq(Feature::State::Shipped)
@@ -38,8 +38,8 @@ describe 'track when card removed' do
 
     it do
       service.add_card(project_id, feature_id)
-      service.forward_card(project_id, feature_id, Progress('Deploy', 'Doing'))
-      service.forward_card(project_id, feature_id, Progress('Deploy', 'Done'))
+      service.forward_card(project_id, feature_id, Step('Deploy', 'Doing'))
+      service.forward_card(project_id, feature_id, Step('Deploy', 'Done'))
 
       feature = feature_repository.find(project_id, feature_id)
       expect(feature.state).to eq(Feature::State::Shipped)

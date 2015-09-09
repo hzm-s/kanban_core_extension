@@ -5,15 +5,15 @@ module Project
       @phase_specs = phase_specs
     end
 
-    def first_progress
-      @phase_specs.first.first_progress
+    def first_step
+      @phase_specs.first.first_step
     end
 
-    def next_progress(current_progress)
-      current_phase_spec = retrieve(current_progress.phase)
+    def next_step(current_step)
+      current_phase_spec = retrieve(current_step.phase)
       next_phase_spec = next_of(current_phase_spec)
 
-      current_phase_spec.next_progress(current_progress, next_phase_spec)
+      current_phase_spec.next_step(current_step, next_phase_spec)
     end
 
     def reach_wip_limit?(phase, wip)

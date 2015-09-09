@@ -25,7 +25,7 @@ describe 'add feature to board' do
       service.add_card(project_id, feature_id)
 
       board = board_repository.find(project_id)
-      expect(board.fetch_card(feature_id, Progress('Todo'))).to_not be_nil
+      expect(board.fetch_card(feature_id, Step('Todo'))).to_not be_nil
     end
   end
 
@@ -41,7 +41,7 @@ describe 'add feature to board' do
         service.add_card(project_id, feature_id)
 
         board = board_repository.find(project_id)
-        expect(board.fetch_card(feature_id, Progress('Todo'))).to_not be_nil
+        expect(board.fetch_card(feature_id, Step('Todo'))).to_not be_nil
       end
     end
 
@@ -54,7 +54,7 @@ describe 'add feature to board' do
         service.add_card(project_id, feature_id)
 
         board = board_repository.find(project_id)
-        expect(board.fetch_card(feature_id, Progress('Todo'))).to_not be_nil
+        expect(board.fetch_card(feature_id, Step('Todo'))).to_not be_nil
       end
     end
 
@@ -83,7 +83,7 @@ describe 'add feature to board' do
       service.add_card(project_id, feature_id)
 
       board = board_repository.find(project_id)
-      expect(board.fetch_card(feature_id, Progress('Todo', 'Check'))).to_not be_nil
+      expect(board.fetch_card(feature_id, Step('Todo', 'Check'))).to_not be_nil
     end
   end
 
@@ -101,7 +101,7 @@ describe 'add feature to board' do
         service.add_card(project_id, feature_id)
 
         board = board_repository.find(project_id)
-        expect(board.fetch_card(feature_id, Progress('Todo', 'Check'))).to_not be_nil
+        expect(board.fetch_card(feature_id, Step('Todo', 'Check'))).to_not be_nil
       end
     end
 
@@ -114,7 +114,7 @@ describe 'add feature to board' do
         service.add_card(project_id, feature_id)
 
         board = board_repository.find(project_id)
-        expect(board.fetch_card(feature_id, Progress('Todo', 'Check'))).to_not be_nil
+        expect(board.fetch_card(feature_id, Step('Todo', 'Check'))).to_not be_nil
       end
     end
 

@@ -3,7 +3,7 @@ module Kanban
     module_function
 
     def detect(feature_id, from, rule)
-      to = rule.next_progress(from)
+      to = rule.next_step(from)
 
       return CardRemoving.new(feature_id, from) if to.complete?
       return CardPushing.new(feature_id, from, to) if from.same_phase?(to)

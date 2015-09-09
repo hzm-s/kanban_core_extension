@@ -21,14 +21,14 @@ class BoardService
     @board_repository.store(board)
   end
 
-  def forward_card(project_id, feature_id, current_progress)
+  def forward_card(project_id, feature_id, current_step)
     EventPublisher.subscribe(@development_tracker)
 
     board = @board_repository.find(project_id)
     project = @project_repository.find(project_id)
 
     rule = Kanban::Rule.new(project.workflow)
-    action = Kanban::CardForwarding.detect(feature_id, current_progress, rule)
+    action = Kanban::CardForwarding.detect(feature_id, current_step, rule)
     board.update_by(action)
 
     @board_repository.store(board)
