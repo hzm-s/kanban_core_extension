@@ -29,8 +29,10 @@ class ForwardCardCommand
   end
 
   def execute(service)
-    #TODO validate
+    return false unless valid?
+
     service.forward_card(project_id, feature_id, current_step)
+
   rescue Kanban::WipLimitReached
     errors.add(:base, 'WIP制限です。')
     false
