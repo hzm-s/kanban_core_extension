@@ -22,16 +22,15 @@ class BoardService
   end
 
   def forward_card(project_id, feature_id, current_progress)
-    board = @board_repository.find(project_id)
-    raise CardNotFound unless card = board.fetch_card(feature_id, current_progress)
-
     EventPublisher.subscribe(@development_tracker)
 
+    board = @board_repository.find(project_id)
     project = @project_repository.find(project_id)
-    rule = Kanban::Rule.new(project.workflow)
 
-    action = Kanban::CardForwarding.detect(card, rule)
+    rule = Kanban::Rule.new(project.workflow)
+    action = Kanban::CardForwarding.detect(feature_id, current_progress, rule)
     board.update_by(action)
+
     @board_repository.store(board)
   end
 end

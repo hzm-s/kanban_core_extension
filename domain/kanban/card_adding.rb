@@ -13,6 +13,11 @@ module Kanban
       raise WipLimitReached unless @rule.can_put_card?(@first_phase, first_phase_cards)
 
       board.add_card(@feature_id, @first_progress)
+
+      EventPublisher.publish(
+        :card_added,
+        CardAdded.new(board.project_id, @feature_id)
+      )
     end
   end
 end

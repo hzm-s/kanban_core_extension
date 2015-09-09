@@ -8,9 +8,8 @@ module Kanban
       end
     end
 
-    def locate_to(a_progress, stage)
-      self.progress = a_progress
-      stage.put(self)
+    def relocate(to)
+      self.progress = to
     end
 
     def ==(other)

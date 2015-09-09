@@ -11,21 +11,20 @@ module Kanban
     end
 
     def add_card(feature_id, to)
-      card = Card.write(feature_id)
-      put_card(card, to)
-      EventPublisher.publish(:card_added, CardAdded.new(project_id, card))
+      card_map.add(Card.write(feature_id), to)
     end
 
-    def put_card(card, to)
-      card.locate_to(to, card_map)
+    def put_card(feature_id, from, to)
+      card_map.move(fetch_card(feature_id, from), to)
     end
 
-    def fetch_card(feature_id, progress)
-      card_map.fetch(feature_id, progress)
+    def remove_card(feature_id, from)
+      card_map.remove(fetch_card(feature_id, from))
     end
 
-    def remove_card(card)
-      card_map.remove(card)
+    def fetch_card(feature_id, from)
+      raise CardNotFound unless card = card_map.fetch(feature_id, from)
+      card
     end
 
     def count_card(phase)

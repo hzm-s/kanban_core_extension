@@ -15,16 +15,17 @@ module Kanban
 
     # for AR::Association
 
-    def put(card_record)
-      if card_record.persisted?
-        card_record.save!
-      else
-        @cards.build(
-          feature_id_str: card_record.feature_id_str,
-          progress_phase_name: card_record.progress_phase_name,
-          progress_state_name: card_record.progress_state_name
-        )
-      end
+    def add(card, to)
+      @cards.build(
+        feature_id_str: card.feature_id.to_s,
+        progress_phase_name: to.phase.to_s,
+        progress_state_name: to.state.to_s
+      )
+    end
+
+    def move(card, to)
+      card.relocate(to)
+      card.save!
     end
 
     def count_card_by_phase(phase)
