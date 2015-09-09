@@ -1,5 +1,5 @@
 module Kanban
-  class CardAdding
+  class AddCard
 
     def initialize(feature_id, rule)
       @feature_id = feature_id

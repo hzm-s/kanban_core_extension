@@ -1,5 +1,5 @@
 module Kanban
-  class CardPulling
+  class PullCard
 
     def initialize(feature_id, from, to, rule)
       @feature_id = feature_id

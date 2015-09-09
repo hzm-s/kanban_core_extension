@@ -1,5 +1,5 @@
 module Kanban
-  class CardRemoving
+  class RemoveCard
 
     def initialize(feature_id, from)
       @feature_id = feature_id

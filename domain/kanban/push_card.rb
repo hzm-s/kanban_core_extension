@@ -1,5 +1,5 @@
 module Kanban
-  class CardPushing
+  class PushCard
 
     def initialize(feature_id, from, to)
       @feature_id = feature_id
