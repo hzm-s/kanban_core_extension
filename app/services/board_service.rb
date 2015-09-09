@@ -16,7 +16,7 @@ class BoardService
 
     rule = Kanban::Rule.new(project.workflow)
     action = Kanban::CardAdding.new(feature_id, rule)
-    board.update_with(action)
+    board.update_by(action)
 
     @board_repository.store(board)
   end
@@ -31,7 +31,7 @@ class BoardService
     rule = Kanban::Rule.new(project.workflow)
 
     action = Kanban::CardForwarding.detect(card, rule)
-    board.update_with(action)
+    board.update_by(action)
 
     @board_repository.store(board)
   end

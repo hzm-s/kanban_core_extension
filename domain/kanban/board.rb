@@ -6,7 +6,7 @@ module Kanban
       self.project_id = a_project_id
     end
 
-    def update_with(action)
+    def update_by(action)
       action.handle_board(self)
     end
 
