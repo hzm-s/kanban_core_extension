@@ -11,21 +11,21 @@ module Arize
       include Writers
     end
 
+    module Writers
+
+      def project_id=(project_id)
+        self.project_id_str = project_id.to_s
+      end
+    end
+
     module Readers
 
       def project_id
         ::Project::ProjectId.new(self.project_id_str)
       end
 
-      def stage
-        Kanban::Stage.new(cards)
-      end
-    end
-
-    module Writers
-
-      def project_id=(project_id)
-        self.project_id_str = project_id.to_s
+      def card_map
+        Kanban::CardMap.new(cards)
       end
     end
   end

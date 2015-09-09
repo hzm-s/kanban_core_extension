@@ -1,5 +1,5 @@
 module Kanban
-  class Stage
+  class CardMap
 
     def initialize(cards)
       @cards = cards
