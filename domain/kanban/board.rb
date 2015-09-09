@@ -13,7 +13,6 @@ module Kanban
     def add_card(feature_id, to)
       card = Card.write(feature_id)
       put_card(card, to)
-
       EventPublisher.publish(:card_added, CardAdded.new(project_id, card))
     end
 
