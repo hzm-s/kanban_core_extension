@@ -1,6 +1,5 @@
 module Project
   class Transition
-    include Enumerable
 
     def initialize(states)
       @states = states
