@@ -10,12 +10,19 @@ module Kanban
       action.handle_board(self)
     end
 
-    def fetch_card(feature_id, progress)
-      card_map.fetch(feature_id, progress)
+    def add_card(feature_id, to)
+      card = Card.write(feature_id)
+      put_card(card, to)
+
+      EventPublisher.publish(:card_added, CardAdded.new(project_id, card))
     end
 
-    def put_card(card, progress)
-      card.locate_to(progress, card_map)
+    def put_card(card, to)
+      card.locate_to(to, card_map)
+    end
+
+    def fetch_card(feature_id, progress)
+      card_map.fetch(feature_id, progress)
     end
 
     def remove_card(card)
