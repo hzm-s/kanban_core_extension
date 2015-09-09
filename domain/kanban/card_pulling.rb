@@ -12,7 +12,7 @@ module Kanban
       to_phase_cards = board.count_card(@to.phase)
       raise WipLimitReached unless @rule.can_put_card?(@to.phase, to_phase_cards)
 
-      board.put_card(@feature_id, @from, @to)
+      board.move_card(@feature_id, @from, @to)
     end
   end
 end

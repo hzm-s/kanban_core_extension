@@ -13,8 +13,8 @@ module Kanban
         board.add_card(FeatureId('feat_400'), Progress('Todo'))
         board.save!
 
-        board.put_card(FeatureId('feat_200'), Progress('Todo'), Progress('Dev', 'Doing'))
-        board.put_card(FeatureId('feat_300'), Progress('Todo'), Progress('Dev', 'Done'))
+        board.move_card(FeatureId('feat_200'), Progress('Todo'), Progress('Dev', 'Doing'))
+        board.move_card(FeatureId('feat_300'), Progress('Todo'), Progress('Dev', 'Done'))
         board.remove_card(FeatureId('feat_400'), Progress('Todo'))
         board.save!
       end

@@ -8,7 +8,7 @@ module Kanban
     end
 
     def handle_board(board)
-      board.put_card(@feature_id, @from, @to)
+      board.move_card(@feature_id, @from, @to)
     end
   end
 end

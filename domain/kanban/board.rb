@@ -14,7 +14,7 @@ module Kanban
       card_map.add(Card.write(feature_id), to)
     end
 
-    def put_card(feature_id, from, to)
+    def move_card(feature_id, from, to)
       card_map.update(fetch_card(feature_id, from), to)
     end
 
