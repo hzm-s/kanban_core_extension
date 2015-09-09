@@ -25,7 +25,9 @@ describe 'pull card' do
       service.forward_card(project_id, feature_id, Progress('Deploy'))
 
       board = board_repository.find(project_id)
-      expect(board.fetch_card(feature_id, Progress('Deploy'))).to be_nil
+      expect {
+        board.fetch_card(feature_id, Progress('Deploy'))
+      }.to raise_error(CardNotFound)
     end
   end
 
@@ -40,7 +42,9 @@ describe 'pull card' do
       service.forward_card(project_id, feature_id, Progress('Deploy', 'Done'))
 
       board = board_repository.find(project_id)
-      expect(board.fetch_card(feature_id, Progress('Deploy', 'Done'))).to be_nil
+      expect {
+        board.fetch_card(feature_id, Progress('Deploy', 'Done'))
+      }.to raise_error(CardNotFound)
     end
   end
 end

@@ -16,7 +16,7 @@ class BoardService
 
     rule = Kanban::Rule.new(project.workflow)
     action = Kanban::CardAdding.new(feature_id, rule)
-    board.update_with(action)
+    board.update_by(action)
 
     @board_repository.store(board)
   end
@@ -25,13 +25,11 @@ class BoardService
     EventPublisher.subscribe(@development_tracker)
 
     board = @board_repository.find(project_id)
-    raise CardNotFound unless card = board.fetch_card(feature_id, current_progress)
-
     project = @project_repository.find(project_id)
-    rule = Kanban::Rule.new(project.workflow)
 
-    action = Kanban::CardForwarding.detect(card, rule)
-    board.update_with(action)
+    rule = Kanban::Rule.new(project.workflow)
+    action = Kanban::CardForwarding.detect(feature_id, current_progress, rule)
+    board.update_by(action)
 
     @board_repository.store(board)
   end

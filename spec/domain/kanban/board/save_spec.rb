@@ -7,23 +7,15 @@ module Kanban
         board.prepare(Project::ProjectId.new('prj_789'))
         board.save!
 
-        board.put_card(Card.write(FeatureId('feat_100')), Progress('Todo'))
-        board.put_card(Card.write(FeatureId('feat_200')), Progress('Todo'))
-        board.put_card(Card.write(FeatureId('feat_300')), Progress('Todo'))
-        board.put_card(Card.write(FeatureId('feat_400')), Progress('Todo'))
+        board.add_card(FeatureId('feat_100'), Progress('Todo'))
+        board.add_card(FeatureId('feat_200'), Progress('Todo'))
+        board.add_card(FeatureId('feat_300'), Progress('Todo'))
+        board.add_card(FeatureId('feat_400'), Progress('Todo'))
         board.save!
 
-        board.put_card(
-          board.fetch_card(FeatureId('feat_200'), Progress('Todo')),
-          Progress('Dev', 'Doing')
-        )
-        board.put_card(
-          board.fetch_card(FeatureId('feat_300'), Progress('Todo')),
-          Progress('Dev', 'Done')
-        )
-        board.remove_card(
-          board.fetch_card(FeatureId('feat_400'), Progress('Todo'))
-        )
+        board.move_card(FeatureId('feat_200'), Progress('Todo'), Progress('Dev', 'Doing'))
+        board.move_card(FeatureId('feat_300'), Progress('Todo'), Progress('Dev', 'Done'))
+        board.remove_card(FeatureId('feat_400'), Progress('Todo'))
         board.save!
       end
     end

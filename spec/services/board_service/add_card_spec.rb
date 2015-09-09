@@ -16,7 +16,7 @@ describe 'add feature to board' do
 
   context 'no state phase, wip_limit = 0' do
     let(:workflow) do
-      Workflow([{ phase: 'Todo' }, { phase: 'Analyze' }])
+      Workflow([{ phase: 'Todo' }])
     end
 
     it do
