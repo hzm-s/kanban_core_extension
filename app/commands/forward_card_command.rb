@@ -6,7 +6,7 @@ class ForwardCardCommand
   validates :project_id_str, presence: true
   validates :feature_id_str, presence: true
   validates :step_phase_name, presence: true
-  validates :step_state_name, presence: true
+  validates :step_state_name, presence: true, allow_blank: true
 
   def project_id
     Project::ProjectId.new(project_id_str)
