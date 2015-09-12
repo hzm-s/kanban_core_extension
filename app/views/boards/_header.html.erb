@@ -2,7 +2,7 @@
   <tr>
     <% phases.each do |phase| -%>
       <th colspan="<%= phase.state_size %>">
-        <%= phase.name %>&nbsp;<span class="badge-error"><%= phase.wip_limit %></span>
+        <%= phase.name %>&nbsp;<span class="label label-pill label-danger"><%= phase.wip_limit %></span>
       </th>
     <% end -%>
   </tr>
