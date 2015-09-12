@@ -24,7 +24,7 @@ class BackloggedFeatureRecord < ActiveRecord::Base
     end
 
     def count(project_id_str)
-      with_project(project_id_str).tap {|x|p ooo:x}.size
+      with_project(project_id_str).size
     end
   end
 end
