@@ -6,10 +6,15 @@ module WorkflowCreator
 
   def PhaseSpec(params)
     Project::PhaseSpec.new(
-      Project::Phase.new(params[:phase]),
+      Phase(params[:phase]),
       Transition(params[:transition]),
       WipLimit(params[:wip_limit])
     )
+  end
+
+  def Phase(name_or_phase)
+    return name_or_phase if name_or_phase.instance_of?(Project::Phase)
+    Project::Phase.new(name_or_phase)
   end
 
   def Transition(params)

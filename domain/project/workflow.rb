@@ -5,6 +5,13 @@ module Project
       @phase_specs = phase_specs
     end
 
+    def replace_phase(old, new)
+      new_phase_specs = @phase_specs.map do |ps|
+        ps == old ? new : ps
+      end
+      self.class.new(new_phase_specs)
+    end
+
     def first_step
       @phase_specs.first.first_step
     end
@@ -16,8 +23,13 @@ module Project
       current_phase_spec.next_step(current_step, next_phase_spec)
     end
 
+    # TODO: to retrieve client
     def reach_wip_limit?(phase, wip)
       retrieve(phase).reach_wip_limit?(wip)
+    end
+
+    def retrieve(phase)
+      @phase_specs.detect {|ps| ps.phase == phase }
     end
 
     def to_a
@@ -38,10 +50,6 @@ module Project
     end
 
     private
-
-      def retrieve(phase)
-        @phase_specs.detect {|ps| ps.phase == phase }
-      end
 
       def next_of(current)
         @phase_specs[@phase_specs.index(current) + 1] || EndPhaseSpec.new

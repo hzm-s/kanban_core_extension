@@ -7,6 +7,7 @@ module Project
         project.project_id = ProjectId.new('prj_123')
         project.description = Description.new('name', 'goal')
       end
+
       workflow = Workflow([
         { phase: 'Todo' },
         { phase: 'Dev', transition: ['Doing', 'Done'], wip_limit: 2 },
