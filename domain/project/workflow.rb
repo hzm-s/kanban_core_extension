@@ -17,18 +17,13 @@ module Project
     end
 
     def next_step(current_step)
-      current_phase_spec = retrieve(current_step.phase)
+      current_phase_spec = spec(current_step.phase)
       next_phase_spec = next_of(current_phase_spec)
 
       current_phase_spec.next_step(current_step, next_phase_spec)
     end
 
-    # TODO: to retrieve client
-    def reach_wip_limit?(phase, wip)
-      retrieve(phase).reach_wip_limit?(wip)
-    end
-
-    def retrieve(phase)
+    def spec(phase)
       @phase_specs.detect {|ps| ps.phase == phase }
     end
 

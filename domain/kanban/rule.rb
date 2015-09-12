@@ -12,8 +12,7 @@ module Kanban
     end
 
     def can_put_card?(phase, card_size)
-      return true if card_size == 0
-      !@workflow.reach_wip_limit?(phase, card_size)
+      !@workflow.spec(phase).reach_wip_limit?(card_size)
     end
 
     def first_step

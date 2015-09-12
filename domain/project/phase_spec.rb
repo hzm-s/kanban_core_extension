@@ -16,6 +16,7 @@ module Project
     end
 
     def reach_wip_limit?(wip)
+      return false if wip == 0
       @wip_limit.reach?(wip)
     end
 
