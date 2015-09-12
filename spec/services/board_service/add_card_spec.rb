@@ -67,7 +67,7 @@ describe 'add feature to board' do
         service.add_card(project_id, FeatureId('feat_4'))
         expect {
           service.add_card(project_id, feature_id)
-        }.to raise_error(Kanban::WipLimitReached)
+        }.to raise_error(Project::WipLimitReached)
       end
     end
   end
@@ -127,7 +127,7 @@ describe 'add feature to board' do
         service.add_card(project_id, FeatureId('feat_4'))
         expect {
           service.add_card(project_id, feature_id)
-        }.to raise_error(Kanban::WipLimitReached)
+        }.to raise_error(Project::WipLimitReached)
       end
     end
   end

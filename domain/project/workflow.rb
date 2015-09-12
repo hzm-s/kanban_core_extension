@@ -5,6 +5,7 @@ module Project
       @phase_specs = phase_specs
     end
 
+    #TODO rename replace_phase => replace
     def replace_phase(old, new)
       new_phase_specs = @phase_specs.map do |ps|
         ps == old ? new : ps
@@ -12,10 +13,16 @@ module Project
       self.class.new(new_phase_specs)
     end
 
+    def first
+      @phase_specs.first
+    end
+
+    # TODO:remove
     def first_step
       @phase_specs.first.first_step
     end
 
+    # TODO:remove
     def next_step(current_step)
       current_phase_spec = spec(current_step.phase)
       next_phase_spec = next_of(current_phase_spec)
