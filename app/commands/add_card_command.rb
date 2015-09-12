@@ -19,7 +19,7 @@ class AddCardCommand
 
     service.add_card(project_id, feature_id)
 
-  rescue Kanban::WipLimitReached
+  rescue Project::WipLimitReached
     errors.add(:base, 'WIP制限です。')
     false
   else
