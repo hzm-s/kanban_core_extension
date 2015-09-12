@@ -25,6 +25,7 @@ module Arize
 
       def workflow=(a_workflow)
         phase_spec_records.each(&:destroy)
+        state_records.each(&:destroy)
         make_phase_spec_records(a_workflow)
         make_state_records(a_workflow)
       end
