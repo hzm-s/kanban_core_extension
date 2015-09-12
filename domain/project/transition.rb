@@ -62,6 +62,10 @@ module Project
         true
       end
 
+      def to_a
+        []
+      end
+
       def eql?(other)
         self == other
       end

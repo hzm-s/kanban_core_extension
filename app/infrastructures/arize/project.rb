@@ -24,28 +24,35 @@ module Arize
       end
 
       def workflow=(a_workflow)
-        serialize_workflow(a_workflow)
+        phase_spec_records.each(&:destroy)
+        state_records.each(&:destroy)
+        make_phase_spec_records(a_workflow)
+        make_state_records(a_workflow)
       end
 
-      def serialize_workflow(a_workflow)
+      def make_phase_spec_records(a_workflow)
         a_workflow.to_a.each.with_index(1) do |phase_spec, order|
           phase_spec_records.build(
+            project_record_id: id,
             order: order,
             phase_name: phase_spec.phase.to_s,
             wip_limit_count: phase_spec.wip_limit.to_i
           )
-          serialize_transition(phase_spec)
         end
       end
 
-      def serialize_transition(phase_spec)
-        return unless phase_spec.transit?
-        phase_spec.transition.to_a.each.with_index(1) do |state, order|
-          state_records.build(
-            order: order,
-            phase_name: phase_spec.phase.to_s,
-            state_name: state.to_s
-          )
+      def make_state_records(a_workflow)
+        a_workflow.to_a.each do |phase_spec|
+          next unless phase_spec.transit?
+
+          phase_spec.transition.to_a.each.with_index(1) do |state, order|
+            state_records.build(
+              project_record_id: id,
+              order: order,
+              phase_name: phase_spec.phase.to_s,
+              state_name: state.to_s
+            )
+          end
         end
       end
     end

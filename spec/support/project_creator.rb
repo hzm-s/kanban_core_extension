@@ -7,6 +7,6 @@ module ProjectCreator
 
   def ProjectService(project_repository: ProjectRepository.new, board_repository: BoardRepository.new)
     board_builder = Kanban::BoardBuilder.new(board_repository)
-    ProjectService.new(project_repository, board_builder)
+    ProjectService.new(project_repository, board_repository, board_builder)
   end
 end
