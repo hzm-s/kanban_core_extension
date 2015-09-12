@@ -5,8 +5,7 @@ module Project
       @phase_specs = phase_specs
     end
 
-    #TODO rename replace_phase => replace
-    def replace_phase(old, new)
+    def replace_with(old, new)
       new_phase_specs = @phase_specs.map do |ps|
         ps == old ? new : ps
       end
