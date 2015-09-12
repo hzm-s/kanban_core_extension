@@ -2,12 +2,11 @@ require 'rails_helper'
 
 describe 'specify workflow' do
   let(:service) do
-    ProjectService.new(project_repository, board_builder)
+    ProjectService.new(project_repository, board_repository, board_builder)
   end
   let(:project_repository) { ProjectRepository.new }
-
-  let(:board_builder) { Kanban::BoardBuilder.new(board_repository) }
   let(:board_repository) { FakeBoardRepository.new }
+  let(:board_builder) { Kanban::BoardBuilder.new(board_repository) }
 
   let(:project_id) do
     service.launch(Project::Description.new('Name', 'Goal'))

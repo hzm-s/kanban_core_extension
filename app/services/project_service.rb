@@ -1,7 +1,8 @@
 class ProjectService
 
-  def initialize(project_repository, board_builder)
+  def initialize(project_repository, board_repository, board_builder)
     @project_repository = project_repository
+    @board_repository = board_repository
     @board_builder = board_builder
   end
 
@@ -29,8 +30,9 @@ class ProjectService
 
   def change_wip_limit(project_id, phase, new_wip_limit)
     project = @project_repository.find(project_id)
+    board = @board_repository.find(project_id)
 
-    project.change_wip_limit(phase, new_wip_limit)
+    project.change_wip_limit(phase, new_wip_limit, board)
 
     @project_repository.store(project)
   end

@@ -9,6 +9,10 @@ module Project
       @count <= wip
     end
 
+    def under?(wip)
+      @count < wip
+    end
+
     def to_i
       @count
     end

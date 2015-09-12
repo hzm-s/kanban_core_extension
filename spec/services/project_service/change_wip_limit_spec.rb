@@ -2,12 +2,11 @@ require 'rails_helper'
 
 describe 'change wip limit' do
   let(:service) do
-    ProjectService.new(project_repository, board_builder)
+    ProjectService.new(project_repository, board_repository, board_builder)
   end
   let(:project_repository) { ProjectRepository.new }
-
-  let(:board_builder) { Kanban::BoardBuilder.new(board_repository) }
   let(:board_repository) { FakeBoardRepository.new }
+  let(:board_builder) { Kanban::BoardBuilder.new(board_repository) }
 
   let(:project_id) do
     service.launch(Project::Description.new('Name', 'Goal'))
@@ -46,5 +45,21 @@ describe 'change wip limit' do
 
     project = project_repository.find(project_id)
     expect(project.workflow).to eq(Workflow([ phase: phase, wip_limit: new_wip_limit.to_i ]))
+  end
+
+  it do
+    phase = Phase('Todo')
+
+    service.specify_workflow(
+      project_id,
+      Workflow([{ phase: phase, wip_limit: 2 }])
+    )
+    board_service.add_card(project_id, FeatureId('feat_1'))
+    board_service.add_card(project_id, FeatureId('feat_2'))
+
+    new_wip_limit = WipLimit(1)
+    expect {
+      service.change_wip_limit(project_id, phase, new_wip_limit)
+    }.to raise_error(Project::UnderCurrentWip)
   end
 end

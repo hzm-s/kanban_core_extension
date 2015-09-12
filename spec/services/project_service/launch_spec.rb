@@ -2,10 +2,10 @@ require 'rails_helper'
 
 describe 'launch project' do
   let(:service) do
-    ProjectService.new(project_repository, board_builder)
+    ProjectService.new(project_repository, board_repository, board_builder)
   end
   let(:project_repository) { ProjectRepository.new }
-
+  let(:board_repository) { double(:board_repository) }
   let(:board_builder) { double(:board_builder) }
 
   it do
