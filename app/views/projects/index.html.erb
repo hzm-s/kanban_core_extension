@@ -1,31 +1,39 @@
-<header class="page">
-  <h2>プロジェクト</h2>
-  <nav>
-    <%= link_to 'Launch new project', new_project_launching_url %>
-  </nav>
-</header>
-<section class="container">
-  <div class="wrapper">
-    <table class="tables-minimals">
-      <thead class="actions">
-        <tr>
-          <th>Name</th>
-          <th>Goal</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @projects.each do |project| %>
+<section class="page-header">
+  <div class="row">
+    <div class="col-md-8">
+      <h1>プロジェクト</h1>
+    </div>
+    <div class="col-md-4">
+      <%= link_to 'Launch new project', new_project_launching_url, class: 'btn btn-secondary pull-right' %>
+    </div>
+  </div>
+</section>
+<section class="content">
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table actions">
+        <thead>
           <tr>
-            <td><%= project.name %></td>
-            <td><%= project.goal %></td>
-            <td>
-              <%= link_to 'Board', board_url(project.project_id_str) %> |
-              <%= link_to 'Backlog', backlog_url(project.project_id_str) %>
-            </td>
+            <th>Name</th>
+            <th>Goal</th>
+            <th></th>
           </tr>
-        <% end -%>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          <% @projects.each do |project| %>
+            <tr>
+              <td><%= project.name %></td>
+              <td><%= project.goal %></td>
+              <td>
+                <div class="pull-right">
+                  <%= link_to 'Board', board_url(project.project_id_str) %> |
+                  <%= link_to 'Backlog', backlog_url(project.project_id_str) %>
+                </div>
+              </td>
+            </tr>
+          <% end -%>
+        </tbody>
+      </table>
+    </div>
   </div>
 </section>

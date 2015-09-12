@@ -1,6 +1,10 @@
-<div class="header-container">
-  <header>
-    <h1 class="brand"><%= link_to 'Kanban Core Extenstion', root_url %></h1>
-  </header>
-  <%= render 'layouts/flashes' %>
-</div>
+<nav class="navbar navbar-light bg-faded">
+  <div class="nav-wrapper">
+    <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar2">
+      &#9776;
+    </button>
+    <div class="collapse navbar-toggleable-xs" id="exCollapsingNavbar2">
+      <%= link_to 'Kanban Core Extension', root_url, class: 'navbar-brand' %>
+    </div>
+  </div>
+</nav>
