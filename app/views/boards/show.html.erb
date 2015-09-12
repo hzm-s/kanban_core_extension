@@ -9,41 +9,7 @@
 </header>
 <div class="board-container">
   <table class="board">
-    <thead>
-      <tr>
-        <% @board.header.phases.each do |phase| -%>
-          <th colspan="<%= phase.state_size %>">
-            <%= phase.name %>&nbsp;<span class="badge-error"><%= phase.wip_limit %></span>
-          </th>
-        <% end -%>
-      </tr>
-      <tr>
-        <% @board.header.phase_states.each do |phase_state| -%>
-          <th><%= phase_state.name %></th>
-        <% end -%>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <% @board.header.phase_states.each do |state| -%>
-          <td style="vertical-align: top">
-            <% @board.body.cards(state.phase_name, state.name).each do |card| -%>
-              <div class="card">
-                <p>#<%= card.id %></p>
-                <h3><%= card.summary %></h3>
-                <p><%= card.detail.gsub(/\r\n|\n|\r/, '<br>').html_safe %></p>
-                <%= form_for card.forward_card_command, url: card_forwardings_url do |f| -%>
-                  <%= f.hidden_field :project_id_str -%>
-                  <%= f.hidden_field :feature_id_str -%>
-                  <%= f.hidden_field :step_phase_name -%>
-                  <%= f.hidden_field :step_state_name -%>
-                  <%= f.submit raw('&#10140;') -%>
-                <% end -%>
-              </div>
-            <% end -%>
-          </td>
-        <% end -%>
-      </tr>
-    </tbody>
+    <%= render partial: 'header', locals: { phases: @board.header.phases, phase_states: @board.header.phase_states } %>
+    <%= render partial: 'body', locals: { phase_states: @board.header.phase_states, body: @board.body } %>
   </table>
 </div>

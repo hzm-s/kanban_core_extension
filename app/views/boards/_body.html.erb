@@ -1,0 +1,22 @@
+<tbody>
+  <tr>
+    <% phase_states.each do |state| -%>
+      <td style="vertical-align: top">
+        <% body.cards(state.phase_name, state.name).each do |card| -%>
+          <div class="card">
+            <p>#<%= card.id %></p>
+            <h3><%= card.summary %></h3>
+            <p><%= card.detail.gsub(/\r\n|\n|\r/, '<br>').html_safe %></p>
+            <%= form_for card.forward_card_command, url: card_forwardings_url do |f| -%>
+              <%= f.hidden_field :project_id_str -%>
+              <%= f.hidden_field :feature_id_str -%>
+              <%= f.hidden_field :step_phase_name -%>
+              <%= f.hidden_field :step_state_name -%>
+              <%= f.submit raw('&#10140;') -%>
+            <% end -%>
+          </div>
+        <% end -%>
+      </td>
+    <% end -%>
+  </tr>
+</tbody>
