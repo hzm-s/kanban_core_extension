@@ -10,13 +10,14 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'wisper'
-
 gem 'simple_form'
 
 gem 'bourbon'
 gem 'neat'
 gem 'bitters'
 gem 'refills'
+
+gem 'rails_12factor', group: :production
 
 group :development, :test do
   gem 'byebug'
