@@ -1,13 +1,12 @@
 require 'rails_helper'
 
-module Kanban
-  describe Rule do
+module Project
+  describe Workflow do
     describe '#next_step' do
       subject do
-        rule.next_step(current_step)
+        workflow.next_step(current_step)
       end
 
-      let(:rule) { described_class.new(workflow) }
       let(:workflow) do
         Workflow([
           { phase: 'Todo', wip_limit: 2 },
@@ -49,7 +48,7 @@ module Kanban
 
       context 'Deploy:Done' do
         let(:current_step) { Step('Deploy', 'Done') }
-        it { is_expected.to eq(Project::Step::Complete.new) }
+        it { is_expected.to eq(Step::Complete.new) }
       end
     end
   end

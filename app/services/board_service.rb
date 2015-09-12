@@ -14,8 +14,7 @@ class BoardService
     project = @project_repository.find(project_id)
     board = @board_repository.find(project_id)
 
-    rule = Kanban::Rule.new(project.workflow)
-    action = Kanban::AddCard.new(feature_id, rule)
+    action = Kanban::AddCard.new(feature_id, project.workflow)
     board.update_by(action)
 
     @board_repository.store(board)
@@ -27,8 +26,7 @@ class BoardService
     board = @board_repository.find(project_id)
     project = @project_repository.find(project_id)
 
-    rule = Kanban::Rule.new(project.workflow)
-    action = Kanban::Actions.detect(feature_id, current_step, rule)
+    action = Kanban::Actions.detect(feature_id, current_step, project.workflow)
     board.update_by(action)
 
     @board_repository.store(board)

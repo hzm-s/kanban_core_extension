@@ -1,4 +1,5 @@
 module Project
+  class WipLimitReached < StandardError; end
   class UnderCurrentWip < StandardError; end
 
   class PhaseSpec

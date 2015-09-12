@@ -107,7 +107,7 @@ describe 'pull card' do
         from = Step('Todo')
         expect {
           service.forward_card(project_id, feature_id, from)
-        }.to raise_error(Kanban::WipLimitReached)
+        }.to raise_error(Project::WipLimitReached)
       end
     end
 
@@ -129,7 +129,7 @@ describe 'pull card' do
         from = Step('Todo')
         expect {
           service.forward_card(project_id, feature_id, from)
-        }.to raise_error(Kanban::WipLimitReached)
+        }.to raise_error(Project::WipLimitReached)
       end
     end
   end

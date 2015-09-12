@@ -5,15 +5,15 @@ module Project
       @phase_specs = phase_specs
     end
 
-    def replace_phase(old, new)
+    def replace_with(old, new)
       new_phase_specs = @phase_specs.map do |ps|
         ps == old ? new : ps
       end
       self.class.new(new_phase_specs)
     end
 
-    def first_step
-      @phase_specs.first.first_step
+    def first
+      @phase_specs.first
     end
 
     def next_step(current_step)

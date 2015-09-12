@@ -1,18 +1,16 @@
 module Kanban
   class AddCard
 
-    def initialize(feature_id, rule)
+    def initialize(feature_id, workflow)
       @feature_id = feature_id
-      @rule = rule
-      @first_step = @rule.first_step
-      @first_phase = @first_step.phase
+      @first_phase_spec = workflow.first
     end
 
     def handle_board(board)
-      first_phase_cards = board.count_card(@first_phase)
-      raise WipLimitReached unless @rule.can_put_card?(@first_phase, first_phase_cards)
+      first_phase_cards = board.count_card(@first_phase_spec.phase)
+      raise Project::WipLimitReached if @first_phase_spec.reach_wip_limit?(first_phase_cards)
 
-      board.add_card(@feature_id, @first_step)
+      board.add_card(@feature_id, @first_phase_spec.first_step)
 
       EventPublisher.publish(
         :card_added,
