@@ -1,16 +1,24 @@
 <section class="page-header">
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-8">
       <h1><%= link_to @result.project.name, projects_url %> Result</h1>
+    </div>
+    <div class="col-md-4">
+      <ul class="nav nav-pills pull-right">
+        <li class="nav-item">
+          <%= link_to(result_url(project_id_str: @result.project.project_id_str), class: 'nav-link') do %>
+            <span class="label label-default"><%= @stats.backlogs %></span>&nbsp;Backlogs
+          <% end -%>
+        </li>
+        <li class="nav-item">
+          <%= link_to(board_url(project_id_str: @result.project.project_id_str), class: 'nav-link') do %>
+            <span class="label label-default"><%= @stats.wip %></span>&nbsp;WIP
+          <% end -%>
+        </li>
+      </ul>
     </div>
   </div>
 </section>
-  <div class="statistics">
-    <ul>
-      <li><%= link_to @stats.backlogs, backlog_url(project_id_str: @result.project.project_id_str) %><span>Backlogs</span></li>
-      <li><%= link_to @stats.wip, board_url(project_id_str: @result.project.project_id_str) %><span>WIP</span></li>
-    </ul>
-  </div>
 <section class="content">
   <div class="row">
     <div class="col-md-12">
