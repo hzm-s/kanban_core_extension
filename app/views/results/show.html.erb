@@ -1,33 +1,39 @@
-<header class="board-page">
-  <h2><%= link_to @result.project.name, projects_url %> Result</h2>
+<section class="page-header">
+  <div class="row">
+    <div class="col-md-12">
+      <h1><%= link_to @result.project.name, projects_url %> Result</h1>
+    </div>
+  </div>
+</section>
   <div class="statistics">
     <ul>
       <li><%= link_to @stats.backlogs, backlog_url(project_id_str: @result.project.project_id_str) %><span>Backlogs</span></li>
       <li><%= link_to @stats.wip, board_url(project_id_str: @result.project.project_id_str) %><span>WIP</span></li>
     </ul>
   </div>
-</header>
-<section class="container">
-  <div class="wrapper">
-    <table class="tables-minimals">
-      <thead class="identified actions">
-        <tr>
-          <th>#</th>
-          <th>Summary</th>
-          <th>Detail</th>
-          <th>Lead time (hours)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @result.shipped_features.each do |feature| %>
+<section class="content">
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-hover ids">
+        <thead>
           <tr>
-            <td><%= feature.id %></td>
-            <td><%= feature.summary %></td>
-            <td><%= feature.detail %></td>
-            <td><%= feature.lead_time %></td>
+            <th>#</th>
+            <th>Summary</th>
+            <th>Detail</th>
+            <th>Lead time (hours)</th>
           </tr>
-        <% end -%>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          <% @result.shipped_features.each do |feature| %>
+            <tr>
+              <td><%= feature.id %></td>
+              <td><%= feature.summary %></td>
+              <td><%= feature.detail %></td>
+              <td><%= feature.lead_time %></td>
+            </tr>
+          <% end -%>
+        </tbody>
+      </table>
+    </div>
   </div>
 </section>

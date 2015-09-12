@@ -1,4 +1,10 @@
-h1 {
+$container-width: 90%;
+$margin-top: 2em;
+
+h1,
+h2,
+h3
+{
   font-weight: 600;
   font-size: 1.2em;
 }
@@ -9,17 +15,17 @@ h1 {
 
 .nav-wrapper {
   margin: 0 auto;
-  max-width: 90%;
+  max-width: $container-width;
 }
 
 .container {
-  margin-top: 2em;
-  max-width: 90%;
+  margin-top: $margin-top;
+  max-width: $container-width;
 }
 
 section.page-header {
 }
 
 section.content {
-  margin-top: 2em;
+  margin-top: $margin-top;
 }

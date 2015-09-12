@@ -1,0 +1,50 @@
+.board {
+  $container-width: 97%;
+  $margin-top: 2em;
+
+  .nav-wrapper {
+    margin: 0 auto;
+    max-width: $container-width;
+  }
+
+  .container {
+    max-width: $container-width;
+    margin-top: $margin-top;
+  }
+
+  section.page-header {
+  }
+
+  section.content {
+    margin-top: $margin-top;
+  }
+}
+
+table.kanban {
+  $cell-width: 180px;
+
+  thead {
+    th {
+      text-align: center;
+      padding: 0.3em 0.3em;
+      width: $cell-width;
+      border-bottom-width: 0px;
+    }
+  }
+
+  td {
+    width: $cell-width;
+    padding: 0;
+  }
+
+  .card {
+    margin: 0.1em;
+
+    .card-header {
+      padding: 0.3em 0.5em;
+    }
+    .card-block {
+      padding: 1em 0.5em 0.5em 0.5em;
+    }
+  }
+}
