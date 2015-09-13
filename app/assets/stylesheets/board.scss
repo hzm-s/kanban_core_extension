@@ -1,124 +1,75 @@
-.board-container {
-  margin: auto 0em;
-  padding: auto 0em;
-}
+.board {
+  $container-width: 97%;
+  $margin-top: 2em;
 
-.board-page {
-  @include outer-container;
-
-  h2 {
-    @include span-columns(9);
+  .nav-wrapper {
+    margin: 0 auto;
+    max-width: $container-width;
   }
 
-  .statistics {
-    @include span-columns(3);
-    @include omega();
+  .container {
+    max-width: $container-width;
+    margin-top: $margin-top;
+  }
 
-    $base-spacing: 1.5em !default;
-    $dark-gray: #333 !default;
-    $base-font-color: $dark-gray !default;
-    $action-color: #477dca !default;
-    $stats-color: lighten($action-color, 10%);
+  section.page-header {
+  }
 
-    padding: $base-spacing / 2;
-
-    ul {
-      padding: 0;
-    }
-
-    li {
-      border-right: 1px solid transparentize($base-font-color, 0.8);
-      color: $stats-color;
-      display: inline;
-      float: left;
-      font-size: 1.5em;
-      line-height: 1.1em;
-      padding: 0 0.7em;
-
-      &:first-child {
-        padding-left: 0;
-      }
-
-      &:last-child {
-        border-right: 0;
-      }
-
-      a {
-        font-size: 1.8em;
-      }
-    }
-
-    span {
-      color: $base-font-color;
-      display: block;
-      font-size: 0.6em;
-      font-weight: normal;
-    }
+  section.content {
+    margin-top: $margin-top;
   }
 }
 
-table.board {
-  $base-border-color: gainsboro !default;
-  $base-line-height: 1.5em !default;
-  $base-spacing: 1.5em !default;
-  $base-accent-color: #477DCA !default;
-  $base-padding: 0.35em !default;
+table.kanban {
+  $cell-width: 180px;
 
-  font-size: 0.8em;
-
-  th {
-    text-align: center;
-  }
-
-  $table-border-color: $base-border-color;
-  $table-border: 1px solid $table-border-color;
-  $table-background: lighten($table-border-color, 12%);
-  $table-header-background: lighten($table-background, 10%);
-  $table-padding: $base-padding $base-padding;
-
-  border-collapse: separate;
-  border-left: 0px;
-  border-radius: $base-border-radius;
-  border-spacing: 0;
-  border: $table-border;
+  $border-color: darken($table-border-color, 40%);
 
   thead {
-    th {
-      background-color: $table-header-background;
-      border-bottom: 0px;
-      border-left: 1px solid $table-border-color;
-      padding: 0.15em 0.1em;
+    tr {
+      &:last-child {
+        border-bottom-width: 2px;
+        border-bottom-style: solid;
+      }
 
-      &:first-child {
-        border-left: none;
+      th {
+        text-align: center;
+        padding: 0.3em 0.1em;
+        width: $cell-width;
+
+        border-style: solid;
+        border-color: $border-color;
+        border-top-width: 0px;
+        border-right-width: 0px;
+        border-bottom-width: 0px;
+        border-left-width: 0px;
       }
     }
   }
 
-  tbody {
-    background-color: $table-background;
-
+  tr {
     td {
-      border-bottom: 0px;
-      border-left: 1px solid $table-border-color;
-      border-top: 1px solid $table-border-color;
-      padding: $table-padding;
-
-      &:first-child {
-        border-left: none;
-      }
+      width: $cell-width;
+      padding-top: 0.6em;
+      padding-right: 0;
+      padding-bottom: 0;
+      padding-left: 0;
     }
   }
 
-  div.card {
-    background-color: $table-header-background;
-    border: 1px solid $table-border-color;
-    padding: $base-padding 0.75em;
-    margin-bottom: $base-padding;
-    min-height: 10em;
+  .card {
+    margin: 0.1em;
 
-    &:last-child {
-      margin-bottom: 0em;
+    .card-title {
+      font-weight: 600;
+      font-size: 1em;
+    }
+
+    .card-header {
+      padding: 0.3em 0.5em;
+    }
+    .card-block {
+      padding: 1em 0.5em 0.5em 0.5em;
     }
   }
 }

@@ -1,0 +1,14 @@
+<thead>
+  <tr>
+    <% phases.each do |phase| -%>
+      <th colspan="<%= phase.state_size %>">
+        <%= phase.name %>&nbsp;<span class="label label-pill label-danger"><%= phase.wip_limit %></span>
+      </th>
+    <% end -%>
+  </tr>
+  <tr>
+    <% phase_states.each do |phase_state| -%>
+      <th><%= phase_state.name %></th>
+    <% end -%>
+  </tr>
+</thead>

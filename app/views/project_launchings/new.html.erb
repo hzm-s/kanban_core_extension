@@ -1,15 +1,36 @@
-<header class="page">
-  <h2>プロジェクトを始めます。<h2>
-</header>
-<section class="container">
-  <div class="wrapper">
-    <fieldset>
-      <%= simple_form_for @command, url: project_launchings_url do |f| %>
-        <%= f.input :name %>
-        <%= f.input :goal, as: :text, input_html: { rows: 5 } %>
-        <%= f.input :kickstart, as: :boolean, checked_value: true, unchecked_value: false %>
-        <%= f.button :submit, 'Launch new project' %>
-      <% end -%>
-    </fieldset>
+<section class="page-header">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>新しくプロジェクトを始めます。</h1>
+    </div>
   </div>
+</section>
+<section class="content">
+  <%= form_for @command, url: project_launchings_url do |f| %>
+    <div class="form-group row">
+      <%= f.label :name, class: 'col-sm-4 control-label' %>
+      <div class="col-sm-8">
+        <%= f.text_field :name, class: 'form-control' %>
+      </div>
+    </div>
+    <div class="form-group row">
+      <%= f.label :goal, class: 'col-sm-4 control-label' %>
+      <div class="col-sm-8">
+        <%= f.text_area :goal, rows: 5, class: 'form-control' %>
+      </div>
+    </div>
+    <div class="form-group row">
+      <%= f.label :kickstart, class: 'col-sm-4 control-label' %>
+      <div class="col-sm-8">
+        <label>
+          <%= f.check_box :kickstart %>
+        </label>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-sm-offset-4 col-sm-8">
+        <%= f.submit 'Launch new project', class: 'btn btn-primary btn-lg' %>
+      </div>
+    </div>
+  <% end -%>
 </section>

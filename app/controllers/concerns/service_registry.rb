@@ -3,6 +3,7 @@ module ServiceRegistry
   def project_service
     ProjectService.new(
       ProjectRepository.new,
+      BoardRepository.new,
       Kanban::BoardBuilder.new(BoardRepository.new)
     )
   end

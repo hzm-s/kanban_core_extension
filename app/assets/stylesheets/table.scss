@@ -1,21 +1,23 @@
-table {
-  thead.identified {
-    tr {
-      th {
-        &:first-child {
-          width: 5em;
-        }
-      }
-    }
+@mixin identifiable($width:10%) {
+  &:first-child {
+    width: $width;
   }
+}
 
-  thead.actions {
-    tr {
-      th {
-        &:last-child {
-          width: 12em;
-        }
-      }
-    }
+@mixin actionable($width:20%) {
+  &:last-child {
+    width: $width;
+  }
+}
+
+table.ids {
+  th {
+    @include identifiable;
+  }
+}
+
+table.actions {
+  th {
+    @include actionable;
   }
 }
