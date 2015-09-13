@@ -35,10 +35,11 @@ ActiveRecord::Schema.define(version: 20150908080652) do
   end
 
   create_table "feature_records", force: :cascade do |t|
-    t.string "project_id_str",      null: false
-    t.string "feature_id_str",      null: false
-    t.string "description_summary", null: false
-    t.text   "description_detail"
+    t.string  "project_id_str",      null: false
+    t.string  "feature_id_str",      null: false
+    t.integer "number_value",        null: false
+    t.string  "description_summary", null: false
+    t.text    "description_detail"
   end
 
   create_table "phase_spec_records", force: :cascade do |t|

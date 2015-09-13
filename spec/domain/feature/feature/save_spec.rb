@@ -6,6 +6,7 @@ module Feature
       ::Feature::Feature.new.tap do |feature|
         feature.project_id = Project::ProjectId.new('prj_789')
         feature.feature_id = FeatureId('feat_123')
+        feature.number = 1
         feature.description = Description.new('Summary', 'Detail')
         feature.save!
       end
@@ -21,6 +22,11 @@ module Feature
     describe 'FeatureRecord', 'feature_id_str' do
       subject { feature_record.feature_id_str }
       it { is_expected.to eq('feat_123') }
+    end
+
+    describe 'FeatureRecord', 'number_value' do
+      subject { feature_record.number_value }
+      it { is_expected.to eq(1) }
     end
 
     describe 'FeatureRecord', 'description_summary' do
