@@ -15,6 +15,7 @@ describe 'add feature' do
 
     feature = feature_repository.find(project_id, feature_id)
     expect(feature).to_not be_nil
+    expect(feature.number).to eq(1)
     expect(feature.description).to eq(description)
     expect(feature.state).to eq(Feature::State::Backlogged)
   end

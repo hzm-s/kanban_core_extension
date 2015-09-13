@@ -4,11 +4,6 @@ module Project
 
     def specify_workflow(a_workflow)
       self.workflow = a_workflow
-
-      EventPublisher.publish(
-        :workflow_specified,
-        WorkflowSpecified.new(project_id, a_workflow)
-      )
     end
 
     def change_wip_limit(phase, new_wip_limit, board)

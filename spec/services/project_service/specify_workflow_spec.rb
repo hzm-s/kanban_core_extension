@@ -5,8 +5,8 @@ describe 'specify workflow' do
     ProjectService.new(project_repository, board_repository, board_builder)
   end
   let(:project_repository) { ProjectRepository.new }
-  let(:board_repository) { FakeBoardRepository.new }
-  let(:board_builder) { Kanban::BoardBuilder.new(board_repository) }
+  let(:board_repository) { double(:board_repository) }
+  let(:board_builder) { double(:board_builder) }
 
   let(:project_id) do
     service.launch(Project::Description.new('Name', 'Goal'))
@@ -22,8 +22,5 @@ describe 'specify workflow' do
 
     project = project_repository.find(project_id)
     expect(project.workflow).to eq(workflow)
-
-    board = board_repository.find(project_id)
-    expect(board).to_not be_nil
   end
 end

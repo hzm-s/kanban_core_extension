@@ -9,7 +9,12 @@ module Feature
 
     def add_feature(project_id, description)
       ::Feature::Feature.new.tap do |feature|
-        feature.plan(project_id, generate_feature_id, description)
+        feature.plan(
+          project_id,
+          generate_feature_id,
+          @feature_repository.next_number(project_id),
+          description
+        )
       end
     end
 

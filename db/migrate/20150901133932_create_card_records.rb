@@ -6,5 +6,7 @@ class CreateCardRecords < ActiveRecord::Migration
       t.string :step_phase_name, null: false
       t.string :step_state_name
     end
+
+    add_index :card_records, :feature_id_str, unique: true
   end
 end

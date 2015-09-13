@@ -6,6 +6,6 @@ class CreateProjectRecord < ActiveRecord::Migration
       t.text :description_goal, null: false
     end
 
-    add_index :project_records, :project_id_str
+    add_index :project_records, :project_id_str, unique: true
   end
 end
