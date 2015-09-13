@@ -23,12 +23,15 @@
   <div class="row">
     <div class="col-md-12">
       <table class="kanban table">
-        <%= render partial: 'header',
-          locals: { phases: @board.header.phases, phase_states: @board.header.phase_states }
-        %>
-        <%= render partial: 'body',
-          locals: { phase_states: @board.header.phase_states, body: @board.body }
-        %>
+        <%= render partial: 'header', locals: {
+          project_id_str: @board.project_id_str,
+          phases: @board.header.phases,
+          phase_states: @board.header.phase_states
+        } %>
+        <%= render partial: 'body', locals: {
+          phase_states: @board.header.phase_states,
+          body: @board.body
+        } %>
       </table>
     </div>
   </div>

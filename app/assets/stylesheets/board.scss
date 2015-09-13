@@ -20,9 +20,12 @@
   }
 }
 
+span.header-phase {
+  font-weight: 600;
+}
+
 table.kanban {
   $cell-width: 180px;
-
   $border-color: darken($table-border-color, 40%);
 
   thead {
@@ -43,6 +46,10 @@ table.kanban {
         border-right-width: 0px;
         border-bottom-width: 0px;
         border-left-width: 0px;
+
+        button.dropdown-toggle {
+          border-style: none;
+        }
       }
     }
   }
