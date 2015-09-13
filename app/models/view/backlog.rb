@@ -13,12 +13,12 @@ module View
       )
     end
 
-    Feature = Struct.new(:id, :project_id_str, :feature_id_str, :summary, :detail) do
+    Feature = Struct.new(:number, :project_id_str, :feature_id_str, :summary, :detail) do
 
       def initialize(hash)
         super(
           *hash.values_at(
-            'id',
+            'number',
             'project_id_str',
             'feature_id_str',
             'description_summary',

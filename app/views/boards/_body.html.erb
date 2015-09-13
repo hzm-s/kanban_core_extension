@@ -4,7 +4,7 @@
       <td style="vertical-align: top">
         <% body.cards(state.phase_name, state.name).each do |card| -%>
           <div class="card">
-            <div class="card-header text-muted">#<%= card.id %></div>
+            <div class="card-header text-muted">#<%= card.feature_number %></div>
             <div class="card-block">
               <h3 class="card-title"><%= card.summary %></h3>
               <p clsss="card-text text-muted"><%= card.detail.gsub(/\r\n|\n|\r/, '<br>').html_safe %></p>
