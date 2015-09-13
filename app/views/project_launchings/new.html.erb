@@ -8,19 +8,19 @@
 <section class="content">
   <%= form_for @command, url: project_launchings_url do |f| %>
     <div class="form-group row">
-      <%= f.label :name, class: 'col-sm-4' %>
+      <%= f.label :name, class: 'col-sm-4 control-label' %>
       <div class="col-sm-8">
         <%= f.text_field :name, class: 'form-control' %>
       </div>
     </div>
     <div class="form-group row">
-      <%= f.label :goal, class: 'col-sm-4' %>
+      <%= f.label :goal, class: 'col-sm-4 control-label' %>
       <div class="col-sm-8">
-        <%= f.text_area :goal, class: 'form-control' %>
+        <%= f.text_area :goal, rows: 5, class: 'form-control' %>
       </div>
     </div>
     <div class="form-group row">
-      <%= f.label :kickstart, class: 'col-sm-4' %>
+      <%= f.label :kickstart, class: 'col-sm-4 control-label' %>
       <div class="col-sm-8">
         <label>
           <%= f.check_box :kickstart %>

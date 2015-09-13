@@ -37,5 +37,8 @@ module KanbanCoreExtension
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+
+    # action_view field_error_proc
+    config.action_view.field_error_proc = proc {|html_tag, instance| "<div class='has-error'>#{html_tag}</div>".html_safe }
   end
 end

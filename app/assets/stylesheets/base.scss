@@ -1,11 +1,13 @@
 $container-width: 90%;
 $margin-top: 2em;
 
-h1,
-h2,
-h3
-{
+h1, h2 {
   font-weight: 600;
+  font-size: 1.2em;
+}
+
+h3, h4, h5, h6 {
+  font-weight: 300;
   font-size: 1.2em;
 }
 
@@ -28,4 +30,11 @@ section.page-header {
 
 section.content {
   margin-top: $margin-top;
+}
+
+#flash {
+  position: absolute;
+  top: 0;
+  margin: 0 auto;
+  width: 30%;
 }

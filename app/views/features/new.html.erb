@@ -6,18 +6,18 @@
   </div>
 </section>
 <section class="content">
-  <%= form_for @command, url: project_launchings_url do |f| %>
+  <%= form_for @command, url: features_url do |f| %>
     <%= f.hidden_field :project_id_str %>
     <div class="form-group row">
-      <%= f.label :summary, class: 'col-sm-4' %>
+      <%= f.label :summary, class: 'col-sm-4 control-label' %>
       <div class="col-sm-8">
         <%= f.text_field :summary, class: 'form-control' %>
       </div>
     </div>
     <div class="form-group row">
-      <%= f.label :detail, class: 'col-sm-4' %>
+      <%= f.label :detail, class: 'col-sm-4 control-label' %>
       <div class="col-sm-8">
-        <%= f.text_area :detail, class: 'form-control' %>
+        <%= f.text_area :detail, rows: 5, class: 'form-control' %>
       </div>
     </div>
     <div class="form-group row">
