@@ -42,6 +42,8 @@ ActiveRecord::Schema.define(version: 20150908080652) do
     t.text    "description_detail"
   end
 
+  add_index "feature_records", ["project_id_str", "number_value"], name: "index_feature_records_on_project_id_str_and_number_value", unique: true, using: :btree
+
   create_table "phase_spec_records", force: :cascade do |t|
     t.integer "project_record_id", null: false
     t.integer "order",             null: false

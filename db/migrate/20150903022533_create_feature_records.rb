@@ -7,5 +7,7 @@ class CreateFeatureRecords < ActiveRecord::Migration
       t.string :description_summary, null: false
       t.text :description_detail
     end
+
+    add_index :feature_records, [:project_id_str, :number_value], unique: true
   end
 end

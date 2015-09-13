@@ -2,10 +2,11 @@ module Feature
   class Feature < ActiveRecord::Base
     include Arize::Feature
 
-    def plan(project_id, feature_id, description)
-      self.project_id = project_id
-      self.feature_id = feature_id
-      self.description = description
+    def plan(a_project_id, a_feature_id, a_number, a_description)
+      self.project_id = a_project_id
+      self.feature_id = a_feature_id
+      self.number = a_number
+      self.description = a_description
       log_backloged
     end
 

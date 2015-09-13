@@ -7,6 +7,14 @@ class FeatureRepository
     )
   end
 
+  def last_number(project_id)
+    ::Feature::Feature
+      .where(project_id_str: project_id.to_s)
+      .order(id: :desc)
+      .last ||
+        0
+  end
+
   def store(feature)
     feature.save!
   end
