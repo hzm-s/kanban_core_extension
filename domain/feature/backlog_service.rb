@@ -12,7 +12,7 @@ module Feature
         feature.plan(
           project_id,
           generate_feature_id,
-          next_number(project_id),
+          @feature_repository.next_number(project_id),
           description
         )
       end
@@ -22,10 +22,6 @@ module Feature
 
       def generate_feature_id
         FeatureId.new('feat_' + SecureRandom.uuid)
-      end
-
-      def next_number(project_id)
-        @feature_repository.last_number(project_id) + 1
       end
   end
 end
