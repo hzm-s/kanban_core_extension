@@ -4,6 +4,6 @@ class CreateBoardRecords < ActiveRecord::Migration
       t.string :project_id_str, null: false
     end
 
-    add_index :board_records, :project_id_str
+    add_index :board_records, :project_id_str, unique: true
   end
 end

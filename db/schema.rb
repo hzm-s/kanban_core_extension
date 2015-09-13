@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 20150908080652) do
     t.string "project_id_str", null: false
   end
 
-  add_index "board_records", ["project_id_str"], name: "index_board_records_on_project_id_str", using: :btree
+  add_index "board_records", ["project_id_str"], name: "index_board_records_on_project_id_str", unique: true, using: :btree
 
   create_table "card_records", force: :cascade do |t|
     t.integer "board_record_id", null: false
@@ -33,6 +33,8 @@ ActiveRecord::Schema.define(version: 20150908080652) do
     t.string  "step_phase_name", null: false
     t.string  "step_state_name"
   end
+
+  add_index "card_records", ["feature_id_str"], name: "index_card_records_on_feature_id_str", unique: true, using: :btree
 
   create_table "feature_records", force: :cascade do |t|
     t.string  "project_id_str",      null: false
@@ -42,6 +44,7 @@ ActiveRecord::Schema.define(version: 20150908080652) do
     t.text    "description_detail"
   end
 
+  add_index "feature_records", ["feature_id_str"], name: "index_feature_records_on_feature_id_str", unique: true, using: :btree
   add_index "feature_records", ["project_id_str", "number"], name: "index_feature_records_on_project_id_str_and_number", unique: true, using: :btree
 
   create_table "phase_spec_records", force: :cascade do |t|
@@ -59,7 +62,7 @@ ActiveRecord::Schema.define(version: 20150908080652) do
     t.text   "description_goal", null: false
   end
 
-  add_index "project_records", ["project_id_str"], name: "index_project_records_on_project_id_str", using: :btree
+  add_index "project_records", ["project_id_str"], name: "index_project_records_on_project_id_str", unique: true, using: :btree
 
   create_table "shipped_feature_records", force: :cascade do |t|
     t.integer  "feature_record_id", null: false
