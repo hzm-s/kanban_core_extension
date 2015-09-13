@@ -7,6 +7,8 @@ class ProjectService
   end
 
   def launch(description)
+    EventPublisher.subscribe(@board_builder)
+
     factory = Project::ProjectFactory.new(@project_repository)
     project = factory.launch_project(description)
     @project_repository.store(project)
@@ -17,7 +19,6 @@ class ProjectService
   def specify_workflow(project_id, workflow)
     project = @project_repository.find(project_id)
 
-    EventPublisher.subscribe(@board_builder)
     project.specify_workflow(workflow)
 
     @project_repository.store(project)

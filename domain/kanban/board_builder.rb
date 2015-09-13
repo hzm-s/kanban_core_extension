@@ -5,8 +5,11 @@ module Kanban
       @board_repository = board_repository
     end
 
-    def workflow_specified(event)
-      board = prepare_board(event.project_id)
+    def project_launched(event)
+      project_id = event.project.project_id
+
+      return if @board_repository.find(project_id)
+      board = prepare_board(project_id)
       @board_repository.store(board)
     end
 
