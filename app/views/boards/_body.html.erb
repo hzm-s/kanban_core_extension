@@ -7,7 +7,7 @@
             <div class="card-header text-muted">#<%= card.id %></div>
             <div class="card-block">
               <h3 class="card-title"><%= card.summary %></h3>
-              <p clsss="card-text"><%= card.detail.gsub(/\r\n|\n|\r/, '<br>').html_safe %></p>
+              <p clsss="card-text text-muted"><%= card.detail.gsub(/\r\n|\n|\r/, '<br>').html_safe %></p>
               <%= form_for card.forward_card_command, url: card_forwardings_url do |f| -%>
                 <%= f.hidden_field :project_id_str -%>
                 <%= f.hidden_field :feature_id_str -%>

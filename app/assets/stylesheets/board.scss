@@ -23,6 +23,8 @@
 table.kanban {
   $cell-width: 180px;
 
+  $border-color: darken($table-border-color, 40%);
+
   thead {
     tr {
       &:last-child {
@@ -34,7 +36,13 @@ table.kanban {
         text-align: center;
         padding: 0.3em 0.1em;
         width: $cell-width;
-        border-width: 0px;
+
+        border-style: solid;
+        border-color: $border-color;
+        border-top-width: 0px;
+        border-right-width: 0px;
+        border-bottom-width: 0px;
+        border-left-width: 0px;
       }
     }
   }
@@ -51,6 +59,11 @@ table.kanban {
 
   .card {
     margin: 0.1em;
+
+    .card-title {
+      font-weight: 600;
+      font-size: 1em;
+    }
 
     .card-header {
       padding: 0.3em 0.5em;
