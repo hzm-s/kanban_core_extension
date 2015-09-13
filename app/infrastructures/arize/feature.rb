@@ -23,10 +23,6 @@ module Arize
         self.feature_id_str = a_feature_id.to_s
       end
 
-      def number=(a_number)
-        self.number_value = a_number.to_i
-      end
-
       def description=(a_description)
         self.description_summary = a_description.summary
         self.description_detail = a_description.detail
@@ -53,10 +49,6 @@ module Arize
 
       def feature_id
         ::Feature::FeatureId.new(self.feature_id_str)
-      end
-
-      def number
-        self.number_value
       end
 
       def description

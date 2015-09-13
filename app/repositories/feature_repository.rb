@@ -11,7 +11,7 @@ class FeatureRepository
 
   def store(feature)
     return feature.save! if feature.persisted?
-    raise AssignFeatureNumberError unless feature.number_value == next_number(feature.project_id)
+    raise AssignFeatureNumberError unless feature.number == next_number(feature.project_id)
     feature.save!
   end
 
@@ -23,7 +23,7 @@ class FeatureRepository
 
     def last_number(project_id)
       return 0 unless r = last_record(project_id)
-      r.number_value
+      r.number
     end
 
     def last_record(project_id)

@@ -37,12 +37,12 @@ ActiveRecord::Schema.define(version: 20150908080652) do
   create_table "feature_records", force: :cascade do |t|
     t.string  "project_id_str",      null: false
     t.string  "feature_id_str",      null: false
-    t.integer "number_value",        null: false
+    t.integer "number",              null: false
     t.string  "description_summary", null: false
     t.text    "description_detail"
   end
 
-  add_index "feature_records", ["project_id_str", "number_value"], name: "index_feature_records_on_project_id_str_and_number_value", unique: true, using: :btree
+  add_index "feature_records", ["project_id_str", "number"], name: "index_feature_records_on_project_id_str_and_number", unique: true, using: :btree
 
   create_table "phase_spec_records", force: :cascade do |t|
     t.integer "project_record_id", null: false

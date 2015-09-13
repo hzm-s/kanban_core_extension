@@ -6,7 +6,7 @@ module Feature
       ::Feature::Feature.create!(
         project_id_str: 'prj_789',
         feature_id_str: 'feat_123',
-        number_value: 1,
+        number: 1,
         description_summary: 'Summary',
         description_detail: 'Detail'
       )

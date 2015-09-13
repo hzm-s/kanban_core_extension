@@ -24,8 +24,8 @@ module Feature
       it { is_expected.to eq('feat_123') }
     end
 
-    describe 'FeatureRecord', 'number_value' do
-      subject { feature_record.number_value }
+    describe 'FeatureRecord', 'number' do
+      subject { feature_record.number }
       it { is_expected.to eq(1) }
     end
 
