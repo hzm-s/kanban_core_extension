@@ -5,7 +5,7 @@ class WipLimitChangingsController < ApplicationController
       project_id_str: params[:project_id_str],
       phase_name: params[:phase_name]
     )
-    render 'modal_forms/new_wip_limit_changing'
+    render 'modal_window_form', locals: { path: 'boards/new_wip_limit_changing' }
   end
 
   def create

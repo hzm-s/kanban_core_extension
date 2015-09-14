@@ -16,7 +16,11 @@
               class: 'dropdown-item', type: 'button' %>
             <a class="dropdown-item" type="button" data-toggle="modal" data-target="modal-window">WIP制限を解除する</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" type="button" data-toggle="modal" data-target="modal-window">新しいフェーズを前に追加する</a>
+            <%= link_to '新しいフェーズを前に追加する',
+              new_phase_spec_adding_url(project_id_str: project_id_str, phase_name: phase.name),
+              remote: true,
+              data: { toggle: 'modal', target: '#modal-window' },
+              class: 'dropdown-item', type: 'button' %>
             <a class="dropdown-item" type="button" data-toggle="modal" data-target="modal-window">新しいフェーズを後に追加する</a>
           </div>
         </div>

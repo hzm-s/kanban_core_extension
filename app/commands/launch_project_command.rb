@@ -7,7 +7,7 @@ class LaunchProjectCommand
   validates :goal, presence: true
 
   def kickstart
-    return false if @kickstart == "false"
+    return false if @kickstart == "0"
     true
   end
 
