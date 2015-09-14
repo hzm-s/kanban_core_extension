@@ -27,8 +27,8 @@ module Project
       @phase_specs.first
     end
 
-    def next(phase)
-      next_of(spec(phase))
+    def next_of(current)
+      @phase_specs[@phase_specs.index(current) + 1] || EndPhaseSpec.new
     end
 
     def next_step(current_step)
@@ -58,11 +58,5 @@ module Project
       other.instance_of?(self.class) &&
         self.to_a == other.to_a
     end
-
-    private
-
-      def next_of(current)
-        @phase_specs[@phase_specs.index(current) + 1] || EndPhaseSpec.new
-      end
   end
 end

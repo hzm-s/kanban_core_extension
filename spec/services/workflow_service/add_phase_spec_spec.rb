@@ -16,9 +16,33 @@ describe 'add phase spec' do
   end
 
   context 'no current workflow' do
-    it do
-      service.add_phase_spec(project_id, PhaseSpec(phase: 'New'))
-      expect(new_workflow).to eq(Workflow([{ phase: 'New' }]))
+    context 'add' do
+      it do
+        service.add_phase_spec(project_id, PhaseSpec(phase: 'New'))
+        expect(new_workflow).to eq(Workflow([{ phase: 'New' }]))
+      end
+    end
+
+    context 'add before Head' do
+      it do
+        service.add_phase_spec(
+          project_id,
+          PhaseSpec(phase: 'New'),
+          before: Phase('Head')
+        )
+        expect(new_workflow).to eq(Workflow([{ phase: 'New' }]))
+      end
+    end
+
+    context 'add after Head' do
+      it do
+        service.add_phase_spec(
+          project_id,
+          PhaseSpec(phase: 'New'),
+          after: Phase('Head')
+        )
+        expect(new_workflow).to eq(Workflow([{ phase: 'New' }]))
+      end
     end
   end
 
