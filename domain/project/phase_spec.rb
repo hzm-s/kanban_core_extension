@@ -34,6 +34,10 @@ module Project
       !@transition.none?
     end
 
+    def last?
+      false
+    end
+
     def to_h
       {
         phase: @phase,

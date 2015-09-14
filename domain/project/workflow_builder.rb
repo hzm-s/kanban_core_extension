@@ -6,8 +6,7 @@ module Project
       @old_workflow = old_workflow
     end
 
-    def add_phase_spec(new_phase_spec, position = {})
-      direction, phase = position.flatten
+    def add_phase_spec(new_phase_spec, direction = nil, phase = nil)
       return add_phase_spec_before(new_phase_spec, phase) if direction == :before
       return add_phase_spec_after(new_phase_spec, phase) if direction == :after
       add_phase_spec_to_tail(new_phase_spec)
@@ -28,9 +27,10 @@ module Project
       @workflow = Workflow.new(new_phase_specs.flatten)
     end
 
-    def add_phase_spec_after(new_phase_spec, phase)
-      next_spec_of_after_phase = @old_workflow.next(phase)
-      add_phase_spec_before(new_phase_spec, next_spec_of_after_phase.phase)
+    def add_phase_spec_after(new_phase_spec, base_phase)
+      next_spec_of_base_phase = @old_workflow.next(base_phase)
+      return add_phase_spec_to_tail(new_phase_spec) if next_spec_of_base_phase.last?
+      add_phase_spec_before(new_phase_spec, next_spec_of_base_phase.phase)
     end
   end
 end
