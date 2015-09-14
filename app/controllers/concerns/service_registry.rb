@@ -8,6 +8,10 @@ module ServiceRegistry
     )
   end
 
+  def workflow_service
+    WorkflowService.new(ProjectRepository.new, BoardRepository.new)
+  end
+
   def feature_service
     FeatureService.new(FeatureRepository.new)
   end

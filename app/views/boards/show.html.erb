@@ -19,20 +19,18 @@
     </div>
   </div>
 </section>
-<section class="content">
-  <div class="row">
-    <div class="col-md-12">
-      <table class="kanban table">
-        <%= render partial: 'header', locals: {
-          project_id_str: @board.project_id_str,
-          phases: @board.header.phases,
-          phase_states: @board.header.phase_states
-        } %>
-        <%= render partial: 'body', locals: {
-          phase_states: @board.header.phase_states,
-          body: @board.body
-        } %>
-      </table>
-    </div>
-  </div>
+<% board_section_style = @board.header.phase_states.size >= 7 ?
+  '' : " style='width: #{@board.header.phase_states.size * 180}px;'" %>
+<section class="content"<%= raw(board_section_style) %>>
+  <table class="kanban table">
+    <%= render partial: 'header', locals: {
+      project_id_str: @board.project_id_str,
+      phases: @board.header.phases,
+      phase_states: @board.header.phase_states
+    } %>
+    <%= render partial: 'body', locals: {
+      phase_states: @board.header.phase_states,
+      body: @board.body
+    } %>
+  </table>
 </div>

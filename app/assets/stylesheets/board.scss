@@ -16,7 +16,7 @@
   }
 
   section.content {
-    margin-top: $margin-top;
+    margin: $margin-top auto 0 auto;
   }
 }
 
@@ -26,6 +26,7 @@ span.header-phase {
 
 table.kanban {
   $cell-width: 180px;
+  $min-width: $cell-width;
   $border-color: darken($table-border-color, 40%);
 
   thead {
@@ -39,6 +40,7 @@ table.kanban {
         text-align: center;
         padding: 0.3em 0.1em;
         width: $cell-width;
+        max-width: $cell-width;
 
         border-style: solid;
         border-color: $border-color;

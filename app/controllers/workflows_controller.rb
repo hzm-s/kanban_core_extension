@@ -4,13 +4,13 @@ class WorkflowsController < ApplicationController
   before_action :load_stats, :load_project
 
   def new
-    @command = SpecifyWorkflowCommand.new(project_id_str: params[:project_id_str])
+    @command = AddPhaseSpecCommand.new(project_id_str: params[:project_id_str])
   end
 
   def create
-    @command = SpecifyWorkflowCommand.new(params[:specify_workflow_command])
-    if @command.valid?
-      board_url(project_id_str: @command.project_id_str)
+    @command = AddPhaseSpecCommand.new(params[:add_phase_spec_command])
+    if @command.execute(workflow_service)
+      redirect_to board_url(project_id_str: @command.project_id_str), notice: 'ワークフローにフェーズを追加しました。'
     else
       flash.now[:alert] = '入力エラーです。'
       render :new
@@ -26,7 +26,7 @@ class WorkflowsController < ApplicationController
     def load_project
       @project = ProjectRecord.find_by(
         project_id_str: params[:project_id_str] ||
-                          params[:specify_workflow_command][:project_id_str]
+                          params[:add_phase_spec_command][:project_id_str]
       )
     end
 end
