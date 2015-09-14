@@ -5,17 +5,18 @@ class WorkflowService
     @board_repository = board_repository
   end
 
-  def add_phase_spec(project_id, phase_spec, option = {})
+  def add_phase_spec(project_id, phase_spec, option = nil)
     project = @project_repository.find(project_id)
+    binding.pry
 
     builder = Project::WorkflowBuilder.new(project.workflow)
-    direction, base_phase = option.flatten
+    direction, base_phase = Hash(option).flatten
     case direction
     when :before
       builder.insert_phase_spec_before(phase_spec, base_phase)
     when :after
       builder.insert_phase_spec_after(phase_spec, base_phase)
-    when nil
+    else
       builder.add_phase_spec(phase_spec)
     end
 

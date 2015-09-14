@@ -1,7 +1,8 @@
 class AddPhaseSpecCommand
   include ActiveModel::Model
 
-  attr_accessor :project_id_str, :phase_name, :wip_limit_count
+  attr_accessor :project_id_str, :phase_name, :wip_limit_count,
+                :direction, :base_phase_name
 
   validates :project_id_str, presence: true
   validates :phase_name, presence: true
@@ -27,8 +28,13 @@ class AddPhaseSpecCommand
     )
   end
 
+  def position_option
+    return nil if direction.nil? || base_phase_name.nil?
+    { direction: direction.to_sym, phase: Project::Phase.new(base_phase_name) }
+  end
+
   def execute(service)
     return false unless valid?
-    service.add_phase_spec(project_id, phase_spec)
+    service.add_phase_spec(project_id, phase_spec, position_option)
   end
 end
