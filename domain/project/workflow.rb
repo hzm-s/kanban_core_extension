@@ -9,6 +9,13 @@ module Project
       self.class.new(@phase_specs + [phase_spec])
     end
 
+    def insert_before(new, base)
+      new_phase_specs = @phase_specs.flat_map do |ps|
+        ps == base ? [new, ps] : ps
+      end
+      self.class.new(new_phase_specs)
+    end
+
     def replace_with(old, new)
       new_phase_specs = @phase_specs.map do |ps|
         ps == old ? new : ps
@@ -20,15 +27,15 @@ module Project
       @phase_specs.first
     end
 
+    def next(phase)
+      next_of(spec(phase))
+    end
+
     def next_step(current_step)
       current_phase_spec = spec(current_step.phase)
       next_phase_spec = next_of(current_phase_spec)
 
       current_phase_spec.next_step(current_step, next_phase_spec)
-    end
-
-    def next(phase)
-      next_of(spec(phase))
     end
 
     def spec(phase)
