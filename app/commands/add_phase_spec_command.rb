@@ -30,7 +30,7 @@ class AddPhaseSpecCommand
 
   def position_option
     return nil if direction.nil? || base_phase_name.nil?
-    { direction: direction.to_sym, phase: Project::Phase.new(base_phase_name) }
+    { direction.to_sym => Project::Phase.new(base_phase_name) }
   end
 
   def execute(service)

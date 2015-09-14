@@ -10,6 +10,7 @@ class WorkflowService
 
     builder = Project::WorkflowBuilder.new(project.workflow)
     direction, base_phase = Hash(option).flatten
+
     case direction
     when :before
       builder.insert_phase_spec_before(phase_spec, base_phase)
