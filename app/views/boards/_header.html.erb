@@ -4,19 +4,29 @@
 
       <% dropdown_id = "phase-menu-#{i}" -%>
       <% wip_limit_changing_form_id = "wip-limit-changing-form-#{i}" %>
+      <% phase_spec_adding_form_id = "phase-spec-adding-form-#{i}" %>
 
       <th colspan="<%= phase.state_size %>">
         <div class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle" type="button" id="<%= dropdown_id %>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="header-phase"><%= phase.name %></span>&nbsp;<span class="label label-pill label-danger"><%= phase.wip_limit %></span>
           </button>
-          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="<%= dropdown_id %>">
-            <button class="dropdown-item" type="button" data-toggle="modal" data-target="#<%= wip_limit_changing_form_id %>">WIP制限を変更する</button>
+          <div class="dropdown-menu">
+            <div class="dropdown-header">WIP制限</div>
+            <a class="dropdown-item" type="button" data-toggle="modal" data-target="#<%= wip_limit_changing_form_id %>">WIP制限を変更する</a>
+            <div class="dropdown-header">フェーズ</div>
+            <a class="dropdown-item" type="button" data-toggle="modal" data-target="#<%= phase_spec_adding_form_id %>">前に追加する</a>
+            <a class="dropdown-item" type="button" data-toggle="modal" data-target="#<%= phase_spec_adding_form_id %>">後に追加する</a>
+            <a class="dropdown-item" type="button" data-toggle="modal" data-target="#<%= phase_spec_adding_form_id %>">ワークフローの最後に追加する</a>
           </div>
         </div>
       </th>
       <%= render partial: 'wip_limit_changing_form', locals: {
         id: wip_limit_changing_form_id,
+        phase: phase
+      } -%>
+      <%= render partial: 'wip_limit_changing_form', locals: {
+        id: phase_spec_adding_form_id,
         phase: phase
       } -%>
     <% end -%>
