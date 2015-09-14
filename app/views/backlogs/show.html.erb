@@ -4,23 +4,25 @@
       <h1><%= link_to @backlog.project_name, projects_url %> Backlog</h1>
     </div>
     <div class="col-md-4">
-      <ul class="nav nav-pills pull-right">
-        <li class="nav-item">
-          <%= link_to(board_url(project_id_str: @backlog.project_id_str), class: 'nav-link') do %>
-            <span class="label label-default"><%= @stats.wip %></span>&nbsp;WIP
-          <% end -%>
-        </li>
-        <li class="nav-item">
-          <%= link_to(result_url(project_id_str: @backlog.project_id_str), class: 'nav-link') do %>
-            <span class="label label-default"><%= @stats.ships %></span>&nbsp;Ships
-          <% end -%>
-        </li>
-      </ul>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-12">
-      <%= link_to 'Add feature', new_feature_url(project_id_str: @backlog.project_id_str), class: 'btn btn-secondary pull-right' %>
+      <div class="row">
+        <ul class="nav nav-pills pull-right">
+          <li class="nav-item">
+            <%= link_to(board_url(project_id_str: @backlog.project_id_str), class: 'nav-link') do %>
+              <span class="label label-default"><%= @stats.wip %></span>&nbsp;WIP
+            <% end -%>
+          </li>
+          <li class="nav-item">
+            <%= link_to(result_url(project_id_str: @backlog.project_id_str), class: 'nav-link') do %>
+              <span class="label label-default"><%= @stats.ships %></span>&nbsp;Ships
+            <% end -%>
+          </li>
+        </ul>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <%= link_to 'Add feature', new_feature_url(project_id_str: @backlog.project_id_str), class: 'btn btn-secondary pull-right' %>
+        </div>
+      </div>
     </div>
   </div>
 </section>
