@@ -7,7 +7,6 @@ class WorkflowService
 
   def add_phase_spec(project_id, phase_spec, option = nil)
     project = @project_repository.find(project_id)
-    binding.pry
 
     builder = Project::WorkflowBuilder.new(project.workflow)
     direction, base_phase = Hash(option).flatten

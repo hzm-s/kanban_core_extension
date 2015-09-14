@@ -10,12 +10,11 @@ class PhaseSpecAddingsController < ApplicationController
   end
 
   def create
-    @command = AddPhaseSpecCommand.new(params[:add_phase_spec_command])
-    if @command.execute(workflow_service)
-      redirect_to board_url(project_id_str: @command.project_id_str), notice: 'ワークフローにフェーズを追加しました。'
+    command = AddPhaseSpecCommand.new(params[:add_phase_spec_command])
+    if command.execute(workflow_service)
+      redirect_to board_url(project_id_str: command.project_id_str), notice: 'ワークフローにフェーズを追加しました。'
     else
-      flash.now[:alert] = '入力エラーです。'
-      redirect_to board_url(project_id_str: @command.project_id_str)
+      redirect_to board_url(project_id_str: command.project_id_str), alert: command.errors.full_messages.join('<br>')
     end
   end
 end
