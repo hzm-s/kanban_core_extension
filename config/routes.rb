@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :projects, only: [:index]
   resources :project_launchings, only: [:new, :create]
   resources :features, only: [:new, :create]
+  resources :workflows, only: [:new, :create]
 
   resources :card_addings, only: [:create]
   resources :card_forwardings, only: [:create]
