@@ -7,12 +7,21 @@
       </button>
       <h4 class="modal-title" id="modal-window">WIP制限の変更</h4>
     </div>
-    <%= form_for @command, url: wip_limit_changings_url do |f| %>
+    <% if @command.errors.any? %>
+      <div class="alert alert-danger" role="alert">
+        <ul>
+          <% @command.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end -%>
+        </ul>
+      </div>
+    <% end -%>
+    <%= form_for @command, url: wip_limit_changings_url, remote: true do |f| %>
       <%= f.hidden_field :project_id_str %>
       <%= f.hidden_field :phase_name %>
       <div class="modal-body">
         <div class="form-group row">
-          <%= f.label '新しい制限値', class: 'col-sm-6 control-label' %>
+          <%= f.label :wip_limit_count, class: 'col-sm-6 control-label' %>
           <div class="col-sm-6">
             <%= f.number_field :wip_limit_count, class: 'form-control' %>
           </div>
