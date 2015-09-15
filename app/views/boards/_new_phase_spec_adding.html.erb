@@ -7,7 +7,8 @@
       </button>
       <h4 class="modal-title" id="modal-window">新しいフェーズを<%= @command.direction == 'before' ? '前': '後' %>に追加</h4>
     </div>
-    <%= form_for @command, url: phase_spec_addings_url do |f| %>
+    <%= form_for @command, url: phase_spec_addings_url, remote: true do |f| %>
+      <%= render partial: 'application/modal_window_form_errors', locals: { errors: f.object.errors } %>
       <%= f.hidden_field :project_id_str %>
       <%= f.hidden_field :direction %>
       <%= f.hidden_field :base_phase_name %>

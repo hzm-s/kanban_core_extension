@@ -7,16 +7,8 @@
       </button>
       <h4 class="modal-title" id="modal-window">WIP制限の変更</h4>
     </div>
-    <% if @command.errors.any? %>
-      <div class="alert alert-danger" role="alert">
-        <ul>
-          <% @command.errors.full_messages.each do |msg| %>
-            <li><%= msg %></li>
-          <% end -%>
-        </ul>
-      </div>
-    <% end -%>
     <%= form_for @command, url: wip_limit_changings_url, remote: true do |f| %>
+      <%= render partial: 'application/modal_window_form_errors', locals: { errors: f.object.errors } %>
       <%= f.hidden_field :project_id_str %>
       <%= f.hidden_field :phase_name %>
       <div class="modal-body">
