@@ -13,12 +13,27 @@ module Project
       @states = states
     end
 
+    def add(new)
+      self.class.new(@states + [new])
+    end
+
+    def insert_before(new, base)
+      new_states = @states.map do |state|
+        state == base ? [new, state] : state
+      end
+      self.class.new(new_states.flatten)
+    end
+
     def first
       @states.first
     end
 
     def next(state)
       @states[@states.index(state) + 1]
+    end
+
+    def include?(state)
+      @states.include?(state)
     end
 
     def last?(state)
@@ -54,12 +69,24 @@ module Project
         @state = State::None.new
       end
 
+      def add(state)
+        Transition.new([state])
+      end
+
+      def insert_before(new, base)
+        add(new)
+      end
+
       def first
         @state
       end
 
       def next(state)
         raise 'Transition::None'
+      end
+
+      def include?(state)
+        false
       end
 
       def last?(state)
