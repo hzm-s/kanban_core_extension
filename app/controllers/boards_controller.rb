@@ -7,7 +7,7 @@ class BoardsController < ApplicationController
     if @board.header.phases.any?
       render :show
     else
-      redirect_to new_workflow_url(project_id_str: params[:project_id_str])
+      render :bootstrap
     end
   end
 end

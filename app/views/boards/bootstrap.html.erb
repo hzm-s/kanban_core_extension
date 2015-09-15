@@ -1,0 +1,32 @@
+<section class="page-header">
+  <div class="row">
+    <div class="col-md-8">
+      <h1><%= link_to @board.project_name, projects_url %> Board</h1>
+    </div>
+    <div class="col-md-4">
+      <ul class="nav nav-pills pull-right">
+        <li class="nav-item">
+          <%= link_to(backlog_url(project_id_str: @board.project_id_str), class: 'nav-link') do %>
+            <span class="label label-default"><%= @stats.backlogs %></span>&nbsp;Backlogs
+          <% end -%>
+        </li>
+        <li class="nav-item">
+          <%= link_to(result_url(project_id_str: @board.project_id_str), class: 'nav-link') do %>
+            <span class="label label-default"><%= @stats.ships %></span>&nbsp;Ships
+          <% end -%>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+<section class="content">
+  <div class="row" style="margin: 3em auto;">
+    <%= link_to '最初のフェーズを追加する',
+      new_phase_spec_adding_url(project_id_str: @board.project_id_str),
+      remote: true,
+      data: { toggle: 'modal', target: '#modal-window' },
+      class: 'btn btn-primary btn-lg', type: 'button' %>
+  </div>
+  <!-- modal window -->
+  <div class="modal fade" id="modal-window" tabindex="-1" role="dialog" aria-labelledby="ModalWindow" aria-hidden="true"></div>
+</section>
