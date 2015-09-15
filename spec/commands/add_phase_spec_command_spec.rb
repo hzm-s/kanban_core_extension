@@ -25,4 +25,21 @@ describe AddPhaseSpecCommand do
       it { is_expected.to eq('新しいフェーズを追加') }
     end
   end
+
+  describe '#execute' do
+    it do
+      cmd = described_class.new(
+        project_id_str: 'prj_789',
+        phase_name: 'New Phase',
+        wip_limit_count: 3
+      )
+      service = double(:workflow_service)
+      expect(service).to receive(:add_phase_spec).with(
+        Project::ProjectId.new('prj_789'),
+        PhaseSpec(phase: 'New Phase', wip_limit: 3),
+        nil
+      )
+      cmd.execute(service)
+    end
+  end
 end

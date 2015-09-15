@@ -32,7 +32,7 @@ class AddPhaseSpecCommand
 
   def phase_spec
     Project::PhaseSpec.new(
-      phase_name,
+      Project::Phase.new(phase_name),
       Project::Transition::None.new,
       wip_limit
     )
