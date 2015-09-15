@@ -6,12 +6,12 @@ class AddPhaseSpecCommand
     'after' => '後'
   }.freeze
 
-  attr_accessor :project_id_str, :phase_name, :wip_limit_count,
+  attr_accessor :project_id_str, :phase_name, :wip_limit_count, :state_names,
                 :direction, :base_phase_name
 
   validates :project_id_str, presence: true
   validates :phase_name, presence: true
-  validates :wip_limit_count, presence: true
+  validates :wip_limit_count, numericality: { greater_than: 0 }, allow_blank: true
 
   def describe
     position = direction ? "「#{base_phase_name}」の#{DIRECTIONS[direction]}に" : ''
@@ -22,18 +22,18 @@ class AddPhaseSpecCommand
     Project::ProjectId.new(project_id_str)
   end
 
+  def transition
+    Project::Transition.from_array(state_names)
+  end
+
   def wip_limit
-    if wip_limit_count.to_i > 0
-      Project::WipLimit.new(wip_limit_count)
-    else
-      Project::WipLimit::None.new
-    end
+    Project::WipLimit.from_number(wip_limit_count)
   end
 
   def phase_spec
     Project::PhaseSpec.new(
       Project::Phase.new(phase_name),
-      Project::Transition::None.new,
+      transition,
       wip_limit
     )
   end

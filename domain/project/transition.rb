@@ -1,6 +1,14 @@
 module Project
   class Transition
 
+    def self.from_array(state_names)
+      return None.new if Array(state_names).empty?
+      states = state_names
+                 .reject {|n| n.empty? }
+                 .map {|n| State.new(n) }
+      new(states)
+    end
+
     def initialize(states)
       @states = states
     end

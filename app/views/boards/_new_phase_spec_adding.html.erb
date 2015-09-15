@@ -25,6 +25,8 @@
             <%= f.number_field :wip_limit_count, class: 'form-control' %>
           </div>
         </div>
+        <div id="state-form-controls"></div>
+        <div><%= link_to '状態を追加', add_state_for_phase_spec_adding_url, remote: true %></div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

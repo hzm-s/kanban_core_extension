@@ -18,4 +18,8 @@ class PhaseSpecAddingsController < ApplicationController
       render 'modal_window_form', locals: { path: 'boards/new_phase_spec_adding' }
     end
   end
+
+  def add_state
+    render 'boards/add_state_input'
+  end
 end
