@@ -26,6 +26,12 @@
               remote: true,
               data: { toggle: 'modal', target: '#modal-window' },
               class: 'dropdown-item', type: 'button' %>
+            <div class="dropdown-divider"></div>
+            <%= link_to '状態を追加する',
+              new_phase_spec_adding_url(project_id_str: project_id_str, direction: 'after', base_phase_name: phase.name),
+              remote: true,
+              data: { toggle: 'modal', target: '#modal-window' },
+              class: 'dropdown-item', type: 'button' %>
           </div>
         </div>
       </th>
