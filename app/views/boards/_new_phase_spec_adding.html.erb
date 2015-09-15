@@ -5,7 +5,7 @@
         <span aria-hidden="true">&times;</span>
         <span class="sr-only">Close</span>
       </button>
-      <h4 class="modal-title" id="modal-window">新しいフェーズを<%= @command.direction == 'before' ? '前': '後' %>に追加</h4>
+      <h4 class="modal-title" id="modal-window"><%= @command.describe %></h4>
     </div>
     <%= form_for @command, url: phase_spec_addings_url, remote: true do |f| %>
       <%= render partial: 'application/modal_window_form_errors', locals: { errors: f.object.errors } %>

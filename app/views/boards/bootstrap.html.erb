@@ -1,6 +1,9 @@
 <%= render 'page_header' %>
 <section class="content">
-  <div class="row" style="margin: 3em auto;">
+  <div class="jumbotron">
+    <h2 class="display-1">かんばんボード</h2>
+    <p class="lead">ワークフローを設定してボードを使えるようにしましょう。</p>
+    <hr class-"m-y-md">
     <%= link_to '最初のフェーズを追加する',
       new_phase_spec_adding_url(project_id_str: @board.project_id_str),
       remote: true,

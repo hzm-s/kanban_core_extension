@@ -1,12 +1,22 @@
 class AddPhaseSpecCommand
   include ActiveModel::Model
 
+  DIRECTIONS = {
+    'before' => '前',
+    'after' => '後'
+  }.freeze
+
   attr_accessor :project_id_str, :phase_name, :wip_limit_count,
                 :direction, :base_phase_name
 
   validates :project_id_str, presence: true
   validates :phase_name, presence: true
   validates :wip_limit_count, presence: true
+
+  def describe
+    position = direction ? "「#{base_phase_name}」の#{DIRECTIONS[direction]}に" : ''
+    "#{position}新しいフェーズを追加"
+  end
 
   def project_id
     Project::ProjectId.new(project_id_str)
