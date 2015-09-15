@@ -23,24 +23,16 @@ describe 'add phase spec' do
       end
     end
 
-    context 'add before Head' do
+    context 'insert before Head' do
       it do
-        service.add_phase_spec(
-          project_id,
-          PhaseSpec(phase: 'New'),
-          before: Phase('Head')
-        )
+        service.add_phase_spec(project_id, PhaseSpec(phase: 'New'), before: Phase('Head'))
         expect(new_workflow).to eq(Workflow([{ phase: 'New' }]))
       end
     end
 
-    context 'add after Head' do
+    context 'insert after Head' do
       it do
-        service.add_phase_spec(
-          project_id,
-          PhaseSpec(phase: 'New'),
-          after: Phase('Head')
-        )
+        service.add_phase_spec(project_id, PhaseSpec(phase: 'New'), after: Phase('Head'))
         expect(new_workflow).to eq(Workflow([{ phase: 'New' }]))
       end
     end
@@ -62,78 +54,54 @@ describe 'add phase spec' do
       end
     end
 
-    context 'add before Head' do
+    context 'insert before Head' do
       it do
-        service.add_phase_spec(
-          project_id,
-          PhaseSpec(phase: 'New'),
-          before: Phase('Head')
-        )
+        service.add_phase_spec(project_id, PhaseSpec(phase: 'New'), before: Phase('Head'))
         expect(new_workflow).to eq(Workflow([
           { phase: 'New' }, { phase: 'Head' }, { phase: 'Body' }, { phase: 'Tail' }
         ]))
       end
     end
 
-    context 'add after Head' do
+    context 'insert after Head' do
       it do
-        service.add_phase_spec(
-          project_id,
-          PhaseSpec(phase: 'New'),
-          after: Phase('Head')
-        )
+        service.add_phase_spec(project_id, PhaseSpec(phase: 'New'), after: Phase('Head'))
         expect(new_workflow).to eq(Workflow([
           { phase: 'Head' }, { phase: 'New' }, { phase: 'Body' }, { phase: 'Tail' }
         ]))
       end
     end
 
-    context 'add before Body' do
+    context 'insert before Body' do
       it do
-        service.add_phase_spec(
-          project_id,
-          PhaseSpec(phase: 'New'),
-          before: Phase('Body')
-        )
+        service.add_phase_spec(project_id, PhaseSpec(phase: 'New'), before: Phase('Body'))
         expect(new_workflow).to eq(Workflow([
           { phase: 'Head' }, { phase: 'New' }, { phase: 'Body' }, { phase: 'Tail' }
         ]))
       end
     end
 
-    context 'add after Body' do
+    context 'insert after Body' do
       it do
-        service.add_phase_spec(
-          project_id,
-          PhaseSpec(phase: 'New'),
-          after: Phase('Body')
-        )
+        service.add_phase_spec(project_id, PhaseSpec(phase: 'New'), after: Phase('Body'))
         expect(new_workflow).to eq(Workflow([
           { phase: 'Head' }, { phase: 'Body' }, { phase: 'New' }, { phase: 'Tail' }
         ]))
       end
     end
 
-    context 'add before Tail' do
+    context 'insert before Tail' do
       it do
-        service.add_phase_spec(
-          project_id,
-          PhaseSpec(phase: 'New'),
-          before: Phase('Tail')
-        )
+        service.add_phase_spec(project_id, PhaseSpec(phase: 'New'), before: Phase('Tail'))
         expect(new_workflow).to eq(Workflow([
           { phase: 'Head' }, { phase: 'Body' }, { phase: 'New' }, { phase: 'Tail' }
         ]))
       end
     end
 
-    context 'add after Tail' do
+    context 'insert after Tail' do
       it do
-        service.add_phase_spec(
-          project_id,
-          PhaseSpec(phase: 'New'),
-          after: Phase('Tail')
-        )
+        service.add_phase_spec(project_id, PhaseSpec(phase: 'New'), after: Phase('Tail'))
         expect(new_workflow).to eq(Workflow([
           { phase: 'Head' }, { phase: 'Body' }, { phase: 'Tail' }, { phase: 'New' }
         ]))

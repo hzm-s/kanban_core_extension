@@ -1,4 +1,6 @@
 module Project
+  class PhaseNotFound < StandardError; end
+
   class Workflow
 
     def initialize(phase_specs)
@@ -39,7 +41,12 @@ module Project
     end
 
     def spec(phase)
-      @phase_specs.detect {|ps| ps.phase == phase }
+      @phase_specs.detect {|ps| ps.phase == phase } || raise(PhaseNotFound)
+    end
+
+    def include_step?(step)
+      return false unless phase_spec = spec(step.phase)
+      phase_spec.include_state?(step.state)
     end
 
     def to_a

@@ -21,6 +21,14 @@ module Project
       @wip_limit.reach?(wip)
     end
 
+    def add_state(state)
+      self.class.new(@phase, @transition.add(state), @wip_limit)
+    end
+
+    def insert_state_before(new, base_state)
+      self.class.new(@phase, @transition.insert_before(new, base_state), @wip_limit)
+    end
+
     def first_step
       Step.new(@phase, @transition.first)
     end
@@ -28,6 +36,10 @@ module Project
     def next_step(current_step, next_phase_spec)
       return next_phase_spec.first_step if @transition.last?(current_step.state)
       Step.new(@phase, @transition.next(current_step.state))
+    end
+
+    def include_state?(state)
+      transition.include?(state)
     end
 
     def transit?
