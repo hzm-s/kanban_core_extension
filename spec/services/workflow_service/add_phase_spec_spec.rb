@@ -25,15 +25,17 @@ describe 'add phase spec' do
 
     context 'insert before Head' do
       it do
-        service.add_phase_spec(project_id, PhaseSpec(phase: 'New'), before: Phase('Head'))
-        expect(new_workflow).to eq(Workflow([{ phase: 'New' }]))
+        expect {
+          service.add_phase_spec(project_id, PhaseSpec(phase: 'New'), before: Phase('Head'))
+        }.to raise_error(Project::PhaseNotFound)
       end
     end
 
     context 'insert after Head' do
       it do
-        service.add_phase_spec(project_id, PhaseSpec(phase: 'New'), after: Phase('Head'))
-        expect(new_workflow).to eq(Workflow([{ phase: 'New' }]))
+        expect {
+          service.add_phase_spec(project_id, PhaseSpec(phase: 'New'), after: Phase('Head'))
+        }.to raise_error(Project::PhaseNotFound)
       end
     end
   end

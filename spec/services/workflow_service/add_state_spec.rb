@@ -23,7 +23,7 @@ describe 'add state' do
     context 'add' do
       it do
         expect {
-          service.add_state_to_phase(project_id, Phase('NONE'), State('Doing'))
+          service.add_state(project_id, Phase('NONE'), State('Doing'))
         }.to raise_error(Project::PhaseNotFound)
       end
     end
@@ -31,7 +31,7 @@ describe 'add state' do
     context 'insert before' do
       it do
         expect {
-          service.add_state_to_phase(project_id, Phase('NONE'), State('Doing'), before: State('NONE'))
+          service.add_state(project_id, Phase('NONE'), State('Doing'), before: State('NONE'))
         }.to raise_error(Project::PhaseNotFound)
       end
     end
@@ -39,7 +39,7 @@ describe 'add state' do
     context 'insert after' do
       it do
         expect {
-          service.add_state_to_phase(project_id, Phase('NONE'), State('Doing'), after: State('NONE'))
+          service.add_state(project_id, Phase('NONE'), State('Doing'), after: State('NONE'))
         }.to raise_error(Project::PhaseNotFound)
       end
     end
@@ -52,21 +52,21 @@ describe 'add state' do
 
     context 'add' do
       it do
-        service.add_state_to_phase(project_id, Phase('Todo'), State('Doing'))
+        service.add_state(project_id, Phase('Todo'), State('Doing'))
         expect(new_workflow).to eq(Workflow([{ phase: 'Todo', transition: ['Doing'] }]))
       end
     end
 
     context 'insert before Work' do
       it do
-        service.add_state_to_phase(project_id, Phase('Todo'), State('Doing'), before: State('Work'))
+        service.add_state(project_id, Phase('Todo'), State('Doing'), before: State('Work'))
         expect(new_workflow).to eq(Workflow([{ phase: 'Todo', transition: ['Doing'] }]))
       end
     end
 
     context 'insert after Work' do
       it do
-        service.add_state_to_phase(project_id, Phase('Todo'), State('Doing'), after: State('Work'))
+        service.add_state(project_id, Phase('Todo'), State('Doing'), after: State('Work'))
         expect(new_workflow).to eq(Workflow([{ phase: 'Todo', transition: ['Doing'] }]))
       end
     end
@@ -79,7 +79,7 @@ describe 'add state' do
 
     context 'add' do
       it do
-        service.add_state_to_phase(project_id, Phase('Dev'), State('KPT'))
+        service.add_state(project_id, Phase('Dev'), State('KPT'))
         expect(new_workflow).to eq(
           Workflow([{ phase: 'Dev', transition: ['Doing', 'Review', 'Done', 'KPT'] }])
         )
@@ -88,7 +88,7 @@ describe 'add state' do
 
     context 'insert before Doing' do
       it do
-        service.add_state_to_phase(project_id, Phase('Dev'), State('KPT'), before: State('Doing'))
+        service.add_state(project_id, Phase('Dev'), State('KPT'), before: State('Doing'))
         expect(new_workflow).to eq(
           Workflow([{ phase: 'Dev', transition: ['KPT', 'Doing', 'Review', 'Done'] }])
         )
@@ -97,7 +97,7 @@ describe 'add state' do
 
     context 'insert after Doing' do
       it do
-        service.add_state_to_phase(project_id, Phase('Dev'), State('KPT'), after: State('Doing'))
+        service.add_state(project_id, Phase('Dev'), State('KPT'), after: State('Doing'))
         expect(new_workflow).to eq(
           Workflow([{ phase: 'Dev', transition: ['Doing', 'KPT', 'Review', 'Done'] }])
         )
@@ -106,7 +106,7 @@ describe 'add state' do
 
     context 'insert before Review' do
       it do
-        service.add_state_to_phase(project_id, Phase('Dev'), State('KPT'), before: State('Review'))
+        service.add_state(project_id, Phase('Dev'), State('KPT'), before: State('Review'))
         expect(new_workflow).to eq(
           Workflow([{ phase: 'Dev', transition: ['Doing', 'KPT', 'Review', 'Done'] }])
         )
@@ -115,7 +115,7 @@ describe 'add state' do
 
     context 'insert after Review' do
       it do
-        service.add_state_to_phase(project_id, Phase('Dev'), State('KPT'), after: State('Review'))
+        service.add_state(project_id, Phase('Dev'), State('KPT'), after: State('Review'))
         expect(new_workflow).to eq(
           Workflow([{ phase: 'Dev', transition: ['Doing', 'Review', 'KPT', 'Done'] }])
         )
@@ -124,7 +124,7 @@ describe 'add state' do
 
     context 'insert before Done' do
       it do
-        service.add_state_to_phase(project_id, Phase('Dev'), State('KPT'), before: State('Done'))
+        service.add_state(project_id, Phase('Dev'), State('KPT'), before: State('Done'))
         expect(new_workflow).to eq(
           Workflow([{ phase: 'Dev', transition: ['Doing', 'Review', 'KPT', 'Done'] }])
         )
@@ -133,7 +133,7 @@ describe 'add state' do
 
     context 'insert after Done' do
       it do
-        service.add_state_to_phase(project_id, Phase('Dev'), State('KPT'), after: State('Done'))
+        service.add_state(project_id, Phase('Dev'), State('KPT'), after: State('Done'))
         expect(new_workflow).to eq(
           Workflow([{ phase: 'Dev', transition: ['Doing', 'Review', 'Done', 'KPT'] }])
         )
