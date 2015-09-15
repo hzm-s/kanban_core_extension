@@ -22,7 +22,7 @@ module WorkflowCreator
     Project::Transition.new(params.map {|p| Project::State.new(p) })
   end
 
-  def WipLimit(param)
+  def WipLimit(param = nil)
     return Project::WipLimit::None.new if param.nil?
     return Project::WipLimit.new(param) if param.instance_of?(Fixnum)
     param

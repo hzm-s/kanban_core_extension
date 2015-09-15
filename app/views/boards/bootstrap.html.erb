@@ -1,0 +1,15 @@
+<%= render 'page_header' %>
+<section class="content">
+  <div class="jumbotron">
+    <h2 class="display-1">かんばんボード</h2>
+    <p class="lead">ワークフローを設定してボードを使えるようにしましょう。</p>
+    <hr class-"m-y-md">
+    <%= link_to '最初のフェーズを追加する',
+      new_phase_spec_adding_url(project_id_str: @board.project_id_str),
+      remote: true,
+      data: { toggle: 'modal', target: '#modal-window' },
+      class: 'btn btn-primary btn-lg', type: 'button' %>
+  </div>
+  <!-- modal window -->
+  <div class="modal fade" id="modal-window" tabindex="-1" role="dialog" aria-labelledby="ModalWindow" aria-hidden="true"></div>
+</section>

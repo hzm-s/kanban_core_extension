@@ -1,0 +1,41 @@
+<thead>
+  <tr>
+    <% phases.each do |phase| -%>
+      <th colspan="<%= phase.state_size %>">
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="header-phase"><%= phase.name %></span>&nbsp;<span class="label label-pill label-danger"><%= phase.wip_limit %></span>
+          </button>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" type="button" data-toggle="modal" data-target="modal-window">フェーズ名を変更する</a>
+            <div class="dropdown-divider"></div>
+            <%= link_to 'WIP制限の値を変更する',
+              new_wip_limit_changing_url(project_id_str: project_id_str, phase_name: phase.name),
+              remote: true,
+              data: { toggle: 'modal', target: '#modal-window' },
+              class: 'dropdown-item', type: 'button' %>
+            <a class="dropdown-item" type="button" data-toggle="modal" data-target="modal-window">WIP制限を解除する</a>
+            <div class="dropdown-divider"></div>
+            <%= link_to '新しいフェーズを前に追加する',
+              new_phase_spec_adding_url(project_id_str: project_id_str, direction: 'before', base_phase_name: phase.name),
+              remote: true,
+              data: { toggle: 'modal', target: '#modal-window' },
+              class: 'dropdown-item', type: 'button' %>
+            <%= link_to '新しいフェーズを後に追加する',
+              new_phase_spec_adding_url(project_id_str: project_id_str, direction: 'after', base_phase_name: phase.name),
+              remote: true,
+              data: { toggle: 'modal', target: '#modal-window' },
+              class: 'dropdown-item', type: 'button' %>
+          </div>
+        </div>
+      </th>
+      <!-- modal window -->
+      <div class="modal fade" id="modal-window" tabindex="-1" role="dialog" aria-labelledby="ModalWindow" aria-hidden="true"></div>
+    <% end -%>
+  </tr>
+  <tr>
+    <% phase_states.each do |phase_state| -%>
+      <th><%= phase_state.name %></th>
+    <% end -%>
+  </tr>
+</thead>
