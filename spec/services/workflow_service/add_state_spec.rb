@@ -96,6 +96,26 @@ describe 'add state' do
       end
     end
 
+    context 'insert Doing before Done' do
+      it do
+        expect {
+          service.add_state(
+            project_id, Phase('Dev'), State('Doing'), before: State('Done')
+          )
+        }.to raise_error(Project::DuplicateState)
+      end
+    end
+
+    context 'insert Doing after Review' do
+      it do
+        expect {
+          service.add_state(
+            project_id, Phase('Dev'), State('Doing'), after: State('Review')
+          )
+        }.to raise_error(Project::DuplicateState)
+      end
+    end
+
     context 'insert before None (= NOT exist)' do
       it do
         expect {
