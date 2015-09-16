@@ -1,1 +1,1 @@
-$('#state-form-controls').append("<%= escape_javascript(render(partial: 'boards/state_form_control', locals: { state_name: nil })) %>")
+$('#state-form-controls').append("<%= escape_javascript(render(partial: 'boards/state_form_control', locals: { command_name: params[:command_name], state_name: nil })) %>")

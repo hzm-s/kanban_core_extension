@@ -30,6 +30,18 @@ describe SetTransitionCommand do
       end
     end
 
+    context 'given empty' do
+      it do
+        cmd = described_class.new(
+          project_id_str: 'prj_789',
+          phase_name: 'Dev',
+          state_names: ['', '']
+        )
+        service = double(:workflow_service)
+        expect(cmd.execute(service)).to be_falsey
+      end
+    end
+
     context 'given Doing' do
       it do
         cmd = described_class.new(

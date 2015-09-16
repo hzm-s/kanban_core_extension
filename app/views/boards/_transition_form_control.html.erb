@@ -1,5 +1,8 @@
 <% state_names.each do |state_name| %>
-  <%= render partial: 'boards/state_form_control', locals: { state_name: state_name } %>
+  <%= render partial: 'boards/state_form_control', locals: {
+    command_name: command_name,
+    state_name: state_name
+  } %>
 <% end -%>
 <div id="state-form-controls"></div>
-<div><%= link_to '状態を追加', new_state_input_field_url, remote: true %></div>
+<div><%= link_to '状態を追加', new_state_input_field_url(command_name: command_name), remote: true %></div>
