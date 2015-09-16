@@ -1,5 +1,6 @@
 module Project
   class StateNotFound < StandardError; end
+  class DuplicateState < StandardError; end
 
   class Transition
 
@@ -66,6 +67,7 @@ module Project
 
       def set_states(states)
         raise ArgumentError unless states.size >= 2
+        raise DuplicateState unless states.uniq.size == states.size
         @states = states
       end
 

@@ -17,16 +17,34 @@ describe 'set transition' do
 
   context 'no transition' do
     let(:workflow) do
-      Workflow([{ phase: 'Dev', wip_limit: 2 }])
+      Workflow([
+        { phase: 'Dev', wip_limit: 2 },
+        { phase: 'QA', transition: ['Doing', 'Done'] }
+      ])
     end
 
-    it do
-      service.set_transition(
-        project_id, Phase('Dev'), Transition(['Doing', 'Done'])
-      )
-      expect(new_workflow).to eq(
-        Workflow([ { phase: 'Dev', transition: ['Doing', 'Done'], wip_limit: 2 } ])
-      )
+    context 'set Doing|Done' do
+      it do
+        service.set_transition(
+          project_id, Phase('Dev'), Transition(['Doing', 'Done'])
+        )
+        expect(new_workflow).to eq(
+          Workflow([
+            { phase: 'Dev', transition: ['Doing', 'Done'], wip_limit: 2 },
+            { phase: 'QA', transition: ['Doing', 'Done'] }
+          ])
+        )
+      end
+    end
+
+    context 'set Doing|Done|Doing' do
+      it do
+        expect {
+          service.set_transition(
+            project_id, Phase('Dev'), Transition(['Doing', 'Done', 'Doing'])
+          )
+        }.to raise_error(Project::DuplicateState)
+      end
     end
   end
 

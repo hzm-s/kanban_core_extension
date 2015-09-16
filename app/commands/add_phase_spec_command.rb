@@ -49,7 +49,7 @@ class AddPhaseSpecCommand
     return false unless valid?
     service.add_phase_spec(project_id, phase_spec, position_option)
   rescue Project::DuplicatePhase
-    errors.add(:base, '同じフェーズ名が既にあります。')
+    errors.add(:base, '同じフェーズが既にあります。')
     false
   else
     true
