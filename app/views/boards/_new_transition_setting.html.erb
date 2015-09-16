@@ -5,22 +5,21 @@
         <span aria-hidden="true">&times;</span>
         <span class="sr-only">Close</span>
       </button>
-      <h4 class="modal-title" id="modal-window"><%= @command.phase_name %>に状態を追加</h4>
+      <h4 class="modal-title" id="modal-window">「<%= @command.phase_name %>」に推移を設定</h4>
     </div>
-    <%= form_for @command, url: state_addings_url, remote: true do |f| %>
+    <%= form_for @command, url: transition_settings_url, remote: true do |f| %>
       <%= render partial: 'application/modal_window_form_errors', locals: { errors: f.object.errors } %>
       <%= f.hidden_field :project_id_str %>
+      <%= f.hidden_field :phase_name %>
       <div class="modal-body">
-        <div class="form-group row">
-          <%= f.label '名前', class: 'col-sm-6 control-label' %>
-          <div class="col-sm-6">
-            <%= f.text_field :state_name, class: 'form-control' %>
-          </div>
-        </div>
+        <%= render partial: 'boards/transition_form_control', locals: {
+          command_name: f.object.model_name.to_s.underscore,
+          state_names: f.object.state_names
+        } %>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <%= f.submit '追加する', class: 'btn btn-primary' %>
+        <%= f.submit '設定する', class: 'btn btn-primary' %>
       </div>
     <% end -%>
   </div>

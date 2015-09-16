@@ -1,0 +1,2 @@
+class InputFieldsController < ApplicationController
+end

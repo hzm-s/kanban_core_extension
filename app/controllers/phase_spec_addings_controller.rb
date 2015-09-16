@@ -19,7 +19,7 @@ class PhaseSpecAddingsController < ApplicationController
     end
   end
 
-  def add_state
-    render 'boards/add_state_input'
+  def add_transition
+    render 'boards/add_transition'
   end
 end

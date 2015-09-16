@@ -12,10 +12,15 @@ class AddPhaseSpecCommand
   validates :project_id_str, presence: true
   validates :phase_name, presence: true
   validates :wip_limit_count, numericality: { greater_than: 0 }, allow_blank: true
+  validates :state_names, transition: true
 
   def describe
-    position = direction ? "「#{base_phase_name}」の#{DIRECTIONS[direction]}に" : ''
+    position = direction.blank? ? '' : "「#{base_phase_name}」の#{DIRECTIONS[direction]}に"
     "#{position}新しいフェーズを追加"
+  end
+
+  def state_names
+    Array(@state_names).reject {|n| n.blank? }
   end
 
   def project_id

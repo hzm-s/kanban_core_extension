@@ -5,14 +5,7 @@ class SetTransitionCommand
 
   validates :project_id_str, presence: true
   validates :phase_name, presence: true
-
-  validate do |cmd|
-    begin
-      cmd.transition
-    rescue ArgumentError
-      errors.add(:base, '状態は2つ以上必要です')
-    end
-  end
+  validates :state_names, transition: true
 
   def project_id
     Project::ProjectId.new(project_id_str)

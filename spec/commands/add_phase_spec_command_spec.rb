@@ -1,6 +1,66 @@
 require 'rails_helper'
 
 describe AddPhaseSpecCommand do
+  describe '#execute' do
+    let(:service) { double(:workflow_service) }
+
+    context 'wip_limit = 2, states = none, before: Todo' do
+      it do
+        cmd = described_class.new(
+          project_id_str: 'prj_789',
+          phase_name: 'New Phase',
+          wip_limit_count: 2,
+          state_names: [''],
+          direction: 'before',
+          base_phase_name: 'Todo'
+        )
+        expect(service)
+          .to receive(:add_phase_spec)
+          .with(
+            ProjectId('prj_789'),
+            PhaseSpec(phase: 'New Phase', wip_limit: 2),
+            { before: Phase('Todo') }
+          )
+        cmd.execute(service)
+      end
+    end
+
+    context 'wip_limit = 2, states = Doing|Done, after: Todo' do
+      it do
+        cmd = described_class.new(
+          project_id_str: 'prj_789',
+          phase_name: 'New Phase',
+          wip_limit_count: 2,
+          state_names: ['Doing', 'Done'],
+          direction: 'after',
+          base_phase_name: 'Todo'
+        )
+        expect(service)
+          .to receive(:add_phase_spec)
+          .with(
+            ProjectId('prj_789'),
+            PhaseSpec(phase: 'New Phase', transition: ['Doing', 'Done'], wip_limit: 2),
+            { after: Phase('Todo') }
+          )
+        cmd.execute(service)
+      end
+    end
+
+    context 'wip_limit = 2, states = Doing, before: Todo' do
+      it do
+        cmd = described_class.new(
+          project_id_str: 'prj_789',
+          phase_name: 'New Phase',
+          wip_limit_count: 2,
+          state_names: ['Doing'],
+          direction: 'before',
+          base_phase_name: 'Todo'
+        )
+        expect(cmd.execute(service)).to be_falsey
+      end
+    end
+  end
+
   describe '#phase_spec' do
     context 'wip_limit=3, states=none' do
       it do
