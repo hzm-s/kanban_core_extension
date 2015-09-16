@@ -5,7 +5,7 @@ describe 'change wip limit' do
     ProjectService.new(project_repository, board_repository, board_builder)
   end
   let(:project_repository) { ProjectRepository.new }
-  let(:board_repository) { FakeBoardRepository.new }
+  let(:board_repository) { BoardRepository.new }
   let(:board_builder) { Kanban::BoardBuilder.new(board_repository) }
 
   let(:project_id) do
@@ -13,10 +13,8 @@ describe 'change wip limit' do
   end
 
   let(:board_service) do
-    BoardService.new(project_repository, board_repository, development_tracker)
+    BoardService(board_repository: board_repository, development_tracker: FakeDevelopmentTracker.new)
   end
-  let(:board_repository) { BoardRepository.new }
-  let(:development_tracker) { FakeDevelopmentTracker.new }
 
   before do
     service.specify_workflow(project_id, old_workflow)
