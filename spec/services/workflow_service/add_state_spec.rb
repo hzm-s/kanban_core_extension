@@ -20,14 +20,6 @@ describe 'add state' do
       Workflow([{ phase: 'Todo' }])
     end
 
-    context 'add' do
-      it do
-        expect {
-          service.add_state(project_id, Phase('NONE'), State('Doing'))
-        }.to raise_error(Project::PhaseNotFound)
-      end
-    end
-
     context 'insert before' do
       it do
         expect {
@@ -41,33 +33,6 @@ describe 'add state' do
         expect {
           service.add_state(project_id, Phase('NONE'), State('Doing'), after: State('NONE'))
         }.to raise_error(Project::PhaseNotFound)
-      end
-    end
-  end
-
-  context 'no current transition' do
-    let(:workflow) do
-      Workflow([{ phase: 'Todo' }])
-    end
-
-    context 'add' do
-      it do
-        service.add_state(project_id, Phase('Todo'), State('Doing'))
-        expect(new_workflow).to eq(Workflow([{ phase: 'Todo', transition: ['Doing'] }]))
-      end
-    end
-
-    context 'insert before Work' do
-      it do
-        service.add_state(project_id, Phase('Todo'), State('Doing'), before: State('Work'))
-        expect(new_workflow).to eq(Workflow([{ phase: 'Todo', transition: ['Doing'] }]))
-      end
-    end
-
-    context 'insert after Work' do
-      it do
-        service.add_state(project_id, Phase('Todo'), State('Doing'), after: State('Work'))
-        expect(new_workflow).to eq(Workflow([{ phase: 'Todo', transition: ['Doing'] }]))
       end
     end
   end
