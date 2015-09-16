@@ -1,10 +1,6 @@
 class AddPhaseSpecCommand
   include ActiveModel::Model
-
-  DIRECTIONS = {
-    'before' => '前',
-    'after' => '後'
-  }.freeze
+  include PositionOptionHelper
 
   attr_accessor :project_id_str, :phase_name, :wip_limit_count, :state_names,
                 :direction, :base_phase_name
@@ -15,7 +11,7 @@ class AddPhaseSpecCommand
   validates :state_names, transition: true
 
   def describe
-    position = direction.blank? ? '' : "「#{base_phase_name}」の#{DIRECTIONS[direction]}に"
+    position = direction.blank? ? '' : "「#{base_phase_name}」の#{direction_name}に"
     "#{position}新しいフェーズを追加"
   end
 
@@ -45,7 +41,7 @@ class AddPhaseSpecCommand
 
   def position_option
     return nil if direction.nil? || base_phase_name.nil?
-    { direction.to_sym => Project::Phase.new(base_phase_name) }
+    option_for_phase(base_phase_name)
   end
 
   def execute(service)

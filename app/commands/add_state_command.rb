@@ -1,5 +1,6 @@
 class AddStateCommand
   include ActiveModel::Model
+  include PositionOptionHelper
 
   attr_accessor :project_id_str, :phase_name, :state_name,
                 :direction, :base_state_name
@@ -9,12 +10,8 @@ class AddStateCommand
   validates :direction, presence: true
   validates :base_state_name, presence: true
 
-  #TODO
-  DIRECTIONS = { 'before' => '前', 'after' => '後' }.freeze
-
   def describe
-    position_name = DIRECTIONS[direction]
-    "「#{phase_name}」フェーズの「#{base_state_name}」の#{position_name}に状態を追加"
+    "「#{phase_name}」フェーズの「#{base_state_name}」の#{direction_name}に状態を追加"
   end
 
   def project_id
@@ -30,7 +27,7 @@ class AddStateCommand
   end
 
   def position_option
-    { direction.to_sym => Project::State.new(base_state_name) }
+    option_for_state(base_state_name)
   end
 
   def execute(service)
