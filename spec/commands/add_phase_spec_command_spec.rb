@@ -74,18 +74,19 @@ describe AddPhaseSpecCommand do
       end
     end
 
-    context 'wip_limit=3, states=Doing, ""' do
+    context 'wip_limit=3, states=Doing, "", Done' do
       it do
         cmd = described_class.new(
           phase_name: 'New Phase',
           wip_limit_count: 3,
-          state_names: ['Doing', '']
+          state_names: ['Doing', '', 'Done']
         )
         expect(cmd.phase_spec).to eq(
           Project::PhaseSpec.new(
             Project::Phase.new('New Phase'),
             Project::Transition.new([
-              Project::State.new('Doing')
+              Project::State.new('Doing'),
+              Project::State.new('Done')
             ]),
             Project::WipLimit.new(3)
           )

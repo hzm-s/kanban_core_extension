@@ -50,6 +50,16 @@ module Project
         let(:current_step) { Step('Deploy', 'Done') }
         it { is_expected.to eq(Step::Complete.new) }
       end
+
+      context 'NOT EXIST phase' do
+        let(:current_step) { Step('NONE') }
+        it { expect { subject }.to raise_error(PhaseNotFound) }
+      end
+
+      context 'NOT EXIST state' do
+        let(:current_step) { Step('Dev', 'KPT') }
+        it { expect { subject }.to raise_error(StateNotFound) }
+      end
     end
   end
 end

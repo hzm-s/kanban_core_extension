@@ -9,37 +9,52 @@ class WorkflowService
     project = @project_repository.find(project_id)
 
     builder = Project::WorkflowBuilder.new(project.workflow)
-    direction, base_phase = Hash(option).flatten
-
-    case direction
-    when :before
-      builder.insert_phase_spec_before(phase_spec, base_phase)
-    when :after
-      builder.insert_phase_spec_after(phase_spec, base_phase)
-    else
-      builder.add_phase_spec(phase_spec)
+    add_with_position(option) do |direction, base_phase|
+      case direction
+      when :before
+        builder.insert_phase_spec_before(phase_spec, base_phase)
+      when :after
+        builder.insert_phase_spec_after(phase_spec, base_phase)
+      else
+        builder.add_phase_spec(phase_spec)
+      end
     end
 
     project.specify_workflow(builder.workflow)
     @project_repository.store(project)
   end
 
-  def add_state(project_id, phase, state, option = nil)
+  def set_transition(project_id, phase, transition)
     project = @project_repository.find(project_id)
 
     builder = Project::WorkflowBuilder.new(project.workflow)
-    direction, base_state = Hash(option).flatten
+    builder.set_transition(phase, transition)
+    project.specify_workflow(builder.workflow)
 
-    case direction
-    when :before
-      builder.insert_state_before(phase, state, base_state)
-    when :after
-      builder.insert_state_after(phase, state, base_state)
-    else
-      builder.add_state(phase, state)
+    @project_repository.store(project)
+  end
+
+  def add_state(project_id, phase, state, option)
+    project = @project_repository.find(project_id)
+
+    builder = Project::WorkflowBuilder.new(project.workflow)
+    add_with_position(option) do |direction, base_state|
+      case direction
+      when :before
+        builder.insert_state_before(phase, state, base_state)
+      when :after
+        builder.insert_state_after(phase, state, base_state)
+      end
     end
 
     project.specify_workflow(builder.workflow)
     @project_repository.store(project)
   end
+
+  private
+
+    def add_with_position(option)
+      direction, base = Hash(option).flatten
+      yield(direction, base)
+    end
 end

@@ -1,6 +1,7 @@
 module Project
   class WipLimitReached < StandardError; end
   class UnderCurrentWip < StandardError; end
+  class TransitionAlreadySetted < StandardError; end
 
   class PhaseSpec
     attr_reader :phase, :transition, :wip_limit
@@ -21,11 +22,13 @@ module Project
       @wip_limit.reach?(wip)
     end
 
-    def add_state(state)
-      self.class.new(@phase, @transition.add(state), @wip_limit)
+    def set_transition(transition)
+      raise TransitionAlreadySetted if transit?
+      self.class.new(@phase, transition, @wip_limit)
     end
 
     def insert_state_before(new, base_state)
+      raise StateNotFound unless @transition.include?(base_state)
       self.class.new(@phase, @transition.insert_before(new, base_state), @wip_limit)
     end
 
@@ -34,12 +37,9 @@ module Project
     end
 
     def next_step(current_step, next_phase_spec)
+      raise StateNotFound unless @transition.include?(current_step.state)
       return next_phase_spec.first_step if @transition.last?(current_step.state)
       Step.new(@phase, @transition.next(current_step.state))
-    end
-
-    def include_state?(state)
-      transition.include?(state)
     end
 
     def transit?
