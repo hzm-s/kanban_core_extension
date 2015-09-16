@@ -26,13 +26,15 @@
               remote: true,
               data: { toggle: 'modal', target: '#modal-window' },
               class: 'dropdown-item', type: 'button' %>
-            <div class="dropdown-divider"></div>
-            <%= link_to '推移を設定する',
-              new_transition_setting_url(project_id_str: project_id_str, phase_name: phase.name),
-              remote: true,
-              data: { toggle: 'modal', target: '#modal-window' },
-              class: 'dropdown-item', type: 'button' %>
-          </div>
+            <% if phase.state_size == 0 %>
+              <div class="dropdown-divider"></div>
+              <%= link_to '推移を設定する',
+                new_transition_setting_url(project_id_str: project_id_str, phase_name: phase.name),
+                remote: true,
+                data: { toggle: 'modal', target: '#modal-window' },
+                class: 'dropdown-item', type: 'button' %>
+            </div>
+          <% end -%>
         </div>
       </th>
       <!-- modal window -->
