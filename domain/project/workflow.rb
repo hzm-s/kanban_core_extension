@@ -23,6 +23,7 @@ module Project
     def remove(phase, board)
       raise NoMorePhaseSpec if @phase_specs.size == 1
       raise CardOnPhase if board.count_card(phase) >= 1
+
       renew do |current|
         current.reject {|ps| ps.phase == phase }
       end
@@ -50,7 +51,7 @@ module Project
     end
 
     def spec(phase)
-      phase_spec = @phase_specs.detect {|ps| ps.phase == phase } || raise(PhaseNotFound)
+      @phase_specs.detect {|ps| ps.phase == phase } || raise(PhaseNotFound)
     end
 
     def to_a
