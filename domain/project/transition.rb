@@ -10,7 +10,7 @@ module Project
     end
 
     def initialize(states)
-      @states = states
+      set_states(states)
     end
 
     def add(new)
@@ -60,6 +60,13 @@ module Project
       other.instance_of?(self.class) &&
         self.to_a == other.to_a
     end
+
+    private
+
+      def set_states(states)
+        raise ArgumentError unless states.size >= 2
+        @states = states
+      end
   end
 
   class Transition
