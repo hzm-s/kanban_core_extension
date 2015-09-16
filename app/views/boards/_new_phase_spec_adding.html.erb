@@ -26,9 +26,13 @@
           </div>
         </div>
         <% command_name = f.object.model_name.to_s.underscore %>
-        <div><%= link_to '推移を設定', new_transition_input_field_url(command_name: command_name), remote: true %></div>
+        <% if f.object.state_names.empty? %>
+          <div id="new-transition-link">
+            <%= link_to '推移を設定', new_transition_input_field_url(command_name: command_name), remote: true %>
+          </div>
+        <% end -%>
         <div id="transition-form-control">
-          <% if f.object.errors.any? %>
+          <% if f.object.state_names.any? %>
             <%= render partial: 'boards/transition_form_control', locals: {
               command_name: command_name,
               state_names: f.object.state_names

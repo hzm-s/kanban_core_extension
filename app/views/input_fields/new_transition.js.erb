@@ -1,1 +1,2 @@
 $('#transition-form-control').append("<%= escape_javascript(render(partial: 'boards/transition_form_control', locals: { command_name: params[:command_name], state_names: [nil, nil] })) %>")
+$('#new-transition-link').remove();
