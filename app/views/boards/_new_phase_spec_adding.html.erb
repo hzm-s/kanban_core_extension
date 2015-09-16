@@ -25,8 +25,13 @@
             <%= f.number_field :wip_limit_count, class: 'form-control' %>
           </div>
         </div>
-        <div id="state-form-controls"></div>
-        <div><%= link_to '状態を追加', add_state_for_phase_spec_adding_url, remote: true %></div>
+        <div><%= link_to '推移を設定', new_transition_input_field_url, remote: true %></div>
+        <div id="transition-form-control">
+          <% if f.object.errors.any? %>
+            <%= render partial: 'boards/transition_form_control',
+                       locals: { state_names: f.object.state_names } %>
+          <% end -%>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
