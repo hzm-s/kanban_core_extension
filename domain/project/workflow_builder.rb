@@ -22,6 +22,12 @@ module Project
       insert_phase_spec_before(new, next_spec_of_base_phase.phase)
     end
 
+    def set_transition(phase, transition)
+      replace_workflow_with_phase(phase) do |old|
+        old.set_transition(transition)
+      end
+    end
+
     def add_state(phase, state)
       replace_workflow_with_phase(phase) do |old|
         old.add_state(state)
