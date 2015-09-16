@@ -4,7 +4,7 @@ class StateAddingsController < ApplicationController
     @command = AddStateCommand.new(
       project_id_str: params[:project_id_str],
       phase_name: params[:phase_name],
-      direction: params[:direction],
+      position: params[:position],
       base_state_name: params[:base_state_name]
     )
     render 'modal_window_form', locals: { path: 'boards/new_state_adding' }

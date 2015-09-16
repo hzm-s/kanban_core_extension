@@ -11,7 +11,7 @@ describe AddPhaseSpecCommand do
           phase_name: 'New Phase',
           wip_limit_count: 2,
           state_names: [''],
-          direction: 'before',
+          position: 'before',
           base_phase_name: 'Todo'
         )
         expect(service)
@@ -32,7 +32,7 @@ describe AddPhaseSpecCommand do
           phase_name: 'New Phase',
           wip_limit_count: 2,
           state_names: ['Doing', 'Done'],
-          direction: 'after',
+          position: 'after',
           base_phase_name: 'Todo'
         )
         expect(service)
@@ -53,7 +53,7 @@ describe AddPhaseSpecCommand do
           phase_name: 'New Phase',
           wip_limit_count: 2,
           state_names: ['Doing'],
-          direction: 'before',
+          position: 'before',
           base_phase_name: 'Todo'
         )
         expect(cmd.execute(service)).to be_falsey
@@ -162,14 +162,14 @@ describe AddPhaseSpecCommand do
 
     context 'insert before' do
       let(:params) do
-        { direction: 'before', base_phase_name: 'Dev' }
+        { position: 'before', base_phase_name: 'Dev' }
       end
       it { is_expected.to eq({ before: Phase('Dev') }) }
     end
 
     context 'insert after' do
       let(:params) do
-        { direction: 'after', base_phase_name: 'Dev' }
+        { position: 'after', base_phase_name: 'Dev' }
       end
       it { is_expected.to eq({ after: Phase('Dev') }) }
     end
@@ -187,14 +187,14 @@ describe AddPhaseSpecCommand do
 
     context 'insert before' do
       let(:params) do
-        { direction: 'before', base_phase_name: 'Dev' }
+        { position: 'before', base_phase_name: 'Dev' }
       end
       it { is_expected.to eq('「Dev」の前に新しいフェーズを追加') }
     end
 
     context 'insert after' do
       let(:params) do
-        { direction: 'after', base_phase_name: 'Dev' }
+        { position: 'after', base_phase_name: 'Dev' }
       end
       it { is_expected.to eq('「Dev」の後に新しいフェーズを追加') }
     end

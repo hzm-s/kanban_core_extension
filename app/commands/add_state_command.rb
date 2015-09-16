@@ -3,15 +3,15 @@ class AddStateCommand
   include PositionOptionHelper
 
   attr_accessor :project_id_str, :phase_name, :state_name,
-                :direction, :base_state_name
+                :position, :base_state_name
 
   validates :project_id_str, presence: true
   validates :state_name, presence: true
-  validates :direction, presence: true
+  validates :position, presence: true
   validates :base_state_name, presence: true
 
   def describe
-    "「#{phase_name}」フェーズの「#{base_state_name}」の#{direction_name}に状態を追加"
+    "「#{phase_name}」フェーズの「#{base_state_name}」の#{position_name}に状態を追加"
   end
 
   def project_id

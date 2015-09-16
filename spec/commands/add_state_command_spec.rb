@@ -2,13 +2,13 @@ require 'rails_helper'
 
 describe AddStateCommand do
   describe '#execute' do
-    context 'state_name = Review direction = before base_state_name = Done' do
+    context 'state_name = Review position = before base_state_name = Done' do
       it do
         cmd = described_class.new(
           project_id_str: 'prj_789',
           phase_name: 'Dev',
           state_name: 'Review',
-          direction: 'before',
+          position: 'before',
           base_state_name: 'Done'
         )
         service = double(:workflow_service)
@@ -22,13 +22,13 @@ describe AddStateCommand do
       end
     end
 
-    context 'state_name = Review direction = after base_state_name = Doing' do
+    context 'state_name = Review position = after base_state_name = Doing' do
       it do
         cmd = described_class.new(
           project_id_str: 'prj_789',
           phase_name: 'Dev',
           state_name: 'Review',
-          direction: 'after',
+          position: 'after',
           base_state_name: 'Doing'
         )
         service = double(:workflow_service)
@@ -82,11 +82,11 @@ describe AddStateCommand do
   end
 
   describe '#describe' do
-    context 'state_name = Review direction = before base_state_name: Done' do
+    context 'state_name = Review position = before base_state_name: Done' do
       it do
         cmd = described_class.new(
           phase_name: 'Dev',
-          direction: 'before',
+          position: 'before',
           base_state_name: 'Done'
         )
         expect(cmd.describe).to eq('「Dev」フェーズの「Done」の前に状態を追加')
@@ -95,11 +95,11 @@ describe AddStateCommand do
   end
 
   describe '#describe' do
-    context 'state_name = Review direction = after base_state_name: Doing' do
+    context 'state_name = Review position = after base_state_name: Doing' do
       it do
         cmd = described_class.new(
           phase_name: 'Dev',
-          direction: 'after',
+          position: 'after',
           base_state_name: 'Doing'
         )
         expect(cmd.describe).to eq('「Dev」フェーズの「Doing」の後に状態を追加')

@@ -17,12 +17,12 @@
             <a class="dropdown-item" type="button" data-toggle="modal" data-target="modal-window">WIP制限を解除する</a>
             <div class="dropdown-divider"></div>
             <%= link_to '新しいフェーズを前に追加する',
-              new_phase_spec_adding_url(project_id_str: project_id_str, direction: 'before', base_phase_name: phase.name),
+              new_phase_spec_adding_url(project_id_str: project_id_str, position: 'before', base_phase_name: phase.name),
               remote: true,
               data: { toggle: 'modal', target: '#modal-window' },
               class: 'dropdown-item', type: 'button' %>
             <%= link_to '新しいフェーズを後に追加する',
-              new_phase_spec_adding_url(project_id_str: project_id_str, direction: 'after', base_phase_name: phase.name),
+              new_phase_spec_adding_url(project_id_str: project_id_str, position: 'after', base_phase_name: phase.name),
               remote: true,
               data: { toggle: 'modal', target: '#modal-window' },
               class: 'dropdown-item', type: 'button' %>
@@ -51,12 +51,12 @@
             </button>
             <div class="dropdown-menu">
               <%= link_to '新しい状態を前に追加する',
-                new_state_adding_url(project_id_str: project_id_str, phase_name: phase_state.phase_name, direction: 'before', base_state_name: phase_state.name),
+                new_state_adding_url(project_id_str: project_id_str, phase_name: phase_state.phase_name, position: 'before', base_state_name: phase_state.name),
                 remote: true,
                 data: { toggle: 'modal', target: '#modal-window' },
                 class: 'dropdown-item', type: 'button' %>
               <%= link_to '新しい状態を後に追加する',
-                new_state_adding_url(project_id_str: project_id_str, phase_name: phase_state.phase_name, direction: 'after', base_state_name: phase_state.name),
+                new_state_adding_url(project_id_str: project_id_str, phase_name: phase_state.phase_name, position: 'after', base_state_name: phase_state.name),
                 remote: true,
                 data: { toggle: 'modal', target: '#modal-window' },
                 class: 'dropdown-item', type: 'button' %>

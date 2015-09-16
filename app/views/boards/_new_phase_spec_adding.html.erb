@@ -10,7 +10,7 @@
     <%= form_for @command, url: phase_spec_addings_url, remote: true do |f| %>
       <%= render partial: 'application/modal_window_form_errors', locals: { errors: f.object.errors } %>
       <%= f.hidden_field :project_id_str %>
-      <%= f.hidden_field :direction %>
+      <%= f.hidden_field :position %>
       <%= f.hidden_field :base_phase_name %>
       <div class="modal-body">
         <div class="form-group row">

@@ -3,7 +3,7 @@ class AddPhaseSpecCommand
   include PositionOptionHelper
 
   attr_accessor :project_id_str, :phase_name, :wip_limit_count, :state_names,
-                :direction, :base_phase_name
+                :position, :base_phase_name
 
   validates :project_id_str, presence: true
   validates :phase_name, presence: true
@@ -11,8 +11,9 @@ class AddPhaseSpecCommand
   validates :state_names, transition: true
 
   def describe
-    position = direction.blank? ? '' : "「#{base_phase_name}」の#{direction_name}に"
-    "#{position}新しいフェーズを追加"
+    base = "新しいフェーズを追加"
+    return base if position.blank? || base_phase_name.blank?
+    "「#{base_phase_name}」の#{position_name}に新しいフェーズを追加"
   end
 
   def state_names
@@ -40,7 +41,7 @@ class AddPhaseSpecCommand
   end
 
   def position_option
-    return nil if direction.nil? || base_phase_name.nil?
+    return nil if position.nil? || base_phase_name.nil?
     option_for_phase(base_phase_name)
   end
 
