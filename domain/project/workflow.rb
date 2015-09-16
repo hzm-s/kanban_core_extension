@@ -21,6 +21,7 @@ module Project
     end
 
     def remove(phase, board)
+      try_retrieve(phase)
       raise NoMorePhaseSpec if @phase_specs.size == 1
       raise CardOnPhase if board.count_card(phase) >= 1
 
@@ -53,6 +54,7 @@ module Project
     def spec(phase)
       @phase_specs.detect {|ps| ps.phase == phase } || raise(PhaseNotFound)
     end
+    alias_method :try_retrieve, :spec
 
     def to_a
       @phase_specs
