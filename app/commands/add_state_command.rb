@@ -33,5 +33,10 @@ class AddStateCommand
   def execute(service)
     return false unless valid?
     service.add_state(project_id, phase, state, position_option)
+  rescue Project::DuplicateState
+    errors.add(:base, '同じ状態が既にあります。')
+    false
+  else
+    true
   end
 end
