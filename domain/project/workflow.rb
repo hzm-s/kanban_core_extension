@@ -5,17 +5,14 @@ module Project
   class Workflow
 
     def initialize(phase_specs)
-      @phase_specs = phase_specs
-      @phases = phase_specs.map(&:phase)
+      set_phase_specs(phase_specs)
     end
 
     def add(phase_spec)
-      raise DuplicatePhase if @phases.include?(phase_spec.phase)
       self.class.new(@phase_specs + [phase_spec])
     end
 
     def insert_before(new, base)
-      raise DuplicatePhase if @phases.include?(new.phase)
       new_phase_specs = @phase_specs.flat_map do |ps|
         ps == base ? [new, ps] : ps
       end
@@ -64,5 +61,16 @@ module Project
       other.instance_of?(self.class) &&
         self.to_a == other.to_a
     end
+
+    private
+
+      def set_phase_specs(phase_specs)
+        raise DuplicatePhase if duplicate?(phase_specs.map(&:phase))
+        @phase_specs = phase_specs
+      end
+
+      def duplicate?(phases)
+        phases.uniq.size != phases.size
+      end
   end
 end

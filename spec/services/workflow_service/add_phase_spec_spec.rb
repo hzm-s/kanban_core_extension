@@ -113,8 +113,9 @@ describe 'add phase spec' do
     context 'insert before NOT exist' do
       it do
         expect {
-          service
-            .add_phase_spec(project_id, PhaseSpec(phase: 'New'), before: Phase('NONE'))
+          service.add_phase_spec(
+            project_id, PhaseSpec(phase: 'New'), before: Phase('NONE')
+          )
         }.to raise_error(Project::PhaseNotFound)
       end
     end
@@ -122,8 +123,9 @@ describe 'add phase spec' do
     context 'insert after NOT exist' do
       it do
         expect {
-          service
-            .add_phase_spec(project_id, PhaseSpec(phase: 'New'), after: Phase('NONE'))
+          service.add_phase_spec(
+            project_id, PhaseSpec(phase: 'New'), after: Phase('NONE')
+          )
         }.to raise_error(Project::PhaseNotFound)
       end
     end
@@ -139,8 +141,9 @@ describe 'add phase spec' do
     context 'insert Body before Head' do
       it do
         expect {
-          service
-            .add_phase_spec(project_id, PhaseSpec(phase: 'Body'), before: Phase('Head'))
+          service.add_phase_spec(
+            project_id, PhaseSpec(phase: 'Body'), before: Phase('Head')
+          )
         }.to raise_error(Project::DuplicatePhase)
       end
     end
@@ -148,8 +151,9 @@ describe 'add phase spec' do
     context 'insert Body after Tail' do
       it do
         expect {
-          service
-            .add_phase_spec(project_id, PhaseSpec(phase: 'Body'), after: Phase('Tail'))
+          service.add_phase_spec(
+            project_id, PhaseSpec(phase: 'Body', wip_limit: 1), after: Phase('Tail')
+          )
         }.to raise_error(Project::DuplicatePhase)
       end
     end
