@@ -1,10 +1,11 @@
 module Project
   class PhaseNotFound < StandardError; end
+  class DuplicatePhase < StandardError; end
 
   class Workflow
 
     def initialize(phase_specs)
-      @phase_specs = phase_specs
+      set_phase_specs(phase_specs)
     end
 
     def add(phase_spec)
@@ -60,5 +61,16 @@ module Project
       other.instance_of?(self.class) &&
         self.to_a == other.to_a
     end
+
+    private
+
+      def set_phase_specs(phase_specs)
+        raise DuplicatePhase if duplicate?(phase_specs.map(&:phase))
+        @phase_specs = phase_specs
+      end
+
+      def duplicate?(phases)
+        phases.uniq.size != phases.size
+      end
   end
 end
