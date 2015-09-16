@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe AddStateCommand do
   describe '#execute' do
-    context 'state_name = Review direction = before base_state_name: Done' do
+    context 'state_name = Review direction = before base_state_name = Done' do
       it do
         cmd = described_class.new(
           project_id_str: 'prj_789',
@@ -16,13 +16,13 @@ describe AddStateCommand do
           ProjectId('prj_789'),
           Phase('Dev'),
           State('Review'),
-          { before: Phase('Done') }
+          { before: State('Done') }
         )
         cmd.execute(service)
       end
     end
 
-    context 'state_name = Review direction = after base_state_name: Doing' do
+    context 'state_name = Review direction = after base_state_name = Doing' do
       it do
         cmd = described_class.new(
           project_id_str: 'prj_789',
@@ -36,7 +36,7 @@ describe AddStateCommand do
           ProjectId('prj_789'),
           Phase('Dev'),
           State('Review'),
-          { after: Phase('Doing') }
+          { after: State('Doing') }
         )
         cmd.execute(service)
       end

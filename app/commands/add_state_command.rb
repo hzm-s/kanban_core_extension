@@ -9,6 +9,7 @@ class AddStateCommand
   validates :direction, presence: true
   validates :base_state_name, presence: true
 
+  #TODO
   DIRECTIONS = { 'before' => '前', 'after' => '後' }.freeze
 
   def describe
@@ -29,7 +30,7 @@ class AddStateCommand
   end
 
   def position_option
-    { direction.to_sym => Project::Phase.new(base_state_name) }
+    { direction.to_sym => Project::State.new(base_state_name) }
   end
 
   def execute(service)
