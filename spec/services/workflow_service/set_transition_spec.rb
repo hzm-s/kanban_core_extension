@@ -17,7 +17,10 @@ describe 'set transition' do
 
   context 'no transition' do
     let(:workflow) do
-      Workflow([{ phase: 'Dev', wip_limit: 2 }])
+      Workflow([
+        { phase: 'Dev', wip_limit: 2 },
+        { phase: 'QA', transition: ['Doing', 'Done'] }
+      ])
     end
 
     context 'set Doing|Done' do
@@ -26,7 +29,10 @@ describe 'set transition' do
           project_id, Phase('Dev'), Transition(['Doing', 'Done'])
         )
         expect(new_workflow).to eq(
-          Workflow([ { phase: 'Dev', transition: ['Doing', 'Done'], wip_limit: 2 } ])
+          Workflow([
+            { phase: 'Dev', transition: ['Doing', 'Done'], wip_limit: 2 },
+            { phase: 'QA', transition: ['Doing', 'Done'] }
+          ])
         )
       end
     end
