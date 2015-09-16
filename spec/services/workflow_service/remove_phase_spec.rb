@@ -31,4 +31,14 @@ describe 'remove phase spec' do
       end
     end
   end
+
+  context 'workflow has only 1 phase spec' do
+    let(:workflow) { Workflow([{ phase: 'Dev' }]) }
+
+    it do
+      expect {
+        service.remove_phase_spec(project_id, Phase('Dev'))
+      }.to raise_error(Project::NoMorePhaseSpec)
+    end
+  end
 end
