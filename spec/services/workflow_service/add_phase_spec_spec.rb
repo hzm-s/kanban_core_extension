@@ -127,5 +127,31 @@ describe 'add phase spec' do
         }.to raise_error(Project::PhaseNotFound)
       end
     end
+
+    context 'add Body' do
+      it do
+        expect {
+          service.add_phase_spec(project_id, PhaseSpec(phase: 'Body'))
+        }.to raise_error(Project::DuplicatePhase)
+      end
+    end
+
+    context 'insert Body before Head' do
+      it do
+        expect {
+          service
+            .add_phase_spec(project_id, PhaseSpec(phase: 'Body'), before: Phase('Head'))
+        }.to raise_error(Project::DuplicatePhase)
+      end
+    end
+
+    context 'insert Body after Tail' do
+      it do
+        expect {
+          service
+            .add_phase_spec(project_id, PhaseSpec(phase: 'Body'), after: Phase('Tail'))
+        }.to raise_error(Project::DuplicatePhase)
+      end
+    end
   end
 end

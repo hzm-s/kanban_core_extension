@@ -1,17 +1,21 @@
 module Project
   class PhaseNotFound < StandardError; end
+  class DuplicatePhase < StandardError; end
 
   class Workflow
 
     def initialize(phase_specs)
       @phase_specs = phase_specs
+      @phases = phase_specs.map(&:phase)
     end
 
     def add(phase_spec)
+      raise DuplicatePhase if @phases.include?(phase_spec.phase)
       self.class.new(@phase_specs + [phase_spec])
     end
 
     def insert_before(new, base)
+      raise DuplicatePhase if @phases.include?(new.phase)
       new_phase_specs = @phase_specs.flat_map do |ps|
         ps == base ? [new, ps] : ps
       end
