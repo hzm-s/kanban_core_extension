@@ -23,6 +23,9 @@ class RemovePhaseSpecCommand
   rescue Project::CardOnPhase
     errors.add(:base, 'フェーズにカードがあるため削除できません。')
     false
+  rescue Project::PhaseNotFound
+    errors.add(:base, 'フェーズがありません。')
+    false
   else
     true
   end
