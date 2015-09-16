@@ -15,7 +15,7 @@ class AddPhaseSpecCommand
   validates :state_names, transition: true
 
   def describe
-    position = direction ? "「#{base_phase_name}」の#{DIRECTIONS[direction]}に" : ''
+    position = direction.blank? ? '' : "「#{base_phase_name}」の#{DIRECTIONS[direction]}に"
     "#{position}新しいフェーズを追加"
   end
 
