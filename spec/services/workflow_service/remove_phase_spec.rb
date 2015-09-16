@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'remove state' do
+describe 'remove phase spec' do
   let(:service) do
     WorkflowService.new(project_repository, board_repository)
   end
@@ -17,21 +17,17 @@ describe 'remove state' do
     ProjectService().specify_workflow(project_id, workflow)
   end
 
-  let(:phase) { Phase('Dev') }
+  context 'no state phase' do
+    let(:workflow) { Project::Workflow.new([target, rest]) }
 
-  context 'states = Doing|Review|Done' do
-    let(:workflow) do
-      Workflow([{ phase: phase, transition: ['Doing', 'Review', 'Done'] }])
-    end
+    let(:target) { PhaseSpec(phase: 'Todo') }
+    let(:rest) { PhaseSpec(phase: 'Dev', transition: ['Doing', 'Done'], wip_limit: 3) }
 
-    pending 'no card' do
+    context 'no card' do
       it do
-        state = State.new('Review')
-        service.remove_state(project_id, phase, state)
+        service.remove_phase_spec(project_id, target.phase)
         new_workflow = project_repository.find(project_id).workflow
-        expect(new_workflow).to eq(
-          Workflow([{ phase: phase, transition: ['Doing', 'Done'] }])
-        )
+        expect(new_workflow).to eq(Project::Workflow.new([rest]))
       end
     end
   end

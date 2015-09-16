@@ -19,6 +19,11 @@ module Project
       self.class.new(new_phase_specs)
     end
 
+    def remove(phase)
+      new_phase_specs = @phase_specs.reject {|ps| ps.phase == phase }
+      self.class.new(new_phase_specs)
+    end
+
     def replace_with(old, new)
       new_phase_specs = @phase_specs.map do |ps|
         ps == old ? new : ps

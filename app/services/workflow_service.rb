@@ -51,6 +51,16 @@ class WorkflowService
     @project_repository.store(project)
   end
 
+  def remove_phase_spec(project_id, phase)
+    project = @project_repository.find(project_id)
+
+    old = project.workflow
+    new = old.remove(phase)
+    project.specify_workflow(new)
+
+    @project_repository.store(project)
+  end
+
   private
 
     def add_with_position(option)
