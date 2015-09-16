@@ -7,15 +7,13 @@ module Project
         described_class.new(states)
       end
 
-      let(:states) { state_names.map {|n| State.new(n) } }
-
-      context 'given 2 state names' do
-        let(:state_names) { ['Doing', 'Done'] }
-        it { is_expected.to eq(Transition(state_names)) }
+      context 'given 2 states' do
+        let(:states) { ['Doing', 'Done'].map {|n| State.new(n) } }
+        it { is_expected.to eq(Transition.new(states)) }
       end
 
-      context 'given 1 state name' do
-        let(:state_names) { ['Doing'] }
+      context 'given 1 state' do
+        let(:states) { [State.new('Doing')] }
         it do
           expect { subject }.to raise_error(ArgumentError)
         end
