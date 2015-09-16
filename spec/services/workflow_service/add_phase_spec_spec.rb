@@ -109,5 +109,23 @@ describe 'add phase spec' do
         ]))
       end
     end
+
+    context 'insert before NOT exist' do
+      it do
+        expect {
+          service
+            .add_phase_spec(project_id, PhaseSpec(phase: 'New'), before: Phase('NONE'))
+        }.to raise_error(Project::PhaseNotFound)
+      end
+    end
+
+    context 'insert after NOT exist' do
+      it do
+        expect {
+          service
+            .add_phase_spec(project_id, PhaseSpec(phase: 'New'), after: Phase('NONE'))
+        }.to raise_error(Project::PhaseNotFound)
+      end
+    end
   end
 end
