@@ -1,4 +1,6 @@
 module Project
+  class StateNotFound < StandardError; end
+
   class Transition
 
     def self.from_array(state_names)
@@ -10,14 +12,12 @@ module Project
     end
 
     def initialize(states)
-      @states = states
-    end
-
-    def add(new)
-      self.class.new(@states + [new])
+      set_states(states)
     end
 
     def insert_before(new, base)
+      return add_state(new) if base.complete?
+
       new_states = @states.map do |state|
         state == base ? [new, state] : state
       end
@@ -33,6 +33,7 @@ module Project
     end
 
     def include?(state)
+      return true if state.complete?
       @states.include?(state)
     end
 
@@ -60,6 +61,17 @@ module Project
       other.instance_of?(self.class) &&
         self.to_a == other.to_a
     end
+
+    private
+
+      def set_states(states)
+        raise ArgumentError unless states.size >= 2
+        @states = states
+      end
+
+      def add_state(state)
+        self.class.new(@states + [state])
+      end
   end
 
   class Transition
@@ -67,14 +79,6 @@ module Project
 
       def initialize
         @state = State::None.new
-      end
-
-      def add(state)
-        Transition.new([state])
-      end
-
-      def insert_before(new, base)
-        add(new)
       end
 
       def first
@@ -86,7 +90,7 @@ module Project
       end
 
       def include?(state)
-        false
+        @state = state
       end
 
       def last?(state)

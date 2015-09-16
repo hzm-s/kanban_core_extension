@@ -41,12 +41,7 @@ module Project
     end
 
     def spec(phase)
-      @phase_specs.detect {|ps| ps.phase == phase } || raise(PhaseNotFound)
-    end
-
-    def include_step?(step)
-      return false unless phase_spec = spec(step.phase)
-      phase_spec.include_state?(step.state)
+      phase_spec = @phase_specs.detect {|ps| ps.phase == phase } || raise(PhaseNotFound)
     end
 
     def to_a
