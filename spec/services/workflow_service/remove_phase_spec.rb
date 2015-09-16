@@ -5,12 +5,12 @@ describe 'remove phase spec' do
     WorkflowService.new(project_repository, board_repository)
   end
   let(:project_repository) { ProjectRepository.new }
-  let(:board_repository) { FakeBoardRepository.new }
+  let(:board_repository) { BoardRepository.new }
 
   let(:project_id) { Project('Name', 'Goal') }
 
   let(:board_service) do
-    BoardService(board_repository: board_repository, development_tracker: FakeDevelopmentTracker.new)
+    BoardService(development_tracker: FakeDevelopmentTracker.new)
   end
 
   before do
@@ -28,6 +28,44 @@ describe 'remove phase spec' do
         service.remove_phase_spec(project_id, target.phase)
         new_workflow = project_repository.find(project_id).workflow
         expect(new_workflow).to eq(Project::Workflow.new([rest]))
+      end
+    end
+
+    context 'card exists' do
+      it do
+        feature_id = FeatureId('feat_1')
+        board_service.add_card(project_id, feature_id)
+
+        expect {
+          service.remove_phase_spec(project_id, target.phase)
+        }.to raise_error(Project::CardOnPhase)
+      end
+    end
+  end
+
+  context 'multi state phase' do
+    let(:workflow) { Project::Workflow.new([target, rest]) }
+
+    let(:target) { PhaseSpec(phase: 'Analyze', transition: ['Doing', 'Done']) }
+    let(:rest) { PhaseSpec(phase: 'Dev', transition: ['Doing', 'Done'], wip_limit: 3) }
+
+    context 'no card' do
+      it do
+        service.remove_phase_spec(project_id, target.phase)
+        new_workflow = project_repository.find(project_id).workflow
+        expect(new_workflow).to eq(Project::Workflow.new([rest]))
+      end
+    end
+
+    context 'card exists' do
+      it do
+        feature_id = FeatureId('feat_1')
+        board_service.add_card(project_id, feature_id)
+        board_service.forward_card(project_id, feature_id, Step('Analyze', 'Doing'))
+
+        expect {
+          service.remove_phase_spec(project_id, target.phase)
+        }.to raise_error(Project::CardOnPhase)
       end
     end
   end

@@ -2,6 +2,7 @@ module Project
   class PhaseNotFound < StandardError; end
   class DuplicatePhase < StandardError; end
   class NoMorePhaseSpec < StandardError; end
+  class CardOnPhase < StandardError; end
 
   class Workflow
 
@@ -20,8 +21,9 @@ module Project
       self.class.new(new_phase_specs)
     end
 
-    def remove(phase)
+    def remove(phase, board)
       raise NoMorePhaseSpec if @phase_specs.size == 1
+      raise CardOnPhase if board.count_card(phase) >= 1
       new_phase_specs = @phase_specs.reject {|ps| ps.phase == phase }
       self.class.new(new_phase_specs)
     end

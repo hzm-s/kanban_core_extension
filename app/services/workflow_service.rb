@@ -53,9 +53,10 @@ class WorkflowService
 
   def remove_phase_spec(project_id, phase)
     project = @project_repository.find(project_id)
+    board = @board_repository.find(project_id)
 
     old = project.workflow
-    new = old.remove(phase)
+    new = old.remove(phase, board)
     project.specify_workflow(new)
 
     @project_repository.store(project)
