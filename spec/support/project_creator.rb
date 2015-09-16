@@ -9,4 +9,8 @@ module ProjectCreator
     board_builder = Kanban::BoardBuilder.new(board_repository)
     ProjectService.new(project_repository, board_repository, board_builder)
   end
+
+  def ProjectId(str)
+    Project::ProjectId.new(str)
+  end
 end
