@@ -9,8 +9,8 @@ class WorkflowService
     project = @project_repository.find(project_id)
 
     builder = Project::WorkflowBuilder.new(project.workflow)
-    add_with_position(option) do |direction, base_phase|
-      case direction
+    add_with_position(option) do |position, base_phase|
+      case position
       when :before
         builder.insert_phase_spec_before(phase_spec, base_phase)
       when :after
@@ -38,8 +38,8 @@ class WorkflowService
     project = @project_repository.find(project_id)
 
     builder = Project::WorkflowBuilder.new(project.workflow)
-    add_with_position(option) do |direction, base_state|
-      case direction
+    add_with_position(option) do |position, base_state|
+      case position
       when :before
         builder.insert_state_before(phase, state, base_state)
       when :after
@@ -54,7 +54,7 @@ class WorkflowService
   private
 
     def add_with_position(option)
-      direction, base = Hash(option).flatten
-      yield(direction, base)
+      position, base = Hash(option).flatten
+      yield(position, base)
     end
 end

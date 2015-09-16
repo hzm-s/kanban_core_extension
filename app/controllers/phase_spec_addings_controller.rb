@@ -3,7 +3,7 @@ class PhaseSpecAddingsController < ApplicationController
   def new
     @command = AddPhaseSpecCommand.new(
       project_id_str: params[:project_id_str],
-      direction: params[:direction],
+      position: params[:position],
       base_phase_name: params[:base_phase_name]
     )
     render 'modal_window_form', locals: { path: 'boards/new_phase_spec_adding' }

@@ -29,6 +29,11 @@ module View
       end
     end
 
-    State = Struct.new(:phase_name, :name)
+    State = Struct.new(:phase_name, :name) do
+
+      def none?
+        name.blank?
+      end
+    end
   end
 end
