@@ -34,6 +34,10 @@ module Project
 
     class Complete
 
+      def state
+        State::Complete.new
+      end
+
       def complete?
         true
       end

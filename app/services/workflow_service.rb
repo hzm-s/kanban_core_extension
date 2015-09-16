@@ -34,7 +34,7 @@ class WorkflowService
     @project_repository.store(project)
   end
 
-  def add_state(project_id, phase, state, option = nil)
+  def add_state(project_id, phase, state, option)
     project = @project_repository.find(project_id)
 
     builder = Project::WorkflowBuilder.new(project.workflow)
@@ -45,8 +45,6 @@ class WorkflowService
       builder.insert_state_before(phase, state, base_state)
     when :after
       builder.insert_state_after(phase, state, base_state)
-    else
-      builder.add_state(phase, state)
     end
 
     project.specify_workflow(builder.workflow)

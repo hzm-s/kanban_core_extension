@@ -15,7 +15,7 @@ describe 'add state' do
 
   let(:new_workflow) { project_repository.find(project_id).workflow }
 
-  context 'NOT exist phase' do
+  context 'phase is NOT exist' do
     let(:workflow) do
       Workflow([{ phase: 'Todo' }])
     end
@@ -40,15 +40,6 @@ describe 'add state' do
   context 'current Doing|Review|Done' do
     let(:workflow) do
       Workflow([{ phase: 'Dev', transition: ['Doing', 'Review', 'Done'] }])
-    end
-
-    context 'add' do
-      it do
-        service.add_state(project_id, Phase('Dev'), State('KPT'))
-        expect(new_workflow).to eq(
-          Workflow([{ phase: 'Dev', transition: ['Doing', 'Review', 'Done', 'KPT'] }])
-        )
-      end
     end
 
     context 'insert before Doing' do
@@ -102,6 +93,22 @@ describe 'add state' do
         expect(new_workflow).to eq(
           Workflow([{ phase: 'Dev', transition: ['Doing', 'Review', 'Done', 'KPT'] }])
         )
+      end
+    end
+
+    context 'insert before None (= NOT exist)' do
+      it do
+        expect {
+          service.add_state(project_id, Phase('Dev'), State('KPT'), before: State('None'))
+        }.to raise_error(Project::StateNotFound)
+      end
+    end
+
+    context 'insert after None (= NOT exist)' do
+      it do
+        expect {
+          service.add_state(project_id, Phase('Dev'), State('KPT'), after: State('None'))
+        }.to raise_error(Project::StateNotFound)
       end
     end
   end
