@@ -37,13 +37,29 @@
           <% end -%>
         </div>
       </th>
-      <!-- modal window -->
-      <div class="modal fade" id="modal-window" tabindex="-1" role="dialog" aria-labelledby="ModalWindow" aria-hidden="true"></div>
     <% end -%>
   </tr>
   <tr>
     <% phase_states.each do |phase_state| -%>
-      <th><%= phase_state.name %></th>
+      <th>
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="header-phase"><%= phase_state.name %></span>
+          </button>
+          <div class="dropdown-menu">
+            <%= link_to '新しい状態を前に追加する',
+              new_state_adding_url(project_id_str: project_id_str, phase_name: phase_state.phase_name, direction: 'before', base_state_name: phase_state.name),
+              remote: true,
+              data: { toggle: 'modal', target: '#modal-window' },
+              class: 'dropdown-item', type: 'button' %>
+            <%= link_to '新しい状態を後に追加する',
+              new_state_adding_url(project_id_str: project_id_str, phase_name: phase_state.phase_name, direction: 'after', base_state_name: phase_state.name),
+              remote: true,
+              data: { toggle: 'modal', target: '#modal-window' },
+              class: 'dropdown-item', type: 'button' %>
+      </th>
     <% end -%>
   </tr>
+  <!-- modal window -->
+  <div class="modal fade" id="modal-window" tabindex="-1" role="dialog" aria-labelledby="ModalWindow" aria-hidden="true"></div>
 </thead>

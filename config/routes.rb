@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   resources :wip_limit_changings, only: [:new, :create]
   resources :phase_spec_addings, only: [:new, :create]
   resources :transition_settings, only: [:new, :create]
+  resources :state_addings, only: [:new, :create]
 
   get 'backlogs/:project_id_str', to: 'backlogs#show', as: :backlog
   get 'boards/:project_id_str', to: 'boards#show', as: :board
