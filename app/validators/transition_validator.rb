@@ -2,7 +2,7 @@ class TransitionValidator < ActiveModel::EachValidator
 
   def validate_each(model, _, value)
     Project::Transition.from_array(value)
-  rescue ArgumentError
+  rescue Project::NeedMoreThanOneState
     model.errors.add(:base, message)
   end
 

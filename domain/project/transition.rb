@@ -71,7 +71,7 @@ module Project
     private
 
       def set_states(states)
-        raise ArgumentError unless states.size >= 2
+        raise NeedMoreThanOneState unless states.size >= 2
         raise DuplicateState unless states.uniq.size == states.size
         @states = states
       end
