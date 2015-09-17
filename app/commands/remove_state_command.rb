@@ -1,0 +1,21 @@
+class RemoveStateCommand
+  include ActiveModel::Model
+
+  attr_accessor :project_id_str, :phase_name, :state_name
+
+  def project_id
+    Project::ProjectId.new(project_id_str)
+  end
+
+  def phase
+    Project::Phase.new(phase_name)
+  end
+
+  def state
+    Project::State.new(state_name)
+  end
+
+  def execute(service)
+    service.remove_state(project_id, phase, state)
+  end
+end
