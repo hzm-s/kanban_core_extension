@@ -1,0 +1,23 @@
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        <span class="sr-only">Close</span>
+      </button>
+      <h4 class="modal-title" id="modal-window">フェーズの削除</h4>
+    </div>
+    <%= form_for @command, url: phase_spec_removings_url, remote: true do |f| %>
+      <%= render partial: 'application/modal_window_form_errors', locals: { errors: f.object.errors } %>
+      <%= f.hidden_field :project_id_str %>
+      <%= f.hidden_field :phase_name %>
+      <div class="modal-body">
+        <p>「<%= @command.phase_name %>」フェーズを削除します。</p>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <%= f.submit '削除する', class: 'btn btn-danger' %>
+      </div>
+    <% end -%>
+  </div>
+</div>
