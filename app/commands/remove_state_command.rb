@@ -5,6 +5,7 @@ class RemoveStateCommand
 
   validates :project_id_str, presence: true
   validates :phase_name, presence: true
+  validates :state_name, presence: true
 
   def project_id
     Project::ProjectId.new(project_id_str)
