@@ -27,6 +27,7 @@ module Project
     end
 
     def remove(state)
+      raise StateNotFound unless include?(state)
       self.class.new(@states.reject {|s| s == state })
     end
 

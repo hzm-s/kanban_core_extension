@@ -86,4 +86,16 @@ describe 'remove state' do
       }.to raise_error(Project::NeedMoreThanOneState)
     end
   end
+
+  context 'state not exists' do
+    let(:workflow) do
+      Workflow([{ phase: phase, transition: ['Doing', 'Review', 'Done'] }])
+    end
+
+    it do
+      expect {
+        service.remove_state(project_id, phase, State('None'))
+      }.to raise_error(Project::StateNotFound)
+    end
+  end
 end
