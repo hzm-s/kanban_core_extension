@@ -23,6 +23,7 @@ module Project
     def remove(phase, board)
       try_retrieve(phase)
       raise NoMorePhaseSpec if @phase_specs.size == 1
+      # TODO: board.can_remove_phase?(phase)
       raise CardOnPhase if board.count_card(phase) >= 1
 
       renew do |current|
