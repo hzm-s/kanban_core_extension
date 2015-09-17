@@ -18,6 +18,7 @@ describe 'remove state' do
   end
 
   let(:phase) { Phase('Dev') }
+  let(:new_workflow) { project_repository.find(project_id).workflow }
 
   context 'states = Doing|Review|Done' do
     let(:workflow) do
@@ -26,9 +27,17 @@ describe 'remove state' do
 
     context 'no card' do
       it do
-        state = State('Review')
-        service.remove_state(project_id, phase, state)
-        new_workflow = project_repository.find(project_id).workflow
+        service.remove_state(project_id, phase, State('Review'))
+        expect(new_workflow).to eq(
+          Workflow([{ phase: phase, transition: ['Doing', 'Done'] }])
+        )
+      end
+    end
+
+    context 'card on Doing' do
+      it do
+        board_service.add_card(project_id, FeatureId('feat_1'))
+        service.remove_state(project_id, phase, State('Review'))
         expect(new_workflow).to eq(
           Workflow([{ phase: phase, transition: ['Doing', 'Done'] }])
         )
@@ -42,6 +51,20 @@ describe 'remove state' do
         expect {
           service.remove_state(project_id, phase, State('Review'))
         }.to raise_error(Project::CardOnState)
+      end
+    end
+
+    context 'card on Done' do
+      it do
+        feature_id = FeatureId('feat_1')
+        board_service.add_card(project_id, feature_id)
+        board_service.forward_card(project_id, feature_id, Step(phase.to_s, 'Doing'))
+        board_service.forward_card(project_id, feature_id, Step(phase.to_s, 'Review'))
+
+        service.remove_state(project_id, phase, State('Review'))
+        expect(new_workflow).to eq(
+          Workflow([{ phase: phase, transition: ['Doing', 'Done'] }])
+        )
       end
     end
   end
