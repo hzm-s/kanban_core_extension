@@ -34,7 +34,7 @@ module Project
     end
 
     def remove_state(state, board)
-      raise CardOnState if board.count_card_by_step(Step.new(@phase, state)) > 0
+      raise CardOnState unless board.can_remove_step?(Step.new(@phase, state))
       self.class.new(@phase, @transition.remove(state), @wip_limit)
     end
 
