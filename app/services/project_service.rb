@@ -28,13 +28,4 @@ class ProjectService
     project_id = launch(description)
     specify_workflow(project_id, workflow)
   end
-
-  def change_wip_limit(project_id, phase, new_wip_limit)
-    project = @project_repository.find(project_id)
-    board = @board_repository.find(project_id)
-
-    project.change_wip_limit(phase, new_wip_limit, board)
-
-    @project_repository.store(project)
-  end
 end

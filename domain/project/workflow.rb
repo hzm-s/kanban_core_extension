@@ -14,6 +14,17 @@ module Project
       spec(phase).operation_for_state(state)
     end
 
+    def change_wip_limit(phase, new_wip_limit, board)
+      old = spec(phase)
+      new = old.change_wip_limit(new_wip_limit, board)
+      replace_with(old, new)
+    end
+
+    def disable_wip_limit(phase)
+      old = spec(phase)
+      replace_with(old, old.disable_wip_limit)
+    end
+
     def add(phase_spec)
       renew {|current| current + [phase_spec] }
     end

@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resources :card_forwardings, only: [:create]
 
   resources :wip_limit_changings, only: [:new, :create]
+  resources :wip_limit_disablements, only: [:new, :create]
 
   resources :phase_spec_addings, only: [:new, :create]
   resources :phase_spec_removings, only: [:new, :create]
