@@ -36,6 +36,8 @@ module Project
     def remove_state(state, board)
       raise CardOnState unless board.can_remove_step?(Step.new(@phase, state))
       self.class.new(@phase, @transition.remove(state), @wip_limit)
+    rescue ArgumentError
+      raise NeedMoreThanOneState
     end
 
     def first_step

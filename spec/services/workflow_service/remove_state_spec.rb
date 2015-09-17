@@ -68,4 +68,16 @@ describe 'remove state' do
       end
     end
   end
+
+  context 'states = Doing|Done' do
+    let(:workflow) do
+      Workflow([{ phase: phase, transition: ['Doing', 'Done'] }])
+    end
+
+    it do
+      expect {
+        service.remove_state(project_id, phase, State('Doing'))
+      }.to raise_error(Project::NeedMoreThanOneState)
+    end
+  end
 end
