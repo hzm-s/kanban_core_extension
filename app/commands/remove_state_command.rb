@@ -25,6 +25,9 @@ class RemoveStateCommand
   rescue Project::CardOnState
     errors.add(:base, '対象の状態のカードがあるため削除できません。')
     false
+  rescue Project::NeedMoreThanOneState
+    errors.add(:base, '状態は2つ以上必要です。')
+    false
   else
     true
   end
