@@ -13,6 +13,10 @@ module Project
       @wip_limit = wip_limit
     end
 
+    def operation_for_state(state)
+      @transition.operation_for_state(state)
+    end
+
     def change_wip_limit(new_wip_limit, board)
       raise UnderCurrentWip if new_wip_limit.under?(board.count_card(@phase))
       self.class.new(@phase, @transition, new_wip_limit)

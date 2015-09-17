@@ -48,6 +48,15 @@ module Project
       @states.last == state
     end
 
+    def operation_for_state(state)
+      ops = [
+        Operations::InsertStateBefore.new,
+        Operations::InsertStateAfter.new
+      ]
+      ops << Operations::RemoveState.new if @states.size >= 3
+      ops
+    end
+
     def none?
       false
     end

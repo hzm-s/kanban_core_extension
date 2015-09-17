@@ -10,6 +10,10 @@ module Project
       set_phase_specs(phase_specs)
     end
 
+    def operation_for_state(phase, state)
+      spec(phase).operation_for_state(state)
+    end
+
     def add(phase_spec)
       renew {|current| current + [phase_spec] }
     end
