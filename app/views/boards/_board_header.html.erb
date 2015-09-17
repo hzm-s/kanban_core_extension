@@ -33,8 +33,14 @@
                 remote: true,
                 data: { toggle: 'modal', target: '#modal-window' },
                 class: 'dropdown-item', type: 'button' %>
-            </div>
-          <% end -%>
+            <% end -%>
+            <div class="dropdown-divider"></div>
+            <%= link_to 'フェーズを削除する',
+              new_phase_spec_removing_url(project_id_str: project_id_str, phase_name: phase.name),
+              remote: true,
+              data: { toggle: 'modal', target: '#modal-window' },
+              class: 'dropdown-item', type: 'button' %>
+          </div>
         </div>
       </th>
     <% end -%>

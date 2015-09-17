@@ -1,6 +1,8 @@
 module Project
   class PhaseNotFound < StandardError; end
   class DuplicatePhase < StandardError; end
+  class NoMorePhaseSpec < StandardError; end
+  class CardOnPhase < StandardError; end
 
   class Workflow
 
@@ -9,21 +11,29 @@ module Project
     end
 
     def add(phase_spec)
-      self.class.new(@phase_specs + [phase_spec])
+      renew {|current| current + [phase_spec] }
     end
 
     def insert_before(new, base)
-      new_phase_specs = @phase_specs.flat_map do |ps|
-        ps == base ? [new, ps] : ps
+      renew do |current|
+        current.flat_map {|ps| ps == base ? [new, ps] : ps }
       end
-      self.class.new(new_phase_specs)
+    end
+
+    def remove(phase, board)
+      try_retrieve(phase)
+      raise NoMorePhaseSpec if @phase_specs.size == 1
+      raise CardOnPhase if board.count_card(phase) >= 1
+
+      renew do |current|
+        current.reject {|ps| ps.phase == phase }
+      end
     end
 
     def replace_with(old, new)
-      new_phase_specs = @phase_specs.map do |ps|
-        ps == old ? new : ps
+      renew do |current|
+        current.map {|ps| ps == old ? new : ps }
       end
-      self.class.new(new_phase_specs)
     end
 
     def first
@@ -42,8 +52,9 @@ module Project
     end
 
     def spec(phase)
-      phase_spec = @phase_specs.detect {|ps| ps.phase == phase } || raise(PhaseNotFound)
+      @phase_specs.detect {|ps| ps.phase == phase } || raise(PhaseNotFound)
     end
+    alias_method :try_retrieve, :spec
 
     def to_a
       @phase_specs
@@ -71,6 +82,11 @@ module Project
 
       def duplicate?(phases)
         phases.uniq.size != phases.size
+      end
+
+      def renew
+        new_phase_specs = yield(@phase_specs)
+        self.class.new(new_phase_specs)
       end
   end
 end
