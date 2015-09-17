@@ -74,7 +74,7 @@ describe RemoveStateCommand do
       end
     end
 
-    pending 'service raises Project::StateNotFound' do
+    context 'service raises Project::StateNotFound' do
       it do
         cmd = described_class.new(
           project_id_str: project_id.to_s, phase_name: 'Dev', state_name: 'Review'

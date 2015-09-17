@@ -31,6 +31,9 @@ class RemoveStateCommand
   rescue Project::PhaseNotFound
     errors.add(:base, 'フェーズが見つかりません。')
     false
+  rescue Project::StateNotFound
+    errors.add(:base, '状態が見つかりません。')
+    false
   else
     true
   end
