@@ -30,6 +30,12 @@ module Project
       end
     end
 
+    def remove_state(phase, state, board)
+      old = spec(phase)
+      new = old.remove_state(state, board)
+      replace_with(old, new)
+    end
+
     def replace_with(old, new)
       renew do |current|
         current.map {|ps| ps == old ? new : ps }

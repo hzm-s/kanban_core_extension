@@ -25,6 +25,10 @@ module Project
       self.class.new(new_states.flatten)
     end
 
+    def remove(state)
+      self.class.new(@states.reject {|s| s == state })
+    end
+
     def first
       @states.first
     end

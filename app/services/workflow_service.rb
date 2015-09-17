@@ -62,6 +62,17 @@ class WorkflowService
     @project_repository.store(project)
   end
 
+  def remove_state(project_id, phase, state)
+    project = @project_repository.find(project_id)
+    board = @board_repository.find(project_id)
+
+    old = project.workflow
+    new = old.remove_state(phase, state, board)
+    project.specify_workflow(new)
+
+    @project_repository.store(project)
+  end
+
   private
 
     def add_with_position(option)

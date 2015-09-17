@@ -30,5 +30,9 @@ module Kanban
     def count_card(phase)
       card_map.count_by_phase(phase)
     end
+
+    def count_card_by_step(step)
+      card_map.count_by_step(step)
+    end
   end
 end

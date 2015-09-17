@@ -26,6 +26,10 @@ module Kanban
       count_item_by_phase(phase)
     end
 
+    def count_by_step(step)
+      count_item_by_step(step)
+    end
+
     private
       # for AR::Association
 
@@ -47,6 +51,13 @@ module Kanban
 
       def count_item_by_phase(phase)
         @cards.where(step_phase_name: phase.to_s).count
+      end
+
+      def count_item_by_step(step)
+        @cards.where(
+          step_phase_name: step.phase.to_s,
+          step_state_name: step.state.to_s
+        ).count
       end
 
       def fetch_item_by_feature_id_and_step(feature_id, step)

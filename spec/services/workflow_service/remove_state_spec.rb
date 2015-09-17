@@ -5,12 +5,12 @@ describe 'remove state' do
     WorkflowService.new(project_repository, board_repository)
   end
   let(:project_repository) { ProjectRepository.new }
-  let(:board_repository) { FakeBoardRepository.new }
+  let(:board_repository) { BoardRepository.new }
 
   let(:project_id) { Project('Name', 'Goal') }
 
   let(:board_service) do
-    BoardService(board_repository: board_repository, development_tracker: FakeDevelopmentTracker.new)
+    BoardService(development_tracker: FakeDevelopmentTracker.new)
   end
 
   before do
@@ -24,14 +24,24 @@ describe 'remove state' do
       Workflow([{ phase: phase, transition: ['Doing', 'Review', 'Done'] }])
     end
 
-    pending 'no card' do
+    context 'no card' do
       it do
-        state = State.new('Review')
+        state = State('Review')
         service.remove_state(project_id, phase, state)
         new_workflow = project_repository.find(project_id).workflow
         expect(new_workflow).to eq(
           Workflow([{ phase: phase, transition: ['Doing', 'Done'] }])
         )
+      end
+    end
+
+    context 'card on Review' do
+      it do
+        board_service.add_card(project_id, FeatureId('feat_1'))
+        board_service.forward_card(project_id, FeatureId('feat_1'), Step(phase.to_s, 'Doing'))
+        expect {
+          service.remove_state(project_id, phase, State('Review'))
+        }.to raise_error(Project::CardOnState)
       end
     end
   end
