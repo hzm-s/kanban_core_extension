@@ -23,7 +23,7 @@ class RemoveStateCommand
     return false unless valid?
     service.remove_state(project_id, phase, state)
   rescue Project::CardOnState
-    errors.add(:base, '対象の状態のカードがあるため削除できません。')
+    errors.add(:base, '対象の状態にカードがあるため削除できません。')
     false
   rescue Project::NeedMoreThanOneState
     errors.add(:base, '状態は2つ以上必要です。')
