@@ -3,6 +3,9 @@ class RemoveStateCommand
 
   attr_accessor :project_id_str, :phase_name, :state_name
 
+  validates :project_id_str, presence: true
+  validates :phase_name, presence: true
+
   def project_id
     Project::ProjectId.new(project_id_str)
   end
@@ -16,6 +19,7 @@ class RemoveStateCommand
   end
 
   def execute(service)
+    return false unless valid?
     service.remove_state(project_id, phase, state)
   end
 end

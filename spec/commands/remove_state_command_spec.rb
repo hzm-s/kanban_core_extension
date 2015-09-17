@@ -18,5 +18,27 @@ describe RemoveStateCommand do
         cmd.execute(service)
       end
     end
+
+    context 'given phase = "" state = Review' do
+      it do
+        cmd = described_class.new(
+          project_id_str: project_id.to_s,
+          phase_name: '',
+          state_name: 'Review'
+        )
+        expect(cmd.execute(service)).to be_falsey
+      end
+    end
+
+    context 'given phase = Dev state = ""' do
+      it do
+        cmd = described_class.new(
+          project_id_str: project_id.to_s,
+          phase_name: 'Dev',
+          state_name: ''
+        )
+        expect(cmd.execute(service)).to be_falsey
+      end
+    end
   end
 end
