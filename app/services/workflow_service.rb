@@ -9,7 +9,9 @@ class WorkflowService
     project = @project_repository.find(project_id)
     board = @board_repository.find(project_id)
 
-    project.change_wip_limit(phase, new_wip_limit, board)
+    old = project.workflow
+    new = old.change_wip_limit(phase, new_wip_limit, board)
+    project.specify_workflow(new)
 
     @project_repository.store(project)
   end
