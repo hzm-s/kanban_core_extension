@@ -2,29 +2,26 @@ require 'rails_helper'
 
 describe 'change wip limit' do
   let(:service) do
-    ProjectService.new(project_repository, board_repository, board_builder)
+    WorkflowService.new(project_repository, board_repository)
   end
   let(:project_repository) { ProjectRepository.new }
   let(:board_repository) { BoardRepository.new }
-  let(:board_builder) { Kanban::BoardBuilder.new(board_repository) }
 
-  let(:project_id) do
-    service.launch(Project::Description.new('Name', 'Goal'))
-  end
+  let(:project_id) { Project('Name', 'Goal') }
 
   let(:board_service) do
-    BoardService(board_repository: board_repository, development_tracker: FakeDevelopmentTracker.new)
+    BoardService(development_tracker: FakeDevelopmentTracker.new)
   end
 
   before do
-    service.specify_workflow(project_id, old_workflow)
+    ProjectService().specify_workflow(project_id, workflow)
   end
 
   let(:phase) { Phase('Todo') }
   let(:new_workflow) { project_repository.find(project_id).workflow }
 
   context 'no state phase' do
-    let(:old_workflow) do
+    let(:workflow) do
       Workflow([ phase: phase, wip_limit: old_wip_limit ])
     end
 
@@ -82,7 +79,7 @@ describe 'change wip limit' do
   end
 
   context 'mulit state phase' do
-    let(:old_workflow) do
+    let(:workflow) do
       Workflow([ phase: phase, transition: transition, wip_limit: old_wip_limit ])
     end
     let(:transition) { %w(Doing Done) }

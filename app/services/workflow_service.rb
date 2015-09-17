@@ -5,6 +5,15 @@ class WorkflowService
     @board_repository = board_repository
   end
 
+  def change_wip_limit(project_id, phase, new_wip_limit)
+    project = @project_repository.find(project_id)
+    board = @board_repository.find(project_id)
+
+    project.change_wip_limit(phase, new_wip_limit, board)
+
+    @project_repository.store(project)
+  end
+
   def disable_wip_limit(project_id, phase)
     project = @project_repository.find(project_id)
 
