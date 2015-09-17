@@ -2,6 +2,7 @@ module Project
   class WipLimitReached < StandardError; end
   class UnderCurrentWip < StandardError; end
   class TransitionAlreadySetted < StandardError; end
+  class CardOnState < StandardError; end
 
   class PhaseSpec
     attr_reader :phase, :transition, :wip_limit
@@ -10,6 +11,10 @@ module Project
       @phase = phase
       @transition = transition
       @wip_limit = wip_limit
+    end
+
+    def operation_for_state(state)
+      @transition.operation_for_state(state)
     end
 
     def change_wip_limit(new_wip_limit, board)
@@ -30,6 +35,11 @@ module Project
     def insert_state_before(new, base_state)
       raise StateNotFound unless @transition.include?(base_state)
       self.class.new(@phase, @transition.insert_before(new, base_state), @wip_limit)
+    end
+
+    def remove_state(state, board)
+      raise CardOnState unless board.can_remove_step?(Step.new(@phase, state))
+      self.class.new(@phase, @transition.remove(state), @wip_limit)
     end
 
     def first_step

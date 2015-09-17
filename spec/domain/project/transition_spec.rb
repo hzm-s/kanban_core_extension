@@ -15,7 +15,7 @@ module Project
       context 'given 1 state' do
         let(:states) { [State.new('Doing')] }
         it do
-          expect { subject }.to raise_error(ArgumentError)
+          expect { subject }.to raise_error(NeedMoreThanOneState)
         end
       end
     end

@@ -10,6 +10,10 @@ module Project
       set_phase_specs(phase_specs)
     end
 
+    def operation_for_state(phase, state)
+      spec(phase).operation_for_state(state)
+    end
+
     def add(phase_spec)
       renew {|current| current + [phase_spec] }
     end
@@ -23,11 +27,18 @@ module Project
     def remove(phase, board)
       try_retrieve(phase)
       raise NoMorePhaseSpec if @phase_specs.size == 1
+      # TODO: board.can_remove_phase?(phase)
       raise CardOnPhase if board.count_card(phase) >= 1
 
       renew do |current|
         current.reject {|ps| ps.phase == phase }
       end
+    end
+
+    def remove_state(phase, state, board)
+      old = spec(phase)
+      new = old.remove_state(state, board)
+      replace_with(old, new)
     end
 
     def replace_with(old, new)

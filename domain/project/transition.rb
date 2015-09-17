@@ -1,6 +1,7 @@
 module Project
   class StateNotFound < StandardError; end
   class DuplicateState < StandardError; end
+  class NeedMoreThanOneState < StandardError; end
 
   class Transition
 
@@ -17,12 +18,17 @@ module Project
     end
 
     def insert_before(new, base)
-      return add_state(new) if base.complete?
-
-      new_states = @states.map do |state|
-        state == base ? [new, state] : state
+      return add(new) if base.complete?
+      renew do |current|
+        current.flat_map {|s| s == base ? [new, s] : s }
       end
-      self.class.new(new_states.flatten)
+    end
+
+    def remove(state)
+      raise StateNotFound unless include?(state)
+      renew do |current|
+        current.reject {|s| s == state }
+      end
     end
 
     def first
@@ -40,6 +46,15 @@ module Project
 
     def last?(state)
       @states.last == state
+    end
+
+    def operation_for_state(state)
+      ops = [
+        Operations::InsertStateBefore.new,
+        Operations::InsertStateAfter.new
+      ]
+      ops << Operations::RemoveState.new if @states.size >= 3
+      ops
     end
 
     def none?
@@ -66,13 +81,18 @@ module Project
     private
 
       def set_states(states)
-        raise ArgumentError unless states.size >= 2
+        raise NeedMoreThanOneState unless states.size >= 2
         raise DuplicateState unless states.uniq.size == states.size
         @states = states
       end
 
-      def add_state(state)
-        self.class.new(@states + [state])
+      def add(state)
+        renew {|current| current + [state] }
+      end
+
+      def renew
+        new_states = yield(@states)
+        self.class.new(new_states)
       end
   end
 
