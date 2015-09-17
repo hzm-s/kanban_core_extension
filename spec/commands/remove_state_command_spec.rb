@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'project/workflow'
 require 'project/phase_spec'
 require 'project/transition'
 

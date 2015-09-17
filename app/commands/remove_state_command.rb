@@ -28,6 +28,9 @@ class RemoveStateCommand
   rescue Project::NeedMoreThanOneState
     errors.add(:base, '状態は2つ以上必要です。')
     false
+  rescue Project::PhaseNotFound
+    errors.add(:base, 'フェーズが見つかりません。')
+    false
   else
     true
   end
