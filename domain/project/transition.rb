@@ -18,17 +18,17 @@ module Project
     end
 
     def insert_before(new, base)
-      return add_state(new) if base.complete?
-
-      new_states = @states.map do |state|
-        state == base ? [new, state] : state
+      return add(new) if base.complete?
+      renew do |current|
+        current.flat_map {|s| s == base ? [new, s] : s }
       end
-      self.class.new(new_states.flatten)
     end
 
     def remove(state)
       raise StateNotFound unless include?(state)
-      self.class.new(@states.reject {|s| s == state })
+      renew do |current|
+        current.reject {|s| s == state }
+      end
     end
 
     def first
@@ -77,8 +77,13 @@ module Project
         @states = states
       end
 
-      def add_state(state)
-        self.class.new(@states + [state])
+      def add(state)
+        renew {|current| current + [state] }
+      end
+
+      def renew
+        new_states = yield(@states)
+        self.class.new(new_states)
       end
   end
 
