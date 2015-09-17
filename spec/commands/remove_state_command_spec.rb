@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'project/phase_spec'
 
 describe RemoveStateCommand do
   let(:project_id) { ProjectId('prj_789') }
@@ -37,6 +38,14 @@ describe RemoveStateCommand do
           phase_name: 'Dev',
           state_name: ''
         )
+        expect(cmd.execute(service)).to be_falsey
+      end
+    end
+
+    context 'service raises Project::CardOnState' do
+      it do
+        cmd = described_class.new(project_id_str: project_id.to_s, phase_name: 'Todo')
+        allow(service).to receive(:remove_phase_spec).and_raise(Project::CardOnState)
         expect(cmd.execute(service)).to be_falsey
       end
     end

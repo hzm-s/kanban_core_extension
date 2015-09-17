@@ -22,5 +22,10 @@ class RemoveStateCommand
   def execute(service)
     return false unless valid?
     service.remove_state(project_id, phase, state)
+  rescue Project::CardOnState
+    errors.add(:base, '対象の状態のカードがあるため削除できません。')
+    false
+  else
+    true
   end
 end
