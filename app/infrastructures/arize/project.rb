@@ -98,7 +98,7 @@ module Arize
       end
 
       def build_wip_limit(phase_spec_record)
-        return ::Project::WipLimit::None.new if phase_spec_record.wip_limit_count.nil?
+        return ::Project::NoWipLimit.new if phase_spec_record.wip_limit_count.nil?
         ::Project::WipLimit.new(phase_spec_record.wip_limit_count)
       end
     end

@@ -23,7 +23,7 @@ module Project
     end
 
     def disable_wip_limit
-      self.class.new(@phase, @transition, WipLimit::None.new)
+      self.class.new(@phase, @transition, NoWipLimit.new)
     end
 
     def reach_wip_limit?(wip)

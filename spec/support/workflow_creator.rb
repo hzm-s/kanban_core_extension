@@ -23,7 +23,7 @@ module WorkflowCreator
   end
 
   def WipLimit(param = nil)
-    return Project::WipLimit::None.new if param.nil?
+    return Project::NoWipLimit.new if param.nil?
     return Project::WipLimit.new(param) if param.instance_of?(Fixnum)
     param
   end
