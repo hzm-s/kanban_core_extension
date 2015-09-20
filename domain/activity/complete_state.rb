@@ -1,16 +1,16 @@
-module Project
-  class NoState
+module Activity
+  class CompleteState
 
     def none?
-      true
-    end
-
-    def complete?
       false
     end
 
+    def complete?
+      true
+    end
+
     def to_s
-      ''
+      'Complete'
     end
 
     def eql?(other)

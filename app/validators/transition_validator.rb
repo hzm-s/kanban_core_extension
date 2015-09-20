@@ -1,8 +1,8 @@
 class TransitionValidator < ActiveModel::EachValidator
 
   def validate_each(model, _, value)
-    Project::Transition.from_array(value)
-  rescue Project::NeedMoreThanOneState
+    Activity::Transition.from_array(value)
+  rescue Activity::NeedMoreThanOneState
     model.errors.add(:base, message)
   end
 

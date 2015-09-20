@@ -11,13 +11,13 @@ class DisableWipLimitCommand
   end
 
   def phase
-    Project::Phase.new(phase_name)
+    Activity::Phase.new(phase_name)
   end
 
   def execute(service)
     return false unless valid?
     service.disable_wip_limit(project_id, phase)
-  rescue Project::PhaseNotFound
+  rescue Activity::PhaseNotFound
     errors.add(:base, 'フェーズが見つかりません。')
     false
   else

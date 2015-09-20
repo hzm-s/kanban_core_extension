@@ -29,7 +29,7 @@ class WorkflowService
   def add_phase_spec(project_id, phase_spec, option = nil)
     project = @project_repository.find(project_id)
 
-    builder = Project::WorkflowBuilder.new(project.workflow)
+    builder = Activity::WorkflowBuilder.new(project.workflow)
     add_with_position(option) do |position, base_phase|
       case position
       when :before
@@ -48,7 +48,7 @@ class WorkflowService
   def set_transition(project_id, phase, transition)
     project = @project_repository.find(project_id)
 
-    builder = Project::WorkflowBuilder.new(project.workflow)
+    builder = Activity::WorkflowBuilder.new(project.workflow)
     builder.set_transition(phase, transition)
     project.specify_workflow(builder.workflow)
 
@@ -58,7 +58,7 @@ class WorkflowService
   def add_state(project_id, phase, state, option)
     project = @project_repository.find(project_id)
 
-    builder = Project::WorkflowBuilder.new(project.workflow)
+    builder = Activity::WorkflowBuilder.new(project.workflow)
     add_with_position(option) do |position, base_state|
       case position
       when :before

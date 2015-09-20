@@ -1,4 +1,4 @@
-module Project
+module Activity
   class EndPhaseSpec
 
     def first_step

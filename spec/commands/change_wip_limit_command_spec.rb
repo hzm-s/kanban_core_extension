@@ -74,14 +74,14 @@ describe ChangeWipLimitCommand do
       end
     end
 
-    context 'service raises Project::UnderCurrentWip' do
+    context 'service raises Activity::UnderCurrentWip' do
       it do
         cmd = described_class.new(
           project_id_str: 'prj_789',
           phase_name: 'Dev',
           wip_limit_count: 3
         )
-        allow(service).to receive(:change_wip_limit).and_raise(Project::UnderCurrentWip)
+        allow(service).to receive(:change_wip_limit).and_raise(Activity::UnderCurrentWip)
         expect(cmd.execute(service)).to be_falsey
       end
     end

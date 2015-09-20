@@ -8,7 +8,7 @@ module Kanban
 
     def handle_board(board)
       first_phase_cards = board.count_card(@first_phase_spec.phase)
-      raise Project::WipLimitReached if @first_phase_spec.reach_wip_limit?(first_phase_cards)
+      raise Activity::WipLimitReached if @first_phase_spec.reach_wip_limit?(first_phase_cards)
 
       board.add_card(@feature_id, @first_phase_spec.first_step)
 

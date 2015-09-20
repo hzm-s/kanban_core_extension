@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-module Project
+module Activity
   describe Transition do
     describe '.new' do
       subject do

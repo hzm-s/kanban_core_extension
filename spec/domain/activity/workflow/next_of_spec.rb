@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-module Project
+module Activity
   describe Workflow do
     let(:workflow) do
       Workflow([{ phase: 'Todo' }, { phase: 'Dev' }, { phase: 'QA' }])

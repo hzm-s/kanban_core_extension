@@ -49,7 +49,7 @@ describe 'disable wip limit' do
     it do
       expect {
         service.disable_wip_limit(project_id, Phase('None'))
-      }.to raise_error(Project::PhaseNotFound)
+      }.to raise_error(Activity::PhaseNotFound)
     end
   end
 end

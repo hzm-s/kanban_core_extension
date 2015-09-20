@@ -1,4 +1,4 @@
-module Project
+module Activity
   class Step
     attr_reader :phase, :state
 

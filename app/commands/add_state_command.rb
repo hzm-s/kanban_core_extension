@@ -19,11 +19,11 @@ class AddStateCommand
   end
 
   def phase
-    Project::Phase.new(phase_name)
+    Activity::Phase.new(phase_name)
   end
 
   def state
-    Project::State.new(state_name)
+    Activity::State.new(state_name)
   end
 
   def position_option
@@ -33,7 +33,7 @@ class AddStateCommand
   def execute(service)
     return false unless valid?
     service.add_state(project_id, phase, state, position_option)
-  rescue Project::DuplicateState
+  rescue Activity::DuplicateState
     errors.add(:base, '同じ状態が既にあります。')
     false
   else

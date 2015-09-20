@@ -44,7 +44,7 @@ describe ForwardCardCommand do
       end
     end
 
-    context 'service raises Project::WipLimitReached' do
+    context 'service raises Activity::WipLimitReached' do
       it do
         cmd = described_class.new(
           project_id_str: 'prj_789',
@@ -52,7 +52,7 @@ describe ForwardCardCommand do
           step_phase_name: 'Dev',
           step_state_name: 'Doing',
         )
-        allow(service).to receive(:forward_card).and_raise(Project::WipLimitReached)
+        allow(service).to receive(:forward_card).and_raise(Activity::WipLimitReached)
         expect(cmd.execute(service)).to be_falsey
       end
     end

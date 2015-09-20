@@ -1,4 +1,4 @@
-module Project
+module Activity
   class WipLimitReached < StandardError; end
   class UnderCurrentWip < StandardError; end
   class TransitionAlreadySetted < StandardError; end

@@ -52,10 +52,10 @@ module Project
       subject { project.workflow.to_a[0] }
       it do
         is_expected.to eq(
-          PhaseSpec.new(
-            Phase.new('Todo'),
-            NoTransition.new,
-            NoWipLimit.new
+          Activity::PhaseSpec.new(
+            Activity::Phase.new('Todo'),
+            Activity::NoTransition.new,
+            Activity::NoWipLimit.new
           )
         )
       end
@@ -65,13 +65,13 @@ module Project
       subject { project.workflow.to_a[1] }
       it do
         is_expected.to eq(
-          PhaseSpec.new(
-            Phase.new('Dev'),
-            Transition.new([
-              State.new('Doing'),
-              State.new('Done'),
+          Activity::PhaseSpec.new(
+            Activity::Phase.new('Dev'),
+            Activity::Transition.new([
+              Activity::State.new('Doing'),
+              Activity::State.new('Done'),
             ]),
-            WipLimit.new(2)
+            Activity::WipLimit.new(2)
           )
         )
       end
@@ -81,10 +81,10 @@ module Project
       subject { project.workflow.to_a[2] }
       it do
         is_expected.to eq(
-          PhaseSpec.new(
-            Phase.new('QA'),
-            NoTransition.new,
-            WipLimit.new(1)
+          Activity::PhaseSpec.new(
+            Activity::Phase.new('QA'),
+            Activity::NoTransition.new,
+            Activity::WipLimit.new(1)
           )
         )
       end

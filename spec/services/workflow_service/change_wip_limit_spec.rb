@@ -26,7 +26,7 @@ describe 'change wip limit' do
     end
 
     context 'wip = 1', 'change none => 1' do
-      let(:old_wip_limit) { Project::NoWipLimit.new }
+      let(:old_wip_limit) { Activity::NoWipLimit.new }
 
       it do
         board_service.add_card(project_id, FeatureId('feat_1'))
@@ -39,7 +39,7 @@ describe 'change wip limit' do
     end
 
     context 'wip = 1', 'change 1 => 2' do
-      let(:old_wip_limit) { Project::WipLimit.new(1) }
+      let(:old_wip_limit) { Activity::WipLimit.new(1) }
 
       it do
         board_service.add_card(project_id, FeatureId('feat_1'))
@@ -52,7 +52,7 @@ describe 'change wip limit' do
     end
 
     context 'wip = 1', 'change 2 => 1' do
-      let(:old_wip_limit) { Project::WipLimit.new(2) }
+      let(:old_wip_limit) { Activity::WipLimit.new(2) }
 
       it do
         board_service.add_card(project_id, FeatureId('feat_1'))
@@ -65,7 +65,7 @@ describe 'change wip limit' do
     end
 
     context 'wip = 2', 'change 2 => 1' do
-      let(:old_wip_limit) { Project::WipLimit.new(2) }
+      let(:old_wip_limit) { Activity::WipLimit.new(2) }
 
       it do
         board_service.add_card(project_id, FeatureId('feat_1'))
@@ -73,7 +73,7 @@ describe 'change wip limit' do
 
         expect {
           service.change_wip_limit(project_id, phase, WipLimit(1))
-        }.to raise_error(Project::UnderCurrentWip)
+        }.to raise_error(Activity::UnderCurrentWip)
       end
     end
   end
@@ -85,7 +85,7 @@ describe 'change wip limit' do
     let(:transition) { %w(Doing Done) }
 
     context 'wip = 2', 'change none => 2' do
-      let(:old_wip_limit) { Project::NoWipLimit.new }
+      let(:old_wip_limit) { Activity::NoWipLimit.new }
 
       it do
         board_service.add_card(project_id, FeatureId('feat_1'))
@@ -102,7 +102,7 @@ describe 'change wip limit' do
     end
 
     context 'wip = 2', 'change 3 => 2' do
-      let(:old_wip_limit) { Project::WipLimit.new(3) }
+      let(:old_wip_limit) { Activity::WipLimit.new(3) }
 
       it do
         board_service.add_card(project_id, FeatureId('feat_1'))
@@ -119,7 +119,7 @@ describe 'change wip limit' do
     end
 
     context 'wip = 2', 'change 2 => 1' do
-      let(:old_wip_limit) { Project::WipLimit.new(2) }
+      let(:old_wip_limit) { Activity::WipLimit.new(2) }
 
       it do
         board_service.add_card(project_id, FeatureId('feat_1'))
@@ -128,7 +128,7 @@ describe 'change wip limit' do
 
         expect {
           service.change_wip_limit(project_id, phase, WipLimit(1))
-        }.to raise_error(Project::UnderCurrentWip)
+        }.to raise_error(Activity::UnderCurrentWip)
       end
     end
   end

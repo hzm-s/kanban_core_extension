@@ -24,7 +24,7 @@ describe 'add state' do
       it do
         expect {
           service.add_state(project_id, Phase('NONE'), State('Doing'), before: State('NONE'))
-        }.to raise_error(Project::PhaseNotFound)
+        }.to raise_error(Activity::PhaseNotFound)
       end
     end
 
@@ -32,7 +32,7 @@ describe 'add state' do
       it do
         expect {
           service.add_state(project_id, Phase('NONE'), State('Doing'), after: State('NONE'))
-        }.to raise_error(Project::PhaseNotFound)
+        }.to raise_error(Activity::PhaseNotFound)
       end
     end
   end
@@ -102,7 +102,7 @@ describe 'add state' do
           service.add_state(
             project_id, Phase('Dev'), State('Doing'), before: State('Done')
           )
-        }.to raise_error(Project::DuplicateState)
+        }.to raise_error(Activity::DuplicateState)
       end
     end
 
@@ -112,7 +112,7 @@ describe 'add state' do
           service.add_state(
             project_id, Phase('Dev'), State('Doing'), after: State('Review')
           )
-        }.to raise_error(Project::DuplicateState)
+        }.to raise_error(Activity::DuplicateState)
       end
     end
 
@@ -120,7 +120,7 @@ describe 'add state' do
       it do
         expect {
           service.add_state(project_id, Phase('Dev'), State('KPT'), before: State('None'))
-        }.to raise_error(Project::StateNotFound)
+        }.to raise_error(Activity::StateNotFound)
       end
     end
 
@@ -128,7 +128,7 @@ describe 'add state' do
       it do
         expect {
           service.add_state(project_id, Phase('Dev'), State('KPT'), after: State('None'))
-        }.to raise_error(Project::StateNotFound)
+        }.to raise_error(Activity::StateNotFound)
       end
     end
   end

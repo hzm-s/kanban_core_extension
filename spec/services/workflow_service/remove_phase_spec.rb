@@ -18,7 +18,7 @@ describe 'remove phase spec' do
   end
 
   context 'no state phase' do
-    let(:workflow) { Project::Workflow.new([target, rest]) }
+    let(:workflow) { Activity::Workflow.new([target, rest]) }
 
     let(:target) { PhaseSpec(phase: 'Todo') }
     let(:rest) { PhaseSpec(phase: 'Dev', transition: ['Doing', 'Done'], wip_limit: 3) }
@@ -27,7 +27,7 @@ describe 'remove phase spec' do
       it do
         service.remove_phase_spec(project_id, target.phase)
         new_workflow = project_repository.find(project_id).workflow
-        expect(new_workflow).to eq(Project::Workflow.new([rest]))
+        expect(new_workflow).to eq(Activity::Workflow.new([rest]))
       end
     end
 
@@ -38,13 +38,13 @@ describe 'remove phase spec' do
 
         expect {
           service.remove_phase_spec(project_id, target.phase)
-        }.to raise_error(Project::CardOnPhase)
+        }.to raise_error(Activity::CardOnPhase)
       end
     end
   end
 
   context 'multi state phase' do
-    let(:workflow) { Project::Workflow.new([target, rest]) }
+    let(:workflow) { Activity::Workflow.new([target, rest]) }
 
     let(:target) { PhaseSpec(phase: 'Analyze', transition: ['Doing', 'Done']) }
     let(:rest) { PhaseSpec(phase: 'Dev', transition: ['Doing', 'Done'], wip_limit: 3) }
@@ -53,7 +53,7 @@ describe 'remove phase spec' do
       it do
         service.remove_phase_spec(project_id, target.phase)
         new_workflow = project_repository.find(project_id).workflow
-        expect(new_workflow).to eq(Project::Workflow.new([rest]))
+        expect(new_workflow).to eq(Activity::Workflow.new([rest]))
       end
     end
 
@@ -65,7 +65,7 @@ describe 'remove phase spec' do
 
         expect {
           service.remove_phase_spec(project_id, target.phase)
-        }.to raise_error(Project::CardOnPhase)
+        }.to raise_error(Activity::CardOnPhase)
       end
     end
   end
@@ -76,7 +76,7 @@ describe 'remove phase spec' do
     it do
       expect {
         service.remove_phase_spec(project_id, Phase('Dev'))
-      }.to raise_error(Project::NoMorePhaseSpec)
+      }.to raise_error(Activity::NoMorePhaseSpec)
     end
   end
 
@@ -86,7 +86,7 @@ describe 'remove phase spec' do
     it do
       expect {
         service.remove_phase_spec(project_id, Phase('None'))
-      }.to raise_error(Project::PhaseNotFound)
+      }.to raise_error(Activity::PhaseNotFound)
     end
   end
 end

@@ -43,7 +43,7 @@ describe 'set transition' do
           service.set_transition(
             project_id, Phase('Dev'), Transition(['Doing', 'Done', 'Doing'])
           )
-        }.to raise_error(Project::DuplicateState)
+        }.to raise_error(Activity::DuplicateState)
       end
     end
   end
@@ -58,7 +58,7 @@ describe 'set transition' do
         service.set_transition(
           project_id, Phase('Dev'), Transition(['Doing', 'Done'])
         )
-      }.to raise_error(Project::TransitionAlreadySetted)
+      }.to raise_error(Activity::TransitionAlreadySetted)
     end
   end
 end

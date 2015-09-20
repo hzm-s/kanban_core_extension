@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-module Project
+module Activity
   describe Workflow do
     describe '#next_step' do
       subject do

@@ -12,11 +12,11 @@ class SetTransitionCommand
   end
 
   def phase
-    Project::Phase.new(phase_name)
+    Activity::Phase.new(phase_name)
   end
 
   def transition
-    Project::Transition.from_array(state_names)
+    Activity::Transition.from_array(state_names)
   end
 
   def execute(service)

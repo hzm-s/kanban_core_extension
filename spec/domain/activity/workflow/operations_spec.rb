@@ -2,7 +2,7 @@ require 'rails_helper'
 
 #TODO
 __END__
-module Project
+module Activity
   describe Workflow do
     pending '#operation_for_phase' do
       it do

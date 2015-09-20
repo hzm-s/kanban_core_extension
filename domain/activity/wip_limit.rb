@@ -1,4 +1,4 @@
-module Project
+module Activity
   class WipLimit
 
     def self.from_number(number)

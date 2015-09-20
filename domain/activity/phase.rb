@@ -1,12 +1,12 @@
-module Project
-  class NoWipLimit
+module Activity
+  class Phase
 
-    def reach?(wip)
-      false
+    def initialize(name)
+      @name = name
     end
 
-    def to_i
-      nil
+    def to_s
+      @name
     end
 
     def eql?(other)
@@ -14,12 +14,12 @@ module Project
     end
 
     def hash
-      to_i.hash
+      to_s.hash
     end
 
     def ==(other)
       other.instance_of?(self.class) &&
-        self.to_i == other.to_i
+        self.to_s == other.to_s
     end
   end
 end

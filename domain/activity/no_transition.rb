@@ -1,4 +1,4 @@
-module Project
+module Activity
   class NoTransition
 
     def initialize

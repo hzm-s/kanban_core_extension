@@ -19,7 +19,7 @@ class AddCardCommand
 
     service.add_card(project_id, feature_id)
 
-  rescue Project::WipLimitReached
+  rescue Activity::WipLimitReached
     errors.add(:base, 'WIP制限です。')
     false
   else

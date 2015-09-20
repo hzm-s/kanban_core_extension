@@ -17,15 +17,15 @@ class ForwardCardCommand
   end
 
   def phase
-    Project::Phase.new(step_phase_name)
+    Activity::Phase.new(step_phase_name)
   end
 
   def state
-    Project::State.from_string(step_state_name)
+    Activity::State.from_string(step_state_name)
   end
 
   def current_step
-    Project::Step.new(phase, state)
+    Activity::Step.new(phase, state)
   end
 
   def execute(service)
@@ -33,7 +33,7 @@ class ForwardCardCommand
 
     service.forward_card(project_id, feature_id, current_step)
 
-  rescue Project::WipLimitReached
+  rescue Activity::WipLimitReached
     errors.add(:base, 'WIP制限です。')
     false
   else

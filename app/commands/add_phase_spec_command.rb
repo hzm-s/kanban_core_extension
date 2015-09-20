@@ -25,16 +25,16 @@ class AddPhaseSpecCommand
   end
 
   def transition
-    Project::Transition.from_array(state_names)
+    Activity::Transition.from_array(state_names)
   end
 
   def wip_limit
-    Project::WipLimit.from_number(wip_limit_count)
+    Activity::WipLimit.from_number(wip_limit_count)
   end
 
   def phase_spec
-    Project::PhaseSpec.new(
-      Project::Phase.new(phase_name),
+    Activity::PhaseSpec.new(
+      Activity::Phase.new(phase_name),
       transition,
       wip_limit
     )
@@ -48,7 +48,7 @@ class AddPhaseSpecCommand
   def execute(service)
     return false unless valid?
     service.add_phase_spec(project_id, phase_spec, position_option)
-  rescue Project::DuplicatePhase
+  rescue Activity::DuplicatePhase
     errors.add(:base, '同じフェーズが既にあります。')
     false
   else

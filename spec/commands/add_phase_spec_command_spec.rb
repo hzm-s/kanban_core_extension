@@ -69,10 +69,10 @@ describe AddPhaseSpecCommand do
           wip_limit_count: 3
         )
         expect(cmd.phase_spec).to eq(
-          Project::PhaseSpec.new(
-            Project::Phase.new('New Phase'),
-            Project::NoTransition.new,
-            Project::WipLimit.new(3)
+          Activity::PhaseSpec.new(
+            Activity::Phase.new('New Phase'),
+            Activity::NoTransition.new,
+            Activity::WipLimit.new(3)
           )
         )
       end
@@ -85,10 +85,10 @@ describe AddPhaseSpecCommand do
           wip_limit_count: ''
         )
         expect(cmd.phase_spec).to eq(
-          Project::PhaseSpec.new(
-            Project::Phase.new('New Phase'),
-            Project::NoTransition.new,
-            Project::NoWipLimit.new
+          Activity::PhaseSpec.new(
+            Activity::Phase.new('New Phase'),
+            Activity::NoTransition.new,
+            Activity::NoWipLimit.new
           )
         )
       end
@@ -102,13 +102,13 @@ describe AddPhaseSpecCommand do
           state_names: ['Doing', 'Done']
         )
         expect(cmd.phase_spec).to eq(
-          Project::PhaseSpec.new(
-            Project::Phase.new('New Phase'),
-            Project::Transition.new([
-              Project::State.new('Doing'),
-              Project::State.new('Done')
+          Activity::PhaseSpec.new(
+            Activity::Phase.new('New Phase'),
+            Activity::Transition.new([
+              Activity::State.new('Doing'),
+              Activity::State.new('Done')
             ]),
-            Project::WipLimit.new(3)
+            Activity::WipLimit.new(3)
           )
         )
       end
@@ -122,13 +122,13 @@ describe AddPhaseSpecCommand do
           state_names: ['Doing', 'Done']
         )
         expect(cmd.phase_spec).to eq(
-          Project::PhaseSpec.new(
-            Project::Phase.new('New Phase'),
-            Project::Transition.new([
-              Project::State.new('Doing'),
-              Project::State.new('Done')
+          Activity::PhaseSpec.new(
+            Activity::Phase.new('New Phase'),
+            Activity::Transition.new([
+              Activity::State.new('Doing'),
+              Activity::State.new('Done')
             ]),
-            Project::NoWipLimit.new
+            Activity::NoWipLimit.new
           )
         )
       end
@@ -142,13 +142,13 @@ describe AddPhaseSpecCommand do
           state_names: ['Doing', '', 'Done']
         )
         expect(cmd.phase_spec).to eq(
-          Project::PhaseSpec.new(
-            Project::Phase.new('New Phase'),
-            Project::Transition.new([
-              Project::State.new('Doing'),
-              Project::State.new('Done')
+          Activity::PhaseSpec.new(
+            Activity::Phase.new('New Phase'),
+            Activity::Transition.new([
+              Activity::State.new('Doing'),
+              Activity::State.new('Done')
             ]),
-            Project::WipLimit.new(3)
+            Activity::WipLimit.new(3)
           )
         )
       end

@@ -1,5 +1,5 @@
 require 'rails_helper'
-require 'project/workflow'
+require 'activity/workflow'
 
 describe DisableWipLimitCommand do
   let(:project_id) { ProjectId('prj_789') }
@@ -29,13 +29,13 @@ describe DisableWipLimitCommand do
       end
     end
 
-    context 'service raises Project::PhaseNotFound' do
+    context 'service raises Activity::PhaseNotFound' do
       it do
         cmd = described_class.new(
           project_id_str: project_id.to_s,
           phase_name: 'Dev'
         )
-        allow(service).to receive(:disable_wip_limit).and_raise(Project::PhaseNotFound)
+        allow(service).to receive(:disable_wip_limit).and_raise(Activity::PhaseNotFound)
         expect(cmd.execute(service)).to be_falsey
       end
     end

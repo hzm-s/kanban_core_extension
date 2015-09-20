@@ -1,4 +1,4 @@
-module Project
+module Activity
   class WorkflowBuilder
     attr_reader :workflow
 

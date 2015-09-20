@@ -14,18 +14,18 @@ class ChangeWipLimitCommand
   end
 
   def phase
-    Project::Phase.new(phase_name)
+    Activity::Phase.new(phase_name)
   end
 
   def new_wip_limit
-    Project::WipLimit.new(wip_limit_count.to_i)
+    Activity::WipLimit.new(wip_limit_count.to_i)
   end
 
   def execute(service)
     return false unless valid?
     service.change_wip_limit(project_id, phase, new_wip_limit)
 
-  rescue Project::UnderCurrentWip
+  rescue Activity::UnderCurrentWip
     errors.add(:base, "新しいWIP制限の値は、作業中のカード枚数以上にしてください")
     false
   else

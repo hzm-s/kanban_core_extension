@@ -1,4 +1,4 @@
-module Project
+module Activity
   class State
 
     def self.from_string(string)

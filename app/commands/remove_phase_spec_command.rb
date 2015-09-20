@@ -11,19 +11,19 @@ class RemovePhaseSpecCommand
   end
 
   def phase
-    Project::Phase.new(phase_name)
+    Activity::Phase.new(phase_name)
   end
 
   def execute(service)
     return false unless valid?
     service.remove_phase_spec(project_id, phase)
-  rescue Project::NoMorePhaseSpec
+  rescue Activity::NoMorePhaseSpec
     errors.add(:base, 'フェーズが1つしかないため削除できません。')
     false
-  rescue Project::CardOnPhase
+  rescue Activity::CardOnPhase
     errors.add(:base, 'フェーズにカードがあるため削除できません。')
     false
-  rescue Project::PhaseNotFound
+  rescue Activity::PhaseNotFound
     errors.add(:base, 'フェーズがありません。')
     false
   else

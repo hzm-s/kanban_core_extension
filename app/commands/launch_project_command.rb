@@ -28,35 +28,35 @@ class LaunchProjectCommand
   private
 
     def kickstart_workflow
-      Project::Workflow.new([
-        Project::PhaseSpec.new(
-          Project::Phase.new('次やる'),
-          Project::NoTransition.new,
-          Project::WipLimit.new(2)
+      Activity::Workflow.new([
+        Activity::PhaseSpec.new(
+          Activity::Phase.new('次やる'),
+          Activity::NoTransition.new,
+          Activity::WipLimit.new(2)
         ),
-        Project::PhaseSpec.new(
-          Project::Phase.new('要求分析'),
-          Project::Transition.new([
-            Project::State.new('Doing'),
-            Project::State.new('Done')
+        Activity::PhaseSpec.new(
+          Activity::Phase.new('要求分析'),
+          Activity::Transition.new([
+            Activity::State.new('Doing'),
+            Activity::State.new('Done')
           ]),
-          Project::WipLimit.new(3)
+          Activity::WipLimit.new(3)
         ),
-        Project::PhaseSpec.new(
-          Project::Phase.new('開発'),
-          Project::Transition.new([
-            Project::State.new('Doing'),
-            Project::State.new('Done')
+        Activity::PhaseSpec.new(
+          Activity::Phase.new('開発'),
+          Activity::Transition.new([
+            Activity::State.new('Doing'),
+            Activity::State.new('Done')
           ]),
-          Project::WipLimit.new(3)
+          Activity::WipLimit.new(3)
         ),
-        Project::PhaseSpec.new(
-          Project::Phase.new('受け入れ'),
-          Project::Transition.new([
-            Project::State.new('Doing'),
-            Project::State.new('Done')
+        Activity::PhaseSpec.new(
+          Activity::Phase.new('受け入れ'),
+          Activity::Transition.new([
+            Activity::State.new('Doing'),
+            Activity::State.new('Done')
           ]),
-          Project::WipLimit.new(2)
+          Activity::WipLimit.new(2)
         )
       ])
     end

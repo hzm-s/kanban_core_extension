@@ -50,7 +50,7 @@ describe 'remove state' do
         board_service.forward_card(project_id, FeatureId('feat_1'), Step(phase.to_s, 'Doing'))
         expect {
           service.remove_state(project_id, phase, State('Review'))
-        }.to raise_error(Project::CardOnState)
+        }.to raise_error(Activity::CardOnState)
       end
     end
 
@@ -77,13 +77,13 @@ describe 'remove state' do
     it do
       expect {
         service.remove_state(project_id, phase, State('Doing'))
-      }.to raise_error(Project::NeedMoreThanOneState)
+      }.to raise_error(Activity::NeedMoreThanOneState)
     end
 
     it do
       expect {
         service.remove_state(project_id, phase, State('Done'))
-      }.to raise_error(Project::NeedMoreThanOneState)
+      }.to raise_error(Activity::NeedMoreThanOneState)
     end
   end
 
@@ -95,7 +95,7 @@ describe 'remove state' do
     it do
       expect {
         service.remove_state(project_id, phase, State('None'))
-      }.to raise_error(Project::StateNotFound)
+      }.to raise_error(Activity::StateNotFound)
     end
   end
 
@@ -107,7 +107,7 @@ describe 'remove state' do
     it do
       expect {
         service.remove_state(project_id, Phase('None'), State('Doing'))
-      }.to raise_error(Project::PhaseNotFound)
+      }.to raise_error(Activity::PhaseNotFound)
     end
   end
 end
