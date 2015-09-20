@@ -31,7 +31,7 @@ class LaunchProjectCommand
       Project::Workflow.new([
         Project::PhaseSpec.new(
           Project::Phase.new('次やる'),
-          Project::Transition::None.new,
+          Project::NoTransition.new,
           Project::WipLimit.new(2)
         ),
         Project::PhaseSpec.new(

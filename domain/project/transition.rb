@@ -6,7 +6,7 @@ module Project
   class Transition
 
     def self.from_array(state_names)
-      return None.new if Array(state_names).empty?
+      return NoTransition.new if Array(state_names).empty?
       states = state_names
                  .reject {|n| n.empty? }
                  .map {|n| State.new(n) }
@@ -94,50 +94,5 @@ module Project
         new_states = yield(@states)
         self.class.new(new_states)
       end
-  end
-
-  class Transition
-    class None
-
-      def initialize
-        @state = NoState.new
-      end
-
-      def first
-        @state
-      end
-
-      def next(state)
-        raise 'Transition::None'
-      end
-
-      def include?(state)
-        @state = state
-      end
-
-      def last?(state)
-        true
-      end
-
-      def none?
-        true
-      end
-
-      def to_a
-        []
-      end
-
-      def eql?(other)
-        self == other
-      end
-
-      def hash
-        nil.hash
-      end
-
-      def ==(other)
-        other.instance_of?(self.class)
-      end
-    end
   end
 end

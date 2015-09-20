@@ -18,7 +18,7 @@ module WorkflowCreator
   end
 
   def Transition(params)
-    return Project::Transition::None.new unless params
+    return Project::NoTransition.new unless params
     Project::Transition.new(params.map {|p| Project::State.new(p) })
   end
 

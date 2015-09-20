@@ -54,7 +54,7 @@ module Project
         is_expected.to eq(
           PhaseSpec.new(
             Phase.new('Todo'),
-            Transition::None.new,
+            NoTransition.new,
             WipLimit::None.new
           )
         )
@@ -83,7 +83,7 @@ module Project
         is_expected.to eq(
           PhaseSpec.new(
             Phase.new('QA'),
-            Transition::None.new,
+            NoTransition.new,
             WipLimit.new(1)
           )
         )
