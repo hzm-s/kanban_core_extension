@@ -88,7 +88,7 @@ describe AddPhaseSpecCommand do
           Project::PhaseSpec.new(
             Project::Phase.new('New Phase'),
             Project::NoTransition.new,
-            Project::WipLimit::None.new
+            Project::NoWipLimit.new
           )
         )
       end
@@ -128,7 +128,7 @@ describe AddPhaseSpecCommand do
               Project::State.new('Doing'),
               Project::State.new('Done')
             ]),
-            Project::WipLimit::None.new
+            Project::NoWipLimit.new
           )
         )
       end

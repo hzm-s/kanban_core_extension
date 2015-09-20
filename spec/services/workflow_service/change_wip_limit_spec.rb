@@ -26,7 +26,7 @@ describe 'change wip limit' do
     end
 
     context 'wip = 1', 'change none => 1' do
-      let(:old_wip_limit) { Project::WipLimit::None.new }
+      let(:old_wip_limit) { Project::NoWipLimit.new }
 
       it do
         board_service.add_card(project_id, FeatureId('feat_1'))
@@ -85,7 +85,7 @@ describe 'change wip limit' do
     let(:transition) { %w(Doing Done) }
 
     context 'wip = 2', 'change none => 2' do
-      let(:old_wip_limit) { Project::WipLimit::None.new }
+      let(:old_wip_limit) { Project::NoWipLimit.new }
 
       it do
         board_service.add_card(project_id, FeatureId('feat_1'))

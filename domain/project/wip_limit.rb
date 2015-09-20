@@ -3,7 +3,7 @@ module Project
 
     def self.from_number(number)
       return new(number.to_i) if number.to_i > 0
-      None.new
+      NoWipLimit.new
     end
 
     def initialize(count)

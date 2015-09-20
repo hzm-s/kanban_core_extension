@@ -55,7 +55,7 @@ module Project
           PhaseSpec.new(
             Phase.new('Todo'),
             NoTransition.new,
-            WipLimit::None.new
+            NoWipLimit.new
           )
         )
       end
