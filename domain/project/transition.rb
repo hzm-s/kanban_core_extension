@@ -100,7 +100,7 @@ module Project
     class None
 
       def initialize
-        @state = State::None.new
+        @state = NoState.new
       end
 
       def first

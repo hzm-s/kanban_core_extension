@@ -35,7 +35,7 @@ module Project
     class Complete
 
       def state
-        State::Complete.new
+        CompleteState.new
       end
 
       def complete?
