@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 describe AddStateCommand do
+  let(:project_id) { ProjectId('prj_789') }
+  let(:service) { double(:workflow_service) }
+
   describe '#execute' do
     context 'state_name = Review position = before base_state_name = Done' do
       it do
@@ -11,9 +14,8 @@ describe AddStateCommand do
           position: 'before',
           base_state_name: 'Done'
         )
-        service = double(:workflow_service)
         expect(service).to receive(:add_state).with(
-          ProjectId('prj_789'),
+          project_id,
           Phase('Dev'),
           State('Review'),
           { before: State('Done') }
@@ -31,9 +33,8 @@ describe AddStateCommand do
           position: 'after',
           base_state_name: 'Doing'
         )
-        service = double(:workflow_service)
         expect(service).to receive(:add_state).with(
-          ProjectId('prj_789'),
+          project_id,
           Phase('Dev'),
           State('Review'),
           { after: State('Doing') }
@@ -49,7 +50,6 @@ describe AddStateCommand do
           phase_name: 'Dev',
           state_name: ''
         )
-        service = double(:workflow_service)
         expect(cmd.execute(service)).to be_falsey
       end
     end
@@ -61,7 +61,6 @@ describe AddStateCommand do
           phase_name: 'Dev',
           state_name: 'Review'
         )
-        service = double(:workflow_service)
         expect(cmd.execute(service)).to be_falsey
       end
     end
