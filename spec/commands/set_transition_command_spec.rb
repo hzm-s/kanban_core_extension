@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 describe SetTransitionCommand do
+  let(:project_id) { ProjectId('prj_789') }
+  let(:service) { double(:workflow_service) }
+
   describe '#transition' do
     context 'given Doing, Done' do
       it do
@@ -18,11 +21,10 @@ describe SetTransitionCommand do
           phase_name: 'Dev',
           state_names: ['Doing', 'Done']
         )
-        service = double(:workflow_service)
         expect(service)
           .to receive(:set_transition)
           .with(
-            ProjectId('prj_789'),
+            project_id,
             Phase('Dev'),
             Transition(['Doing', 'Done'])
           )
@@ -37,7 +39,6 @@ describe SetTransitionCommand do
           phase_name: 'Dev',
           state_names: ['', '']
         )
-        service = double(:workflow_service)
         expect(cmd.execute(service)).to be_falsey
       end
     end
@@ -49,7 +50,6 @@ describe SetTransitionCommand do
           phase_name: 'Dev',
           state_names: ['Doing']
         )
-        service = double(:workflow_service)
         expect(cmd.execute(service)).to be_falsey
       end
     end
