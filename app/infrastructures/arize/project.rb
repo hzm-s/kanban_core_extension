@@ -91,7 +91,7 @@ module Arize
       end
 
       def build_transition(state_records)
-        return ::Project::Transition::None.new if state_records.empty?
+        return ::Project::NoTransition.new if state_records.empty?
         ::Project::Transition.new(
           state_records.map {|r| ::Project::State.new(r.state_name) }
         )

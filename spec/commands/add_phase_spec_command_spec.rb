@@ -71,7 +71,7 @@ describe AddPhaseSpecCommand do
         expect(cmd.phase_spec).to eq(
           Project::PhaseSpec.new(
             Project::Phase.new('New Phase'),
-            Project::Transition::None.new,
+            Project::NoTransition.new,
             Project::WipLimit.new(3)
           )
         )
@@ -87,7 +87,7 @@ describe AddPhaseSpecCommand do
         expect(cmd.phase_spec).to eq(
           Project::PhaseSpec.new(
             Project::Phase.new('New Phase'),
-            Project::Transition::None.new,
+            Project::NoTransition.new,
             Project::WipLimit::None.new
           )
         )
