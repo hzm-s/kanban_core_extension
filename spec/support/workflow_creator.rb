@@ -27,4 +27,38 @@ module WorkflowCreator
     return Project::WipLimit.new(param) if param.instance_of?(Fixnum)
     param
   end
+
+  def KickStartWorkflow
+    Project::Workflow.new([
+      Project::PhaseSpec.new(
+        Project::Phase.new('次やる'),
+        Project::NoTransition.new,
+        Project::WipLimit.new(2)
+      ),
+      Project::PhaseSpec.new(
+        Project::Phase.new('要求分析'),
+        Project::Transition.new([
+          Project::State.new('Doing'),
+          Project::State.new('Done')
+        ]),
+        Project::WipLimit.new(3)
+      ),
+      Project::PhaseSpec.new(
+        Project::Phase.new('開発'),
+        Project::Transition.new([
+          Project::State.new('Doing'),
+          Project::State.new('Done')
+        ]),
+        Project::WipLimit.new(3)
+      ),
+      Project::PhaseSpec.new(
+        Project::Phase.new('受け入れ'),
+        Project::Transition.new([
+          Project::State.new('Doing'),
+          Project::State.new('Done')
+        ]),
+        Project::WipLimit.new(2)
+      )
+    ])
+  end
 end
