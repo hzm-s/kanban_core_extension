@@ -10,7 +10,7 @@ module Project
     end
 
     def next(state)
-      raise 'Transition::None'
+      raise 'NoTransition'
     end
 
     def include?(state)
