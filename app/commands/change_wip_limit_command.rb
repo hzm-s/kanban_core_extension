@@ -1,5 +1,6 @@
 class ChangeWipLimitCommand
   include ActiveModel::Model
+  include DomainObjectConversion
 
   attr_accessor :project_id_str, :phase_name, :wip_limit_count
 
@@ -9,17 +10,7 @@ class ChangeWipLimitCommand
             presence: true,
             numericality: { greater_than: 0 }
 
-  def project_id
-    Project::ProjectId.new(project_id_str)
-  end
-
-  def phase
-    Activity::Phase.new(phase_name)
-  end
-
-  def new_wip_limit
-    Activity::WipLimit.new(wip_limit_count.to_i)
-  end
+  alias_method :new_wip_limit, :wip_limit
 
   def execute(service)
     return false unless valid?

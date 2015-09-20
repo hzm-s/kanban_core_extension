@@ -1,5 +1,6 @@
 class AddPhaseSpecCommand
   include ActiveModel::Model
+  include DomainObjectConversion
   include PositionOptionHelper
 
   attr_accessor :project_id_str, :phase_name, :wip_limit_count, :state_names,
@@ -20,24 +21,12 @@ class AddPhaseSpecCommand
     Array(@state_names).reject {|n| n.blank? }
   end
 
-  def project_id
-    Project::ProjectId.new(project_id_str)
-  end
-
   def transition
     Activity::Transition.from_array(state_names)
   end
 
-  def wip_limit
-    Activity::WipLimit.from_number(wip_limit_count)
-  end
-
   def phase_spec
-    Activity::PhaseSpec.new(
-      Activity::Phase.new(phase_name),
-      transition,
-      wip_limit
-    )
+    Activity::PhaseSpec.new(phase, transition, wip_limit)
   end
 
   def position_option

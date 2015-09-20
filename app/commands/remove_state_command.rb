@@ -1,23 +1,12 @@
 class RemoveStateCommand
   include ActiveModel::Model
+  include DomainObjectConversion
 
   attr_accessor :project_id_str, :phase_name, :state_name
 
   validates :project_id_str, presence: true
   validates :phase_name, presence: true
   validates :state_name, presence: true
-
-  def project_id
-    Project::ProjectId.new(project_id_str)
-  end
-
-  def phase
-    Activity::Phase.new(phase_name)
-  end
-
-  def state
-    Activity::State.new(state_name)
-  end
 
   def execute(service)
     return false unless valid?

@@ -1,5 +1,6 @@
 class AddStateCommand
   include ActiveModel::Model
+  include DomainObjectConversion
   include PositionOptionHelper
 
   attr_accessor :project_id_str, :phase_name, :state_name,
@@ -12,18 +13,6 @@ class AddStateCommand
 
   def describe
     "「#{phase_name}」フェーズの「#{base_state_name}」の#{position_name}に状態を追加"
-  end
-
-  def project_id
-    Project::ProjectId.new(project_id_str)
-  end
-
-  def phase
-    Activity::Phase.new(phase_name)
-  end
-
-  def state
-    Activity::State.new(state_name)
   end
 
   def position_option

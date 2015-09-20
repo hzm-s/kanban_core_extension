@@ -1,5 +1,6 @@
 class LaunchProjectCommand
   include ActiveModel::Model
+  include DomainObjectConversion
 
   attr_accessor :name, :goal, :kickstart
 
