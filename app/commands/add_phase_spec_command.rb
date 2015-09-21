@@ -25,10 +25,6 @@ class AddPhaseSpecCommand
     Activity::Transition.from_array(state_names)
   end
 
-  def phase_spec
-    Activity::PhaseSpec.new(phase, transition, wip_limit)
-  end
-
   def position_option
     return nil if position.nil? || base_phase_name.nil?
     option_for_phase(base_phase_name)
@@ -36,7 +32,13 @@ class AddPhaseSpecCommand
 
   def execute(service)
     return false unless valid?
-    service.add_phase_spec(project_id, phase_spec, position_option)
+    service.add_phase_spec(
+      project_id,
+      phase,
+      transition,
+      wip_limit,
+      position_option
+    )
   rescue Activity::DuplicatePhase
     errors.add(:base, '同じフェーズが既にあります。')
     false
