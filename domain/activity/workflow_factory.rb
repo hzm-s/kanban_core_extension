@@ -27,7 +27,8 @@ module Activity
     def insert_phase_spec_after(phase, transition, wip_limit, base_phase)
       check_phase_exist!(base_phase)
 
-      next_phase_spec_of_base_phase = @phase_specs[@phase_specs.index {|ps| ps.phase == base_phase } + 1]
+      base_phase_index = @phase_specs.index {|ps| ps.phase == base_phase }
+      next_phase_spec_of_base_phase = @phase_specs[base_phase_index + 1]
       return add_phase_spec(phase, transition, wip_limit) unless next_phase_spec_of_base_phase
 
       insert_phase_spec_before(

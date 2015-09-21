@@ -69,14 +69,4 @@ describe 'remove phase spec' do
       end
     end
   end
-
-  context 'phase NOT exist' do
-    let(:workflow) { Workflow([{ phase: 'Dev' }, { phase: 'QA' }]) }
-
-    it do
-      expect {
-        service.remove_phase_spec(project_id, Phase('None'))
-      }.to raise_error(Activity::PhaseNotFound)
-    end
-  end
 end
