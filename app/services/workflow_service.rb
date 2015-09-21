@@ -9,7 +9,7 @@ class WorkflowService
     project = @project_repository.find(project_id)
     board = @board_repository.find(project_id)
 
-    workflow_factory = Activity::WorkflowFactory.new(project.workflow)
+    workflow_factory = Activity::WorkflowBuilder.new(project.workflow)
     phase_spec_factory = Activity::PhaseSpecBuilder.new(project.workflow.spec(phase))
 
     phase_spec_factory.change_wip_limit(new_wip_limit, board)
@@ -22,7 +22,7 @@ class WorkflowService
   def disable_wip_limit(project_id, phase)
     project = @project_repository.find(project_id)
 
-    workflow_factory = Activity::WorkflowFactory.new(project.workflow)
+    workflow_factory = Activity::WorkflowBuilder.new(project.workflow)
     phase_spec_factory = Activity::PhaseSpecBuilder.new(project.workflow.spec(phase))
 
     phase_spec_factory.disable_wip_limit
@@ -35,7 +35,7 @@ class WorkflowService
   def add_phase_spec(project_id, attributes, option = nil)
     project = @project_repository.find(project_id)
 
-    factory = Activity::WorkflowFactory.new(project.workflow)
+    factory = Activity::WorkflowBuilder.new(project.workflow)
     phase_spec = Activity::PhaseSpec.new(
       *attributes.values_at(:phase, :transition, :wip_limit)
     )
@@ -57,7 +57,7 @@ class WorkflowService
   def set_transition(project_id, phase, states)
     project = @project_repository.find(project_id)
 
-    workflow_factory = Activity::WorkflowFactory.new(project.workflow)
+    workflow_factory = Activity::WorkflowBuilder.new(project.workflow)
     phase_spec_factory = Activity::PhaseSpecBuilder.new(project.workflow.spec(phase))
 
     phase_spec_factory.set_transition(states)
@@ -70,7 +70,7 @@ class WorkflowService
   def add_state(project_id, phase, state, option)
     project = @project_repository.find(project_id)
 
-    workflow_factory = Activity::WorkflowFactory.new(project.workflow)
+    workflow_factory = Activity::WorkflowBuilder.new(project.workflow)
     phase_spec_factory = Activity::PhaseSpecBuilder.new(project.workflow.spec(phase))
 
     add_with_position(option) do |position, base|
@@ -91,7 +91,7 @@ class WorkflowService
     project = @project_repository.find(project_id)
     board = @board_repository.find(project_id)
 
-    factory = Activity::WorkflowFactory.new(project.workflow)
+    factory = Activity::WorkflowBuilder.new(project.workflow)
     factory.remove_phase_spec(phase, board)
     project.specify_workflow(factory.build_workflow)
 
@@ -102,7 +102,7 @@ class WorkflowService
     project = @project_repository.find(project_id)
     board = @board_repository.find(project_id)
 
-    workflow_factory = Activity::WorkflowFactory.new(project.workflow)
+    workflow_factory = Activity::WorkflowBuilder.new(project.workflow)
     phase_spec_factory = Activity::PhaseSpecBuilder.new(project.workflow.spec(phase))
 
     phase_spec_factory.remove_state(state, board)

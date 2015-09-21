@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 module Activity
-  describe WorkflowFactory do
+  describe WorkflowBuilder do
     describe '#remove_phase_spec' do
       let(:factory) { described_class.new(current) }
       let(:new_workflow) { factory.build_workflow }

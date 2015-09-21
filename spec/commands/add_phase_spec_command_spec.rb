@@ -1,5 +1,5 @@
 require 'rails_helper'
-require 'activity/workflow_factory'
+require 'activity/workflow_builder'
 
 describe AddPhaseSpecCommand do
   describe '#execute' do
