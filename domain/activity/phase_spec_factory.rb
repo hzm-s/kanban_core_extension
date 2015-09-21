@@ -1,5 +1,6 @@
 module Activity
   class StateNotFound < StandardError; end
+  class TransitionAlreadySetted < StandardError; end
 
   class PhaseSpecFactory
 
@@ -29,6 +30,11 @@ module Activity
       check_state_exist!(state)
       raise CardOnState if board.any_card_on_step?(Step.new(@phase, state))
       @states.reject! {|s| s == state }
+    end
+
+    def set_transition(states)
+      raise TransitionAlreadySetted if @states.any?
+      @states = states
     end
 
     def build_phase_spec

@@ -48,12 +48,15 @@ class WorkflowService
     @project_repository.store(project)
   end
 
-  def set_transition(project_id, phase, transition)
+  def set_transition(project_id, phase, states)
     project = @project_repository.find(project_id)
 
-    builder = Activity::WorkflowBuilder.new(project.workflow)
-    builder.set_transition(phase, transition)
-    project.specify_workflow(builder.workflow)
+    workflow_factory = Activity::WorkflowFactory.new(project.workflow)
+    phase_spec_factory = Activity::PhaseSpecFactory.new(project.workflow.spec(phase))
+
+    phase_spec_factory.set_transition(states)
+    workflow_factory.replace_phase_spec(phase_spec_factory.build_phase_spec, phase)
+    project.specify_workflow(workflow_factory.build_workflow)
 
     @project_repository.store(project)
   end

@@ -26,7 +26,9 @@ describe 'set transition' do
     context 'set Doing|Done' do
       it do
         service.set_transition(
-          project_id, Phase('Dev'), Transition(['Doing', 'Done'])
+          project_id,
+          Phase('Dev'),
+          [State('Doing'), State('Done')]
         )
         expect(new_workflow).to eq(
           Workflow([
@@ -35,30 +37,6 @@ describe 'set transition' do
           ])
         )
       end
-    end
-
-    context 'set Doing|Done|Doing' do
-      it do
-        expect {
-          service.set_transition(
-            project_id, Phase('Dev'), Transition(['Doing', 'Done', 'Doing'])
-          )
-        }.to raise_error(Activity::DuplicateState)
-      end
-    end
-  end
-
-  context 'transition already setted' do
-    let(:workflow) do
-      Workflow([{ phase: 'Dev', transition: ['Doing', 'Review', 'Done'], wip_limit: 2 }])
-    end
-
-    it do
-      expect {
-        service.set_transition(
-          project_id, Phase('Dev'), Transition(['Doing', 'Done'])
-        )
-      }.to raise_error(Activity::TransitionAlreadySetted)
     end
   end
 end

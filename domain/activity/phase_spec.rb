@@ -1,7 +1,6 @@
 module Activity
   class WipLimitReached < StandardError; end
   class UnderCurrentWip < StandardError; end
-  class TransitionAlreadySetted < StandardError; end
   class CardOnState < StandardError; end
 
   class PhaseSpec
