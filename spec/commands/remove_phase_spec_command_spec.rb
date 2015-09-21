@@ -23,10 +23,10 @@ describe RemovePhaseSpecCommand do
       end
     end
 
-    context 'service raises Activity::NoMorePhaseSpec' do
+    context 'service raises Activity::NeedPhaseSpec' do
       it do
         cmd = described_class.new(project_id_str: project_id.to_s, phase_name: 'Todo')
-        allow(service).to receive(:remove_phase_spec).and_raise(Activity::NoMorePhaseSpec)
+        allow(service).to receive(:remove_phase_spec).and_raise(Activity::NeedPhaseSpec)
         expect(cmd.execute(service)).to be_falsey
       end
     end

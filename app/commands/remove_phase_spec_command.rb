@@ -10,7 +10,7 @@ class RemovePhaseSpecCommand
   def execute(service)
     return false unless valid?
     service.remove_phase_spec(project_id, phase)
-  rescue Activity::NoMorePhaseSpec
+  rescue Activity::NeedPhaseSpec
     errors.add(:base, 'フェーズが1つしかないため削除できません。')
     false
   rescue Activity::CardOnPhase

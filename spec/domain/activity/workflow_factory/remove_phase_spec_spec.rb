@@ -68,7 +68,7 @@ module Activity
 
         it do
           factory.remove_phase_spec(Phase('Dev'), board)
-          expect { new_workflow }.to raise_error(Activity::NoMorePhaseSpec)
+          expect { new_workflow }.to raise_error(Activity::NeedPhaseSpec)
         end
       end
     end

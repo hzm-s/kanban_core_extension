@@ -1,6 +1,6 @@
 module Activity
   class DuplicatePhase < StandardError; end
-  class NoMorePhaseSpec < StandardError; end
+  class NeedPhaseSpec < StandardError; end
 
   class Workflow
 
@@ -25,7 +25,7 @@ module Activity
 
     def remove(phase, board)
       try_retrieve(phase)
-      raise NoMorePhaseSpec if @phase_specs.size == 1
+      raise NeedPhaseSpec if @phase_specs.size == 1
       # TODO: board.can_remove_phase?(phase)
       raise CardOnPhase if board.count_card(phase) >= 1
 
@@ -87,7 +87,7 @@ module Activity
 
       def set_phase_specs(phase_specs)
         raise DuplicatePhase if duplicate?(phase_specs.map(&:phase))
-        raise NoMorePhaseSpec if phase_specs.empty?
+        raise NeedPhaseSpec if phase_specs.empty?
         @phase_specs = phase_specs
       end
 
