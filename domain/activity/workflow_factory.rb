@@ -9,8 +9,8 @@ module Activity
       @phase_specs = current_phase_specs(current)
     end
 
-    def add_phase_spec(phase, transition, wip_limit)
-      @phase_specs << new_phase_spec(phase, transition, wip_limit)
+    def add_phase_spec(phase_spec)
+      @phase_specs << phase_spec
     end
 
     def insert_phase_spec_before(phase, transition, wip_limit, base_phase)
@@ -29,7 +29,7 @@ module Activity
 
       base_phase_index = @phase_specs.index {|ps| ps.phase == base_phase }
       next_phase_spec_of_base_phase = @phase_specs[base_phase_index + 1]
-      return add_phase_spec(phase, transition, wip_limit) unless next_phase_spec_of_base_phase
+      return add_phase_spec(new_phase_spec(phase, transition, wip_limit)) unless next_phase_spec_of_base_phase
 
       insert_phase_spec_before(
         phase, transition, wip_limit,

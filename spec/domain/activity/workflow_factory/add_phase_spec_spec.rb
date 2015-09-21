@@ -11,9 +11,7 @@ module Activity
         context 'given phase = Next, transition = none, wip_limit = none' do
           it do
             factory.add_phase_spec(
-              Phase('Next'),
-              Transition(),
-              WipLimit() 
+              PhaseSpec(phase: 'Next', transition: nil, wip_limit: nil)
             )
             expect(new_workflow).to eq(
               Workflow([{ phase: 'Next' }])
@@ -24,9 +22,11 @@ module Activity
         context 'given phase = Dev, transition = Doing|Done, wip_limit = 3' do
           it do
             factory.add_phase_spec(
-              Phase('Dev'),
-              Transition(['Doing', 'Done']),
-              WipLimit(3)
+              PhaseSpec(
+                phase: 'Dev',
+                transition: ['Doing', 'Done'],
+                wip_limit: 3
+              )
             )
             expect(new_workflow).to eq(
               Workflow([
@@ -39,9 +39,7 @@ module Activity
         context 'given phase = Deploy, transition = none, wip_limit = 5' do
           it do
             factory.add_phase_spec(
-              Phase('Deploy'),
-              Transition(),
-              WipLimit(5)
+              PhaseSpec(phase: 'Deploy', transition: nil, wip_limit: 5)
             )
             expect(new_workflow).to eq(
               Workflow([{ phase: 'Deploy', wip_limit: 5 }])
@@ -60,9 +58,7 @@ module Activity
         context 'add new phase spec' do
           it do
             factory.add_phase_spec(
-              Phase('New'),
-              Transition(),
-              WipLimit()
+              PhaseSpec(phase: 'New', transition: nil, wip_limit: nil)
             )
             expect(new_workflow).to eq(
               Workflow([
@@ -78,9 +74,7 @@ module Activity
         context 'add Body' do
           it do
             factory.add_phase_spec(
-              Phase('Body'),
-              Transition(),
-              WipLimit()
+              PhaseSpec(phase: 'Body', transition: nil, wip_limit: nil)
             )
             expect { new_workflow }.to raise_error(Activity::DuplicatePhase)
           end

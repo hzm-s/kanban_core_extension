@@ -39,7 +39,12 @@ class WorkflowService
     when :after
       factory.insert_phase_spec_after(*phase_spec_attributes, base_phase)
     else
-      factory.add_phase_spec(*phase_spec_attributes)
+      phase_spec = Activity::PhaseSpec.new(
+        attributes[:phase],
+        attributes[:transition],
+        attributes[:wip_limit]
+      )
+      factory.add_phase_spec(phase_spec)
     end
 
     project.specify_workflow(factory.build_workflow)
