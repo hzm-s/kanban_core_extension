@@ -19,9 +19,11 @@ describe AddPhaseSpecCommand do
           .to receive(:add_phase_spec)
           .with(
             ProjectId('prj_789'),
-            Phase('New Phase'),
-            Transition(),
-            WipLimit(2),
+            {
+              phase: Phase('New Phase'),
+              transition: Transition(),
+              wip_limit: WipLimit(2),
+            },
             { before: Phase('Todo') }
           )
         cmd.execute(service)
@@ -42,9 +44,11 @@ describe AddPhaseSpecCommand do
           .to receive(:add_phase_spec)
           .with(
             ProjectId('prj_789'),
-            Phase('New Phase'),
-            Transition(['Doing', 'Done']),
-            WipLimit(2),
+            {
+              phase: Phase('New Phase'),
+              transition: Transition(['Doing', 'Done']),
+              wip_limit: WipLimit(2),
+            },
             { after: Phase('Todo') }
           )
         cmd.execute(service)

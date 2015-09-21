@@ -25,6 +25,10 @@ class AddPhaseSpecCommand
     Activity::Transition.from_array(state_names)
   end
 
+  def phase_spec_attributes
+    { phase: phase, transition: transition, wip_limit: wip_limit }
+  end
+
   def position_option
     return nil if position.nil? || base_phase_name.nil?
     option_for_phase(base_phase_name)
@@ -34,9 +38,7 @@ class AddPhaseSpecCommand
     return false unless valid?
     service.add_phase_spec(
       project_id,
-      phase,
-      transition,
-      wip_limit,
+      phase_spec_attributes,
       position_option
     )
   rescue Activity::DuplicatePhase
