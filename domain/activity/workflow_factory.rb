@@ -4,11 +4,7 @@ module Activity
   class WorkflowFactory
 
     def initialize(current_workflow = nil)
-      @phase_specs = if current_workflow.nil?
-                       []
-                     else
-                       current_workflow.to_a
-                     end
+      @phase_specs = current_phase_specs(current_workflow)
     end
 
     def add_phase_spec(phase, transition, wip_limit)
@@ -40,6 +36,11 @@ module Activity
     end
 
     private
+
+      def current_phase_specs(current_workflow)
+        return [] unless current_workflow
+        current_workflow.to_a
+      end
 
       def new_phase_spec(phase, transition, wip_limit)
         PhaseSpec.new(phase, transition, wip_limit)
