@@ -3,8 +3,9 @@ module Activity
 
   class WorkflowFactory
 
-    def initialize(current_workflow = nil)
-      @phase_specs = current_phase_specs(current_workflow)
+    def initialize(current = nil)
+      @current = current || Workflow.new([])
+      @phase_specs = current_phase_specs(current)
     end
 
     def add_phase_spec(phase, transition, wip_limit)
@@ -13,22 +14,22 @@ module Activity
 
     def insert_phase_spec_before(phase, transition, wip_limit, base_phase)
       check_base_phase_exist!(base_phase)
-
       @phase_specs = @phase_specs.flat_map do |ps|
-        ps.phase == base_phase ?
-          [new_phase_spec(phase, transition, wip_limit), ps] :
-            ps
+        if ps.phase == base_phase
+          [new_phase_spec(phase, transition, wip_limit), ps]
+        else
+          ps
+        end
       end
     end
 
     def insert_phase_spec_after(phase, transition, wip_limit, base_phase)
-      check_base_phase_exist!(base_phase)
-
-      @phase_specs = @phase_specs.flat_map do |ps|
-        ps.phase == base_phase ?
-          [ps, new_phase_spec(phase, transition, wip_limit)] :
-            ps
-      end
+      next_phase_spec_of_base_phase = @current.next_of(@current.spec(base_phase))
+      return add_phase_spec(phase, transition, wip_limit) if next_phase_spec_of_base_phase.last?
+      insert_phase_spec_before(
+        phase, transition, wip_limit,
+        next_phase_spec_of_base_phase.phase
+      )
     end
 
     def build_workflow
@@ -37,9 +38,9 @@ module Activity
 
     private
 
-      def current_phase_specs(current_workflow)
-        return [] unless current_workflow
-        current_workflow.to_a
+      def current_phase_specs(current)
+        return [] unless current
+        current.to_a
       end
 
       def new_phase_spec(phase, transition, wip_limit)
