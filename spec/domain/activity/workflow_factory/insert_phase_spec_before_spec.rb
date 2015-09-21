@@ -2,13 +2,14 @@ require 'rails_helper'
 
 module Activity
   describe WorkflowFactory do
-    describe '#insert_before' do
+    describe '#insert_phase_spec_before' do
       context 'NO current workflow' do
+        let(:factory) { described_class.new }
+
         context 'insert before NOT exists phase' do
           it do
-            factory = described_class.new
             expect {
-              factory.insert_before(
+              factory.insert_phase_spec_before(
                 Phase('Next'),
                 Transition(),
                 WipLimit(),
@@ -20,14 +21,15 @@ module Activity
       end
 
       context 'current workflow = Head | Body | Tail' do
+        let(:factory) { described_class.new(current) }
+
         let(:current) do
           Workflow([{ phase: 'Head' }, { phase: 'Body' }, { phase: 'Tail' }])
         end
 
         context 'insert before Head' do
           it do
-            factory = described_class.new(current)
-            factory.insert_before(
+            factory.insert_phase_spec_before(
               Phase('New'),
               Transition(),
               WipLimit(),
@@ -43,8 +45,7 @@ module Activity
 
         context 'insert before Body' do
           it do
-            factory = described_class.new(current)
-            factory.insert_before(
+            factory.insert_phase_spec_before(
               Phase('New'),
               Transition(),
               WipLimit(),
@@ -60,8 +61,7 @@ module Activity
 
         context 'insert before Tail' do
           it do
-            factory = described_class.new(current)
-            factory.insert_before(
+            factory.insert_phase_spec_before(
               Phase('New'),
               Transition(),
               WipLimit(),
@@ -77,9 +77,8 @@ module Activity
 
         context 'insert Body' do
           it do
-            factory = described_class.new(current)
             expect {
-              factory.insert_before(
+              factory.insert_phase_spec_before(
                 Phase('Body'),
                 Transition(),
                 WipLimit(),

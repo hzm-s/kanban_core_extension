@@ -2,13 +2,14 @@ require 'rails_helper'
 
 module Activity
   describe WorkflowFactory do
-    describe '#insert_after' do
+    describe '#insert_phase_spec_after' do
       context 'NO current workflow' do
+        let(:factory) { described_class.new }
+
         context 'insert after NOT exists phase' do
           it do
-            factory = described_class.new
             expect {
-              factory.insert_after(
+              factory.insert_phase_spec_after(
                 Phase('Next'),
                 Transition(),
                 WipLimit(),
@@ -20,14 +21,15 @@ module Activity
       end
 
       context 'current workflow = Head | Body | Tail' do
+        let(:factory) { described_class.new(current) }
+
         let(:current) do
           Workflow([{ phase: 'Head' }, { phase: 'Body' }, { phase: 'Tail' }])
         end
 
         context 'insert after Head' do
           it do
-            factory = described_class.new(current)
-            factory.insert_after(
+            factory.insert_phase_spec_after(
               Phase('New'),
               Transition(),
               WipLimit(),
@@ -43,8 +45,7 @@ module Activity
 
         context 'insert after Body' do
           it do
-            factory = described_class.new(current)
-            factory.insert_after(
+            factory.insert_phase_spec_after(
               Phase('New'),
               Transition(),
               WipLimit(),
@@ -60,8 +61,7 @@ module Activity
 
         context 'insert after Tail' do
           it do
-            factory = described_class.new(current)
-            factory.insert_after(
+            factory.insert_phase_spec_after(
               Phase('New'),
               Transition(),
               WipLimit(),
@@ -77,9 +77,8 @@ module Activity
 
         context 'insert Body' do
           it do
-            factory = described_class.new(current)
             expect {
-              factory.insert_after(
+              factory.insert_phase_spec_after(
                 Phase('Body'),
                 Transition(),
                 WipLimit(),

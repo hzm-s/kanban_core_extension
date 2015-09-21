@@ -17,7 +17,7 @@ module Activity
       @phase_specs << PhaseSpec.new(phase, transition, wip_limit)
     end
 
-    def insert_before(phase, transition, wip_limit, base_phase)
+    def insert_phase_spec_before(phase, transition, wip_limit, base_phase)
       raise Activity::DuplicatePhase if @phase_specs.detect {|ps| ps.phase == phase }
       raise Activity::PhaseNotFound unless @phase_specs.detect {|ps| ps.phase == base_phase }
 
@@ -27,7 +27,7 @@ module Activity
       end
     end
 
-    def insert_after(phase, transition, wip_limit, base_phase)
+    def insert_phase_spec_after(phase, transition, wip_limit, base_phase)
       raise Activity::DuplicatePhase if @phase_specs.detect {|ps| ps.phase == phase }
       raise Activity::PhaseNotFound unless @phase_specs.detect {|ps| ps.phase == base_phase }
 

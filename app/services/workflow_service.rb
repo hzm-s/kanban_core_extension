@@ -35,9 +35,9 @@ class WorkflowService
     position, base_phase = Hash(option).flatten
     case position
     when :before
-      factory.insert_before(*phase_spec_attributes, base_phase)
+      factory.insert_phase_spec_before(*phase_spec_attributes, base_phase)
     when :after
-      factory.insert_after(*phase_spec_attributes, base_phase)
+      factory.insert_phase_spec_after(*phase_spec_attributes, base_phase)
     else
       factory.add_phase_spec(*phase_spec_attributes)
     end
