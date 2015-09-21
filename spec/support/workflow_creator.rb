@@ -17,7 +17,7 @@ module WorkflowCreator
     Activity::Phase.new(name_or_phase)
   end
 
-  def Transition(params)
+  def Transition(params = nil)
     return Activity::NoTransition.new unless params
     Activity::Transition.new(params.map {|p| Activity::State.new(p) })
   end

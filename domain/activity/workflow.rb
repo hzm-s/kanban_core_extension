@@ -1,6 +1,4 @@
 module Activity
-  class PhaseNotFound < StandardError; end
-  class DuplicatePhase < StandardError; end
   class NoMorePhaseSpec < StandardError; end
   class CardOnPhase < StandardError; end
 

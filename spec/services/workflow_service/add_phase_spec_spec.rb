@@ -18,143 +18,99 @@ describe 'add phase spec' do
   context 'no current workflow' do
     context 'add' do
       it do
-        service.add_phase_spec(project_id, PhaseSpec(phase: 'New'))
-        expect(new_workflow).to eq(Workflow([{ phase: 'New' }]))
-      end
-    end
-
-    context 'insert before Head' do
-      it do
-        expect {
-          service.add_phase_spec(project_id, PhaseSpec(phase: 'New'), before: Phase('Head'))
-        }.to raise_error(Activity::PhaseNotFound)
-      end
-    end
-
-    context 'insert after Head' do
-      it do
-        expect {
-          service.add_phase_spec(project_id, PhaseSpec(phase: 'New'), after: Phase('Head'))
-        }.to raise_error(Activity::PhaseNotFound)
+        service.add_phase_spec(
+          project_id,
+          {
+            phase: Phase('Dev'),
+            transition: Transition(['Doing', 'Done']),
+            wip_limit: WipLimit(3)
+          }
+        )
+        expect(new_workflow).to eq(
+          Workflow([
+            { phase: 'Dev', transition: ['Doing', 'Done'], wip_limit: 3 }
+          ])
+        )
       end
     end
   end
 
   context 'current workflow = Head | Body | Tail' do
     before do
-      service.add_phase_spec(project_id, PhaseSpec(phase: 'Head'))
-      service.add_phase_spec(project_id, PhaseSpec(phase: 'Body'))
-      service.add_phase_spec(project_id, PhaseSpec(phase: 'Tail'))
+      project_repository.find(project_id).tap do |project|
+        project.specify_workflow(
+          Workflow([
+            { phase: 'Head' },
+            { phase: 'Body' },
+            { phase: 'Tail' }
+          ])
+        )
+        project_repository.store(project)
+      end
     end
 
     context 'add' do
       it do
-        service.add_phase_spec(project_id, PhaseSpec(phase: 'New'))
-        expect(new_workflow).to eq(Workflow([
-          { phase: 'Head' }, { phase: 'Body' }, { phase: 'Tail' }, { phase: 'New' }
-        ]))
+        service.add_phase_spec(
+          project_id,
+          {
+            phase: Phase('New'),
+            transition: Transition(['Doing', 'Done']),
+            wip_limit: WipLimit(3)
+          }
+        )
+        expect(new_workflow).to eq(
+          Workflow([
+            { phase: 'Head' },
+            { phase: 'Body' },
+            { phase: 'Tail' },
+            { phase: 'New', transition: ['Doing', 'Done'], wip_limit: 3 }
+          ])
+        )
       end
     end
 
-    context 'insert before Head' do
+    context 'insert before' do
       it do
-        service.add_phase_spec(project_id, PhaseSpec(phase: 'New'), before: Phase('Head'))
-        expect(new_workflow).to eq(Workflow([
-          { phase: 'New' }, { phase: 'Head' }, { phase: 'Body' }, { phase: 'Tail' }
-        ]))
+        service.add_phase_spec(
+          project_id,
+          {
+            phase: Phase('New'),
+            transition: Transition(['Doing', 'Done']),
+            wip_limit: WipLimit(3)
+          },
+          { before: Phase('Body') }
+        )
+        expect(new_workflow).to eq(
+          Workflow([
+            { phase: 'Head' },
+            { phase: 'New', transition: ['Doing', 'Done'], wip_limit: 3 },
+            { phase: 'Body' },
+            { phase: 'Tail' }
+          ])
+        )
       end
     end
 
-    context 'insert after Head' do
+    context 'insert after' do
       it do
-        service.add_phase_spec(project_id, PhaseSpec(phase: 'New'), after: Phase('Head'))
-        expect(new_workflow).to eq(Workflow([
-          { phase: 'Head' }, { phase: 'New' }, { phase: 'Body' }, { phase: 'Tail' }
-        ]))
-      end
-    end
-
-    context 'insert before Body' do
-      it do
-        service.add_phase_spec(project_id, PhaseSpec(phase: 'New'), before: Phase('Body'))
-        expect(new_workflow).to eq(Workflow([
-          { phase: 'Head' }, { phase: 'New' }, { phase: 'Body' }, { phase: 'Tail' }
-        ]))
-      end
-    end
-
-    context 'insert after Body' do
-      it do
-        service.add_phase_spec(project_id, PhaseSpec(phase: 'New'), after: Phase('Body'))
-        expect(new_workflow).to eq(Workflow([
-          { phase: 'Head' }, { phase: 'Body' }, { phase: 'New' }, { phase: 'Tail' }
-        ]))
-      end
-    end
-
-    context 'insert before Tail' do
-      it do
-        service.add_phase_spec(project_id, PhaseSpec(phase: 'New'), before: Phase('Tail'))
-        expect(new_workflow).to eq(Workflow([
-          { phase: 'Head' }, { phase: 'Body' }, { phase: 'New' }, { phase: 'Tail' }
-        ]))
-      end
-    end
-
-    context 'insert after Tail' do
-      it do
-        service.add_phase_spec(project_id, PhaseSpec(phase: 'New'), after: Phase('Tail'))
-        expect(new_workflow).to eq(Workflow([
-          { phase: 'Head' }, { phase: 'Body' }, { phase: 'Tail' }, { phase: 'New' }
-        ]))
-      end
-    end
-
-    context 'insert before NOT exist' do
-      it do
-        expect {
-          service.add_phase_spec(
-            project_id, PhaseSpec(phase: 'New'), before: Phase('NONE')
-          )
-        }.to raise_error(Activity::PhaseNotFound)
-      end
-    end
-
-    context 'insert after NOT exist' do
-      it do
-        expect {
-          service.add_phase_spec(
-            project_id, PhaseSpec(phase: 'New'), after: Phase('NONE')
-          )
-        }.to raise_error(Activity::PhaseNotFound)
-      end
-    end
-
-    context 'add Body' do
-      it do
-        expect {
-          service.add_phase_spec(project_id, PhaseSpec(phase: 'Body'))
-        }.to raise_error(Activity::DuplicatePhase)
-      end
-    end
-
-    context 'insert Body before Head' do
-      it do
-        expect {
-          service.add_phase_spec(
-            project_id, PhaseSpec(phase: 'Body'), before: Phase('Head')
-          )
-        }.to raise_error(Activity::DuplicatePhase)
-      end
-    end
-
-    context 'insert Body after Tail' do
-      it do
-        expect {
-          service.add_phase_spec(
-            project_id, PhaseSpec(phase: 'Body', wip_limit: 1), after: Phase('Tail')
-          )
-        }.to raise_error(Activity::DuplicatePhase)
+        service.add_phase_spec(
+          project_id,
+          {
+            phase: Phase('New'),
+            transition: Transition(['Doing', 'Done']),
+            wip_limit: WipLimit(3)
+          },
+          { after: Phase('Body') }
+        )
+        expect(new_workflow).to eq(
+          Workflow([
+            { phase: 'Head' },
+            { phase: 'Body' },
+            { phase: 'New', transition: ['Doing', 'Done'], wip_limit: 3 },
+            { phase: 'Tail' }
+          ])
+        )
       end
     end
   end

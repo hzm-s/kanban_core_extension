@@ -26,22 +26,23 @@ class WorkflowService
     @project_repository.store(project)
   end
 
-  def add_phase_spec(project_id, phase_spec, option = nil)
+  def add_phase_spec(project_id, attributes, option = nil)
     project = @project_repository.find(project_id)
 
-    builder = Activity::WorkflowBuilder.new(project.workflow)
-    add_with_position(option) do |position, base_phase|
-      case position
-      when :before
-        builder.insert_phase_spec_before(phase_spec, base_phase)
-      when :after
-        builder.insert_phase_spec_after(phase_spec, base_phase)
-      else
-        builder.add_phase_spec(phase_spec)
-      end
+    factory = Activity::WorkflowFactory.new(project.workflow)
+    phase_spec_attributes = attributes.values_at(:phase, :transition, :wip_limit)
+
+    position, base_phase = Hash(option).flatten
+    case position
+    when :before
+      factory.insert_before(*phase_spec_attributes, base_phase)
+    when :after
+      factory.insert_after(*phase_spec_attributes, base_phase)
+    else
+      factory.add_phase_spec(*phase_spec_attributes)
     end
 
-    project.specify_workflow(builder.workflow)
+    project.specify_workflow(factory.build_workflow)
     @project_repository.store(project)
   end
 
