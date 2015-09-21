@@ -72,6 +72,16 @@ module Activity
           }.to raise_error(Activity::NeedPhaseSpec)
         end
       end
+
+      context 'phase NOT exist' do
+        let(:current) { Workflow([{ phase: 'Dev' }, { phase: 'QA' }]) }
+
+        it do
+          expect {
+            factory.remove_phase_spec(Phase('None'), board)
+          }.to raise_error(Activity::PhaseNotFound)
+        end
+      end
     end
   end
 end

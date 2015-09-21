@@ -77,9 +77,9 @@ class WorkflowService
     project = @project_repository.find(project_id)
     board = @board_repository.find(project_id)
 
-    old = project.workflow
-    new = old.remove(phase, board)
-    project.specify_workflow(new)
+    factory = Activity::WorkflowFactory.new(project.workflow)
+    factory.remove_phase_spec(phase, board)
+    project.specify_workflow(factory.build_workflow)
 
     @project_repository.store(project)
   end

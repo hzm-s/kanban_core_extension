@@ -22,17 +22,6 @@ module Activity
       replace_with(old, old.disable_wip_limit)
     end
 
-    def remove(phase, board)
-      try_retrieve(phase)
-      raise NeedPhaseSpec if @phase_specs.size == 1
-      # TODO: board.can_remove_phase?(phase)
-      raise CardOnPhase if board.count_card(phase) >= 1
-
-      renew do |current|
-        current.reject {|ps| ps.phase == phase }
-      end
-    end
-
     def remove_state(phase, state, board)
       old = spec(phase)
       new = old.remove_state(state, board)
