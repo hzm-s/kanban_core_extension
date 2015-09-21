@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+#TODO: add phase spec interface changed
 describe AddPhaseSpecCommand do
   describe '#execute' do
     let(:service) { double(:workflow_service) }
