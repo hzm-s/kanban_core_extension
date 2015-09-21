@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'disable wip limit' do
   let(:service) do
-    WorkflowService.new(project_repository, board_repository)
+    WipLimitService.new(project_repository, board_repository)
   end
   let(:project_repository) { ProjectRepository.new }
   let(:board_repository) { BoardRepository.new }
@@ -23,7 +23,7 @@ describe 'disable wip limit' do
     let(:workflow) { Workflow([{ phase: 'Dev', wip_limit: 3 }]) }
 
     it do
-      service.disable_wip_limit(project_id, Phase('Dev'))
+      service.disable(project_id, Phase('Dev'))
       expect(new_workflow).to eq(Workflow([{ phase: 'Dev' }]))
     end
   end
@@ -38,7 +38,7 @@ describe 'disable wip limit' do
       board_service.add_card(project_id, FeatureId('feat_2'))
       board_service.forward_card(project_id, FeatureId('feat_2'), Step('Dev', 'Doing'))
 
-      service.disable_wip_limit(project_id, Phase('Dev'))
+      service.disable(project_id, Phase('Dev'))
       expect(new_workflow).to eq(Workflow([{ phase: 'Dev', transition: ['Doing', 'Done'] }]))
     end
   end
