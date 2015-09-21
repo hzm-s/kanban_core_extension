@@ -1,7 +1,5 @@
 module Activity
   class WipLimitReached < StandardError; end
-  class UnderCurrentWip < StandardError; end
-  class CardOnState < StandardError; end
 
   class PhaseSpec
     attr_reader :phase, :transition, :wip_limit
@@ -10,15 +8,6 @@ module Activity
       @phase = phase
       @transition = transition
       @wip_limit = wip_limit
-    end
-
-    def change_wip_limit(new_wip_limit, board)
-      raise UnderCurrentWip if new_wip_limit.under?(board.count_card(@phase))
-      self.class.new(@phase, @transition, new_wip_limit)
-    end
-
-    def disable_wip_limit
-      self.class.new(@phase, @transition, NoWipLimit.new)
     end
 
     def reach_wip_limit?(wip)

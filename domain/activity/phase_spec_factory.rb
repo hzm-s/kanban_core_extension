@@ -1,6 +1,8 @@
 module Activity
   class StateNotFound < StandardError; end
   class TransitionAlreadySetted < StandardError; end
+  class UnderCurrentWip < StandardError; end
+  class CardOnState < StandardError; end
 
   class PhaseSpecFactory
 

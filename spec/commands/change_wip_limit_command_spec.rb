@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'activity/phase_spec_factory'
 
 describe ChangeWipLimitCommand do
   let(:project_id) { ProjectId('prj_789') }

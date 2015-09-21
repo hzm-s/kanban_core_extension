@@ -7,17 +7,6 @@ module Activity
       set_phase_specs(phase_specs)
     end
 
-    def disable_wip_limit(phase)
-      old = spec(phase)
-      replace_with(old, old.disable_wip_limit)
-    end
-
-    def replace_with(old, new)
-      renew do |current|
-        current.map {|ps| ps == old ? new : ps }
-      end
-    end
-
     def first
       @phase_specs.first
     end
@@ -63,11 +52,6 @@ module Activity
 
       def duplicate?(phases)
         phases.uniq.size != phases.size
-      end
-
-      def renew
-        new_phase_specs = yield(@phase_specs)
-        self.class.new(new_phase_specs)
       end
   end
 end
