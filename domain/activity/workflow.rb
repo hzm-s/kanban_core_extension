@@ -7,12 +7,6 @@ module Activity
       set_phase_specs(phase_specs)
     end
 
-    def change_wip_limit(phase, new_wip_limit, board)
-      old = spec(phase)
-      new = old.change_wip_limit(new_wip_limit, board)
-      replace_with(old, new)
-    end
-
     def disable_wip_limit(phase)
       old = spec(phase)
       replace_with(old, old.disable_wip_limit)
