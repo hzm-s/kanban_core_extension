@@ -1,6 +1,7 @@
 module Activity
   class PhaseNotFound < StandardError; end
   class CardOnPhase < StandardError; end
+  class NeedPhaseSpec < StandardError; end
 
   class WorkflowFactory
 
@@ -36,6 +37,7 @@ module Activity
     end
 
     def remove_phase_spec(phase, board)
+      raise NeedPhaseSpec if @phase_specs.size == 1
       raise CardOnPhase if board.any_card_on_phase?(phase)
       @phase_specs = @phase_specs.reject {|ps| ps.phase == phase }
     end

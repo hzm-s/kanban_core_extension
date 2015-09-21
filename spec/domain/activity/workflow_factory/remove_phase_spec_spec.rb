@@ -67,8 +67,9 @@ module Activity
         let(:current) { Workflow([{ phase: 'Dev' }]) }
 
         it do
-          factory.remove_phase_spec(Phase('Dev'), board)
-          expect { new_workflow }.to raise_error(Activity::NeedPhaseSpec)
+          expect {
+            factory.remove_phase_spec(Phase('Dev'), board)
+          }.to raise_error(Activity::NeedPhaseSpec)
         end
       end
     end
