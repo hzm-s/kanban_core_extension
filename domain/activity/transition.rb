@@ -1,5 +1,4 @@
 module Activity
-  class StateNotFound < StandardError; end
   class DuplicateState < StandardError; end
   class NeedMoreThanOneState < StandardError; end
 
