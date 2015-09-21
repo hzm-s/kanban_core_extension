@@ -1,7 +1,6 @@
 module Activity
   class DuplicatePhase < StandardError; end
   class NoMorePhaseSpec < StandardError; end
-  class CardOnPhase < StandardError; end
 
   class Workflow
 
@@ -88,6 +87,7 @@ module Activity
 
       def set_phase_specs(phase_specs)
         raise DuplicatePhase if duplicate?(phase_specs.map(&:phase))
+        raise NoMorePhaseSpec if phase_specs.empty?
         @phase_specs = phase_specs
       end
 

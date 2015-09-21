@@ -15,7 +15,7 @@ describe 'add phase spec' do
     project_repository.find(project_id).workflow
   end
 
-  context 'no current workflow' do
+  skip 'no current workflow' do
     context 'add' do
       it do
         service.add_phase_spec(
