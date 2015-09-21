@@ -10,6 +10,11 @@ module Activity
       @wip_limit = current.wip_limit
     end
 
+    def change_wip_limit(new_wip_limit, board)
+      raise UnderCurrentWip if new_wip_limit.under?(board.count_card(@phase))
+      @wip_limit = new_wip_limit
+    end
+
     def insert_state_before(state, base_state)
       check_state_exist!(base_state)
 
@@ -44,7 +49,7 @@ module Activity
     private
 
       def build_transition
-        return NoTransition if @states.empty?
+        return NoTransition.new if @states.empty?
         Transition.new(@states)
       end
 
