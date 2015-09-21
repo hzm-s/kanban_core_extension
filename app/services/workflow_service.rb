@@ -10,7 +10,7 @@ class WorkflowService
     board = @board_repository.find(project_id)
 
     workflow_factory = Activity::WorkflowFactory.new(project.workflow)
-    phase_spec_factory = Activity::PhaseSpecFactory.new(project.workflow.spec(phase))
+    phase_spec_factory = Activity::PhaseSpecBuilder.new(project.workflow.spec(phase))
 
     phase_spec_factory.change_wip_limit(new_wip_limit, board)
     workflow_factory.replace_phase_spec(phase_spec_factory.build_phase_spec, phase)
@@ -23,7 +23,7 @@ class WorkflowService
     project = @project_repository.find(project_id)
 
     workflow_factory = Activity::WorkflowFactory.new(project.workflow)
-    phase_spec_factory = Activity::PhaseSpecFactory.new(project.workflow.spec(phase))
+    phase_spec_factory = Activity::PhaseSpecBuilder.new(project.workflow.spec(phase))
 
     phase_spec_factory.disable_wip_limit
     workflow_factory.replace_phase_spec(phase_spec_factory.build_phase_spec, phase)
@@ -58,7 +58,7 @@ class WorkflowService
     project = @project_repository.find(project_id)
 
     workflow_factory = Activity::WorkflowFactory.new(project.workflow)
-    phase_spec_factory = Activity::PhaseSpecFactory.new(project.workflow.spec(phase))
+    phase_spec_factory = Activity::PhaseSpecBuilder.new(project.workflow.spec(phase))
 
     phase_spec_factory.set_transition(states)
     workflow_factory.replace_phase_spec(phase_spec_factory.build_phase_spec, phase)
@@ -71,7 +71,7 @@ class WorkflowService
     project = @project_repository.find(project_id)
 
     workflow_factory = Activity::WorkflowFactory.new(project.workflow)
-    phase_spec_factory = Activity::PhaseSpecFactory.new(project.workflow.spec(phase))
+    phase_spec_factory = Activity::PhaseSpecBuilder.new(project.workflow.spec(phase))
 
     add_with_position(option) do |position, base|
       case position
@@ -103,7 +103,7 @@ class WorkflowService
     board = @board_repository.find(project_id)
 
     workflow_factory = Activity::WorkflowFactory.new(project.workflow)
-    phase_spec_factory = Activity::PhaseSpecFactory.new(project.workflow.spec(phase))
+    phase_spec_factory = Activity::PhaseSpecBuilder.new(project.workflow.spec(phase))
 
     phase_spec_factory.remove_state(state, board)
     workflow_factory.replace_phase_spec(phase_spec_factory.build_phase_spec, phase)

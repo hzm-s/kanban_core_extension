@@ -4,7 +4,7 @@ module Activity
   class UnderCurrentWip < StandardError; end
   class CardOnState < StandardError; end
 
-  class PhaseSpecFactory
+  class PhaseSpecBuilder
 
     def initialize(current)
       @phase = current.phase

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 module Activity
-  describe PhaseSpecFactory do
+  describe PhaseSpecBuilder do
     describe '#remove_state' do
       let(:factory) { described_class.new(current) }
       let(:new_phase_spec) { factory.build_phase_spec }
