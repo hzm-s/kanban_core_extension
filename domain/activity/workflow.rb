@@ -42,7 +42,6 @@ module Activity
     def spec(phase)
       @phase_specs.detect {|ps| ps.phase == phase } || raise(PhaseNotFound)
     end
-    alias_method :try_retrieve, :spec
 
     def to_a
       @phase_specs
