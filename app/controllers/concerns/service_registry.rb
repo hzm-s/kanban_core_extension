@@ -12,6 +12,10 @@ module ServiceRegistry
     WorkflowService.new(ProjectRepository.new, BoardRepository.new)
   end
 
+  def wip_limit_service
+    WipLimitService.new(ProjectRepository.new, BoardRepository.new)
+  end
+
   def feature_service
     FeatureService.new(FeatureRepository.new)
   end

@@ -14,7 +14,7 @@ class ChangeWipLimitCommand
 
   def execute(service)
     return false unless valid?
-    service.change_wip_limit(project_id, phase, new_wip_limit)
+    service.change(project_id, phase, new_wip_limit)
 
   rescue Activity::UnderCurrentWip
     errors.add(:base, "新しいWIP制限の値は、作業中のカード枚数以上にしてください")
