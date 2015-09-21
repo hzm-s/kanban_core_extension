@@ -56,9 +56,4 @@ class PhaseSpecService
       workflow_builder.replace_phase_spec(phase_spec_builder.build_phase_spec, phase)
       workflow_builder.build_workflow
     end
-
-    def add_with_position(option)
-      position, base = Hash(option).flatten
-      yield(position, base)
-    end
 end

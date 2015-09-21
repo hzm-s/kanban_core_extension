@@ -9,26 +9,34 @@ class WipLimitService
     project = @project_repository.find(project_id)
     board = @board_repository.find(project_id)
 
-    workflow_factory = Activity::WorkflowBuilder.new(project.workflow)
-    phase_spec_factory = Activity::PhaseSpecBuilder.new(project.workflow.spec(phase))
+    new_workflow = replace_phase_spec(project.workflow, phase) do |current|
+                     current.change_wip_limit(new_wip_limit, board)
+                   end
 
-    phase_spec_factory.change_wip_limit(new_wip_limit, board)
-    workflow_factory.replace_phase_spec(phase_spec_factory.build_phase_spec, phase)
-    project.specify_workflow(workflow_factory.build_workflow)
-
+    project.specify_workflow(new_workflow)
     @project_repository.store(project)
   end
 
   def disable(project_id, phase)
     project = @project_repository.find(project_id)
 
-    workflow_factory = Activity::WorkflowBuilder.new(project.workflow)
-    phase_spec_factory = Activity::PhaseSpecBuilder.new(project.workflow.spec(phase))
+    new_workflow = replace_phase_spec(project.workflow, phase) do |current|
+                     current.disable_wip_limit
+                   end
 
-    phase_spec_factory.disable_wip_limit
-    workflow_factory.replace_phase_spec(phase_spec_factory.build_phase_spec, phase)
-    project.specify_workflow(workflow_factory.build_workflow)
-
+    project.specify_workflow(new_workflow)
     @project_repository.store(project)
   end
+
+  private
+
+    def replace_phase_spec(workflow, phase)
+      workflow_builder = Activity::WorkflowBuilder.new(workflow)
+      phase_spec_builder = Activity::PhaseSpecBuilder.new(workflow.spec(phase))
+
+      yield(phase_spec_builder)
+
+      workflow_builder.replace_phase_spec(phase_spec_builder.build_phase_spec, phase)
+      workflow_builder.build_workflow
+    end
 end
