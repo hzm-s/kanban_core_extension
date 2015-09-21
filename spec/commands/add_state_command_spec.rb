@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe AddStateCommand do
   let(:project_id) { ProjectId('prj_789') }
-  let(:service) { double(:workflow_service) }
+  let(:service) { double(:phase_spec_service) }
 
   describe '#execute' do
     context 'state_name = Review position = before base_state_name = Done' do

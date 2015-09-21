@@ -16,6 +16,10 @@ module ServiceRegistry
     WipLimitService.new(ProjectRepository.new, BoardRepository.new)
   end
 
+  def phase_spec_service
+    PhaseSpecService.new(ProjectRepository.new, BoardRepository.new)
+  end
+
   def feature_service
     FeatureService.new(FeatureRepository.new)
   end
