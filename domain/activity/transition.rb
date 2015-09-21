@@ -16,13 +16,6 @@ module Activity
       set_states(states)
     end
 
-    def remove(state)
-      raise StateNotFound unless include?(state)
-      renew do |current|
-        current.reject {|s| s == state }
-      end
-    end
-
     def first
       @states.first
     end
@@ -67,11 +60,6 @@ module Activity
         raise NeedMoreThanOneState unless states.size >= 2
         raise DuplicateState unless states.uniq.size == states.size
         @states = states
-      end
-
-      def renew
-        new_states = yield(@states)
-        self.class.new(new_states)
       end
   end
 end
