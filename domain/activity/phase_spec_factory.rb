@@ -25,6 +25,12 @@ module Activity
       end
     end
 
+    def remove_state(state, board)
+      check_state_exist!(state)
+      raise CardOnState if board.any_card_on_step?(Step.new(@phase, state))
+      @states.reject! {|s| s == state }
+    end
+
     def build_phase_spec
       PhaseSpec.new(@phase, build_transition, @wip_limit)
     end
