@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'change wip limit' do
   let(:service) do
-    WorkflowService.new(project_repository, board_repository)
+    WipLimitService.new(project_repository, board_repository)
   end
   let(:project_repository) { ProjectRepository.new }
   let(:board_repository) { BoardRepository.new }
@@ -32,7 +32,7 @@ describe 'change wip limit' do
         board_service.add_card(project_id, FeatureId('feat_1'))
 
         new_wip_limit = WipLimit(1)
-        service.change_wip_limit(project_id, phase, new_wip_limit)
+        service.change(project_id, phase, new_wip_limit)
 
         expect(new_workflow).to eq(Workflow([ phase: phase, wip_limit: new_wip_limit.to_i ]))
       end
@@ -46,7 +46,7 @@ describe 'change wip limit' do
         board_service.add_card(project_id, FeatureId('feat_2'))
 
         expect {
-          service.change_wip_limit(project_id, phase, WipLimit(1))
+          service.change(project_id, phase, WipLimit(1))
         }.to raise_error(Activity::UnderCurrentWip)
       end
     end
@@ -67,7 +67,7 @@ describe 'change wip limit' do
         board_service.add_card(project_id, FeatureId('feat_2'))
 
         new_wip_limit = WipLimit(2)
-        service.change_wip_limit(project_id, phase, new_wip_limit)
+        service.change(project_id, phase, new_wip_limit)
 
         expect(new_workflow).to eq(
           Workflow([ phase: phase, transition: transition, wip_limit: new_wip_limit.to_i ])
@@ -84,7 +84,7 @@ describe 'change wip limit' do
         board_service.add_card(project_id, FeatureId('feat_2'))
 
         expect {
-          service.change_wip_limit(project_id, phase, WipLimit(1))
+          service.change(project_id, phase, WipLimit(1))
         }.to raise_error(Activity::UnderCurrentWip)
       end
     end
