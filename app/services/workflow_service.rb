@@ -64,12 +64,13 @@ class WorkflowService
     workflow_factory = Activity::WorkflowFactory.new(project.workflow)
     phase_spec_factory = Activity::PhaseSpecFactory.new(project.workflow.spec(phase))
 
-    position, base_state = option.flatten
-    case position
-    when :before
-      phase_spec_factory.insert_state_before(state, base_state)
-    when :after
-      phase_spec_factory.insert_state_after(state, base_state)
+    add_with_position(option) do |position, base|
+      case position
+      when :before
+        phase_spec_factory.insert_state_before(state, base)
+      when :after
+        phase_spec_factory.insert_state_after(state, base)
+      end
     end
 
     workflow_factory.replace_phase_spec(phase_spec_factory.build_phase_spec, phase)
