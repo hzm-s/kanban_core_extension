@@ -30,22 +30,18 @@ class WorkflowService
     project = @project_repository.find(project_id)
 
     factory = Activity::WorkflowFactory.new(project.workflow)
-    phase_spec_attributes = attributes.values_at(:phase, :transition, :wip_limit)
-
-      phase_spec = Activity::PhaseSpec.new(
-        attributes[:phase],
-        attributes[:transition],
-        attributes[:wip_limit]
-      )
-
-    position, base_phase = Hash(option).flatten
-    case position
-    when :before
-      factory.insert_phase_spec_before(*phase_spec_attributes, base_phase)
-    when :after
-      factory.insert_phase_spec_after(phase_spec, base_phase)
-    else
-      factory.add_phase_spec(phase_spec)
+    phase_spec = Activity::PhaseSpec.new(
+      *attributes.values_at(:phase, :transition, :wip_limit)
+    )
+    add_with_position(option) do |position, base|
+      case position
+      when :before
+        factory.insert_phase_spec_before(phase_spec, base)
+      when :after
+        factory.insert_phase_spec_after(phase_spec, base)
+      else
+        factory.add_phase_spec(phase_spec)
+      end
     end
 
     project.specify_workflow(factory.build_workflow)

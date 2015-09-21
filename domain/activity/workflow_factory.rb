@@ -13,11 +13,11 @@ module Activity
       @phase_specs << phase_spec
     end
 
-    def insert_phase_spec_before(phase, transition, wip_limit, base_phase)
+    def insert_phase_spec_before(phase_spec, base_phase)
       check_phase_exist!(base_phase)
       @phase_specs = @phase_specs.flat_map do |ps|
         if ps.phase == base_phase
-          [new_phase_spec(phase, transition, wip_limit), ps]
+          [phase_spec, ps]
         else
           ps
         end
@@ -31,12 +31,7 @@ module Activity
       next_phase_spec_of_base_phase = @phase_specs[base_phase_index + 1]
       return add_phase_spec(phase_spec) unless next_phase_spec_of_base_phase
 
-      insert_phase_spec_before(
-        phase_spec.phase,
-        phase_spec.transition,
-        phase_spec.wip_limit,
-        next_phase_spec_of_base_phase.phase
-      )
+      insert_phase_spec_before(phase_spec, next_phase_spec_of_base_phase.phase)
     end
 
     def remove_phase_spec(phase, board)
@@ -67,10 +62,6 @@ module Activity
       def current_phase_specs(current)
         return [] unless current
         current.to_a
-      end
-
-      def new_phase_spec(phase, transition, wip_limit)
-        PhaseSpec.new(phase, transition, wip_limit)
       end
 
       def check_phase_exist!(base_phase)

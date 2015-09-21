@@ -12,10 +12,8 @@ module Activity
           it do
             expect {
               factory.insert_phase_spec_before(
-                Phase('Next'),
-                Transition(),
-                WipLimit(),
-                Phase('None'),
+                PhaseSpec(phase: 'Next', transition: nil, wip_limit: nil),
+                Phase('None')
               )
             }.to raise_error(Activity::PhaseNotFound)
           end
@@ -32,9 +30,7 @@ module Activity
         context 'insert before Head' do
           it do
             factory.insert_phase_spec_before(
-              Phase('New'),
-              Transition(),
-              WipLimit(),
+              PhaseSpec(phase: 'New', transition: nil, wipLimit: nil),
               Phase('Head')
             )
             expect(new_workflow).to eq(
@@ -48,9 +44,7 @@ module Activity
         context 'insert before Body' do
           it do
             factory.insert_phase_spec_before(
-              Phase('New'),
-              Transition(),
-              WipLimit(),
+              PhaseSpec(phase: 'New', transition: nil, wipLimit: nil),
               Phase('Body')
             )
             expect(new_workflow).to eq(
@@ -64,9 +58,7 @@ module Activity
         context 'insert before Tail' do
           it do
             factory.insert_phase_spec_before(
-              Phase('New'),
-              Transition(),
-              WipLimit(),
+              PhaseSpec(phase: 'New', transition: nil, wipLimit: nil),
               Phase('Tail')
             )
             expect(new_workflow).to eq(
@@ -80,9 +72,7 @@ module Activity
         context 'insert Body' do
           it do
             factory.insert_phase_spec_before(
-              Phase('Body'),
-              Transition(),
-              WipLimit(),
+              PhaseSpec(phase: 'Body', transition: nil, wipLimit: nil),
               Phase('Head')
             )
             expect { new_workflow }.to raise_error(Activity::DuplicatePhase)
