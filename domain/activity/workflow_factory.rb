@@ -1,6 +1,5 @@
 module Activity
   class PhaseNotFound < StandardError; end
-  class DuplicatePhase < StandardError; end
 
   class WorkflowFactory
 
@@ -13,12 +12,10 @@ module Activity
     end
 
     def add_phase_spec(phase, transition, wip_limit)
-      raise Activity::DuplicatePhase if @phase_specs.detect {|ps| ps.phase == phase }
       @phase_specs << new_phase_spec(phase, transition, wip_limit)
     end
 
     def insert_phase_spec_before(phase, transition, wip_limit, base_phase)
-      raise Activity::DuplicatePhase if @phase_specs.detect {|ps| ps.phase == phase }
       raise Activity::PhaseNotFound unless @phase_specs.detect {|ps| ps.phase == base_phase }
 
       @phase_specs = @phase_specs.flat_map do |ps|
@@ -29,7 +26,6 @@ module Activity
     end
 
     def insert_phase_spec_after(phase, transition, wip_limit, base_phase)
-      raise Activity::DuplicatePhase if @phase_specs.detect {|ps| ps.phase == phase }
       raise Activity::PhaseNotFound unless @phase_specs.detect {|ps| ps.phase == base_phase }
 
       @phase_specs = @phase_specs.flat_map do |ps|

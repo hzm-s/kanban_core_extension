@@ -3,6 +3,8 @@ require 'rails_helper'
 module Activity
   describe WorkflowFactory do
     describe '#insert_phase_spec_after' do
+      let(:new_workflow) { factory.build_workflow }
+
       context 'NO current workflow' do
         let(:factory) { described_class.new }
 
@@ -35,7 +37,7 @@ module Activity
               WipLimit(),
               Phase('Head')
             )
-            expect(factory.build_workflow).to eq(
+            expect(new_workflow).to eq(
               Workflow([
                 { phase: 'Head' }, { phase: 'New' }, { phase: 'Body' }, { phase: 'Tail' }
               ])
@@ -51,7 +53,7 @@ module Activity
               WipLimit(),
               Phase('Body')
             )
-            expect(factory.build_workflow).to eq(
+            expect(new_workflow).to eq(
               Workflow([
                 { phase: 'Head' }, { phase: 'Body' }, { phase: 'New' }, { phase: 'Tail' }
               ])
@@ -67,7 +69,7 @@ module Activity
               WipLimit(),
               Phase('Tail')
             )
-            expect(factory.build_workflow).to eq(
+            expect(new_workflow).to eq(
               Workflow([
                 { phase: 'Head' }, { phase: 'Body' }, { phase: 'Tail' }, { phase: 'New' }
               ])
@@ -77,14 +79,13 @@ module Activity
 
         context 'insert Body' do
           it do
-            expect {
-              factory.insert_phase_spec_after(
-                Phase('Body'),
-                Transition(),
-                WipLimit(),
-                Phase('Head')
-              )
-            }.to raise_error(Activity::DuplicatePhase)
+            factory.insert_phase_spec_after(
+              Phase('Body'),
+              Transition(),
+              WipLimit(),
+              Phase('Head')
+            )
+            expect { new_workflow }.to raise_error(Activity::DuplicatePhase)
           end
         end
       end

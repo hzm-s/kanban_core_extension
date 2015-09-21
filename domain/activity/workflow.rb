@@ -1,4 +1,5 @@
 module Activity
+  class DuplicatePhase < StandardError; end
   class NoMorePhaseSpec < StandardError; end
   class CardOnPhase < StandardError; end
 
