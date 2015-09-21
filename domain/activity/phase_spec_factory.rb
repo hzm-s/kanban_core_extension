@@ -15,6 +15,10 @@ module Activity
       @wip_limit = new_wip_limit
     end
 
+    def disable_wip_limit
+      @wip_limit = NoWipLimit.new
+    end
+
     def insert_state_before(state, base_state)
       check_state_exist!(base_state)
 

@@ -42,14 +42,4 @@ describe 'disable wip limit' do
       expect(new_workflow).to eq(Workflow([{ phase: 'Dev', transition: ['Doing', 'Done'] }]))
     end
   end
-
-  context 'phase NOT exists' do
-    let(:workflow) { Workflow([{ phase: 'Dev', wip_limit: 3 }]) }
-
-    it do
-      expect {
-        service.disable_wip_limit(project_id, Phase('None'))
-      }.to raise_error(Activity::PhaseNotFound)
-    end
-  end
 end
