@@ -8,33 +8,28 @@ class PhaseSpecService
   def set_transition(project_id, phase, states)
     project = @project_repository.find(project_id)
 
-    workflow_factory = Activity::WorkflowBuilder.new(project.workflow)
-    phase_spec_factory = Activity::PhaseSpecBuilder.new(project.workflow.spec(phase))
+    new_workflow = replace_phase_spec(project.workflow, phase) do |current|
+                     current.set_transition(states)
+                   end
 
-    phase_spec_factory.set_transition(states)
-    workflow_factory.replace_phase_spec(phase_spec_factory.build_phase_spec, phase)
-    project.specify_workflow(workflow_factory.build_workflow)
-
+    project.specify_workflow(new_workflow)
     @project_repository.store(project)
   end
 
   def add_state(project_id, phase, state, option)
     project = @project_repository.find(project_id)
 
-    workflow_factory = Activity::WorkflowBuilder.new(project.workflow)
-    phase_spec_factory = Activity::PhaseSpecBuilder.new(project.workflow.spec(phase))
+    position, base_state = option.flatten
+    new_workflow = replace_phase_spec(project.workflow, phase) do |current|
+                     case position
+                     when :before
+                       current.insert_state_before(state, base_state)
+                     when :after
+                       current.insert_state_after(state, base_state)
+                     end
+                   end
 
-    add_with_position(option) do |position, base|
-      case position
-      when :before
-        phase_spec_factory.insert_state_before(state, base)
-      when :after
-        phase_spec_factory.insert_state_after(state, base)
-      end
-    end
-
-    workflow_factory.replace_phase_spec(phase_spec_factory.build_phase_spec, phase)
-    project.specify_workflow(workflow_factory.build_workflow)
+    project.specify_workflow(new_workflow)
     @project_repository.store(project)
   end
 
@@ -42,17 +37,25 @@ class PhaseSpecService
     project = @project_repository.find(project_id)
     board = @board_repository.find(project_id)
 
-    workflow_factory = Activity::WorkflowBuilder.new(project.workflow)
-    phase_spec_factory = Activity::PhaseSpecBuilder.new(project.workflow.spec(phase))
+    new_workflow = replace_phase_spec(project.workflow, phase) do |current|
+                     current.remove_state(state, board)
+                   end
 
-    phase_spec_factory.remove_state(state, board)
-    workflow_factory.replace_phase_spec(phase_spec_factory.build_phase_spec, phase)
-    project.specify_workflow(workflow_factory.build_workflow)
-
+    project.specify_workflow(new_workflow)
     @project_repository.store(project)
   end
 
   private
+
+    def replace_phase_spec(workflow, phase)
+      workflow_builder = Activity::WorkflowBuilder.new(workflow)
+      phase_spec_builder = Activity::PhaseSpecBuilder.new(workflow.spec(phase))
+
+      yield(phase_spec_builder)
+
+      workflow_builder.replace_phase_spec(phase_spec_builder.build_phase_spec, phase)
+      workflow_builder.build_workflow
+    end
 
     def add_with_position(option)
       position, base = Hash(option).flatten
