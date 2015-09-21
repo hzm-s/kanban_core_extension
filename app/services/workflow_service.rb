@@ -8,22 +8,23 @@ class WorkflowService
   def add_phase_spec(project_id, attributes, option = nil)
     project = @project_repository.find(project_id)
 
-    factory = Activity::WorkflowBuilder.new(project.workflow)
     phase_spec = Activity::PhaseSpec.new(
       *attributes.values_at(:phase, :transition, :wip_limit)
     )
-    add_with_position(option) do |position, base|
-      case position
-      when :before
-        factory.insert_phase_spec_before(phase_spec, base)
-      when :after
-        factory.insert_phase_spec_after(phase_spec, base)
-      else
-        factory.add_phase_spec(phase_spec)
-      end
-    end
+    position, base_phase = Hash(option).flatten
 
-    project.specify_workflow(factory.build_workflow)
+    new_workflow = replace(project.workflow) do |current|
+                     case position
+                     when :before
+                       current.insert_phase_spec_before(phase_spec, base_phase)
+                     when :after
+                       current.insert_phase_spec_after(phase_spec, base_phase)
+                     else
+                       current.add_phase_spec(phase_spec)
+                     end
+                  end
+
+    project.specify_workflow(new_workflow)
     @project_repository.store(project)
   end
 
@@ -31,14 +32,20 @@ class WorkflowService
     project = @project_repository.find(project_id)
     board = @board_repository.find(project_id)
 
-    factory = Activity::WorkflowBuilder.new(project.workflow)
-    factory.remove_phase_spec(phase, board)
-    project.specify_workflow(factory.build_workflow)
+    new_workflow = replace(project.workflow) do |current|
+                     current.remove_phase_spec(phase, board)
+                   end
 
+    project.specify_workflow(new_workflow)
     @project_repository.store(project)
   end
 
   private
+
+    def replace(workflow)
+      builder = Activity::WorkflowBuilder.new(workflow)
+      yield(builder)
+    end
 
     def add_with_position(option)
       position, base = Hash(option).flatten
