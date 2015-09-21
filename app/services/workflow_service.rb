@@ -59,17 +59,19 @@ class WorkflowService
   def add_state(project_id, phase, state, option)
     project = @project_repository.find(project_id)
 
-    builder = Activity::WorkflowBuilder.new(project.workflow)
-    add_with_position(option) do |position, base_state|
-      case position
-      when :before
-        builder.insert_state_before(phase, state, base_state)
-      when :after
-        builder.insert_state_after(phase, state, base_state)
-      end
+    workflow_factory = Activity::WorkflowFactory.new(project.workflow)
+    phase_spec_factory = Activity::PhaseSpecFactory.new(project.workflow.spec(phase))
+
+    position, base_state = option.flatten
+    case position
+    when :before
+      phase_spec_factory.insert_state_before(state, base_state)
+    when :after
+      phase_spec_factory.insert_state_after(state, base_state)
     end
 
-    project.specify_workflow(builder.workflow)
+    workflow_factory.replace_phase_spec(phase_spec_factory.build_phase_spec, phase)
+    project.specify_workflow(workflow_factory.build_workflow)
     @project_repository.store(project)
   end
 

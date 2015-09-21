@@ -44,12 +44,12 @@ module Activity
       @phase_specs = @phase_specs.reject {|ps| ps.phase == phase }
     end
 
-    def replace_phase_spec(phase, transition, wip_limit, old_phase)
+    def replace_phase_spec(phase_spec, old_phase)
       check_phase_exist!(old_phase)
 
       @phase_specs = @phase_specs.map do |ps|
         if ps.phase == old_phase
-          new_phase_spec(phase, transition, wip_limit)
+          phase_spec
         else
           ps
         end

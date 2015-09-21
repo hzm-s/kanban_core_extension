@@ -14,9 +14,11 @@ module Activity
         context 'replace Next' do
           it do
             factory.replace_phase_spec(
-              Phase('Analyze'),
-              Transition(['Doing', 'Done']),
-              WipLimit(2),
+              PhaseSpec(
+                phase: 'Analyze',
+                transition: ['Doing', 'Done'],
+                wip_limit: 2,
+              ),
               Phase('Next')
             )
             expect(new_workflow).to eq(
@@ -33,9 +35,11 @@ module Activity
           it do
             expect {
               factory.replace_phase_spec(
-                Phase('Analyze'),
-                Transition(['Doing', 'Done']),
-                WipLimit(2),
+                PhaseSpec(
+                  phase: 'Analyze',
+                  transition: ['Doing', 'Done'],
+                  wip_limit: 2,
+                ),
                 Phase('None')
               )
             }.to raise_error(PhaseNotFound)
