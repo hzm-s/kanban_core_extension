@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'activity/workflow'
 require 'activity/phase_spec'
-require 'activity/transition'
+require 'activity/phase_spec_factory'
 
 describe RemoveStateCommand do
   let(:project_id) { ProjectId('prj_789') }
