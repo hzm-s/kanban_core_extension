@@ -3,7 +3,7 @@ require 'activity/phase_spec_builder'
 
 describe SetTransitionCommand do
   let(:project_id) { ProjectId('prj_789') }
-  let(:service) { double(:workflow_service) }
+  let(:service) { double(:phase_spec_service) }
 
   describe '#execute' do
     context 'given Doing, Done' do

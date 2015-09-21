@@ -11,7 +11,7 @@ class TransitionSettingsController < ApplicationController
 
   def create
     @command = SetTransitionCommand.new(params[:set_transition_command])
-    if @command.execute(workflow_service)
+    if @command.execute(phase_spec_service)
       flash[:notice] = 'フェーズに推移を設定しました。'
       render 'redirect_from_modal', locals: { to: board_url(@command.project_id_str) }
     else
