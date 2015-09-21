@@ -5,7 +5,7 @@ require 'activity/phase_spec_builder'
 
 describe RemoveStateCommand do
   let(:project_id) { ProjectId('prj_789') }
-  let(:service) { double(:workflow_service) }
+  let(:service) { double(:phase_spec_service) }
 
   describe '#execute' do
     context 'given phase = Dev state = Review' do

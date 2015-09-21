@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'remove state' do
   let(:service) do
-    WorkflowService.new(project_repository, board_repository)
+    PhaseSpecService.new(project_repository, board_repository)
   end
   let(:project_repository) { ProjectRepository.new }
   let(:board_repository) { BoardRepository.new }

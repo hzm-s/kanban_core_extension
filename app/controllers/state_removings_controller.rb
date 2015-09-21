@@ -11,7 +11,7 @@ class StateRemovingsController < ApplicationController
 
   def create
     @command = RemoveStateCommand.new(params[:remove_state_command])
-    if @command.execute(workflow_service)
+    if @command.execute(phase_spec_service)
       flash[:notice] = '状態を削除しました。'
       render 'redirect_from_modal', locals: { to: board_url(@command.project_id_str) }
     else
