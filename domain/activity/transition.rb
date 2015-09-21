@@ -16,13 +16,6 @@ module Activity
       set_states(states)
     end
 
-    def insert_before(new, base)
-      return add(new) if base.complete?
-      renew do |current|
-        current.flat_map {|s| s == base ? [new, s] : s }
-      end
-    end
-
     def remove(state)
       raise StateNotFound unless include?(state)
       renew do |current|
@@ -45,15 +38,6 @@ module Activity
 
     def last?(state)
       @states.last == state
-    end
-
-    def operation_for_state(state)
-      ops = [
-        Operations::InsertStateBefore.new,
-        Operations::InsertStateAfter.new
-      ]
-      ops << Operations::RemoveState.new if @states.size >= 3
-      ops
     end
 
     def none?
@@ -83,10 +67,6 @@ module Activity
         raise NeedMoreThanOneState unless states.size >= 2
         raise DuplicateState unless states.uniq.size == states.size
         @states = states
-      end
-
-      def add(state)
-        renew {|current| current + [state] }
       end
 
       def renew
