@@ -24,16 +24,6 @@ module Activity
       replace_with(old, old.disable_wip_limit)
     end
 
-    def add(phase_spec)
-      renew {|current| current + [phase_spec] }
-    end
-
-    def insert_before(new, base)
-      renew do |current|
-        current.flat_map {|ps| ps == base ? [new, ps] : ps }
-      end
-    end
-
     def remove(phase, board)
       try_retrieve(phase)
       raise NoMorePhaseSpec if @phase_specs.size == 1
