@@ -18,13 +18,13 @@ describe AddCardCommand do
       end
     end
 
-    context 'service raises Project::WipLimitReached' do
+    context 'service raises Activity::WipLimitReached' do
       it do
         cmd = described_class.new(
           project_id_str: 'prj_789',
           feature_id_str: 'feat_123'
         )
-        allow(service).to receive(:add_card).and_raise(Project::WipLimitReached)
+        allow(service).to receive(:add_card).and_raise(Activity::WipLimitReached)
         expect(cmd.execute(service)).to be_falsey
       end
     end

@@ -1,11 +1,11 @@
 require 'rails_helper'
-require 'project/workflow'
-require 'project/phase_spec'
-require 'project/transition'
+require 'activity/workflow'
+require 'activity/phase_spec'
+require 'activity/phase_spec_builder'
 
 describe RemoveStateCommand do
   let(:project_id) { ProjectId('prj_789') }
-  let(:service) { double(:workflow_service) }
+  let(:service) { double(:phase_spec_service) }
 
   describe '#execute' do
     context 'given phase = Dev state = Review' do
@@ -44,42 +44,42 @@ describe RemoveStateCommand do
       end
     end
 
-    context 'service raises Project::CardOnState' do
+    context 'service raises Activity::CardOnState' do
       it do
         cmd = described_class.new(
           project_id_str: project_id.to_s, phase_name: 'Dev', state_name: 'Review'
         )
-        allow(service).to receive(:remove_state).and_raise(Project::CardOnState)
+        allow(service).to receive(:remove_state).and_raise(Activity::CardOnState)
         expect(cmd.execute(service)).to be_falsey
       end
     end
 
-    context 'service raises Project::NeedMoreThanOneState' do
+    context 'service raises Activity::NeedMoreThanOneState' do
       it do
         cmd = described_class.new(
           project_id_str: project_id.to_s, phase_name: 'Dev', state_name: 'Review'
         )
-        allow(service).to receive(:remove_state).and_raise(Project::NeedMoreThanOneState)
+        allow(service).to receive(:remove_state).and_raise(Activity::NeedMoreThanOneState)
         expect(cmd.execute(service)).to be_falsey
       end
     end
 
-    context 'service raises Project::PhaseNotFound' do
+    context 'service raises Activity::PhaseNotFound' do
       it do
         cmd = described_class.new(
           project_id_str: project_id.to_s, phase_name: 'Dev', state_name: 'Review'
         )
-        allow(service).to receive(:remove_state).and_raise(Project::PhaseNotFound)
+        allow(service).to receive(:remove_state).and_raise(Activity::PhaseNotFound)
         expect(cmd.execute(service)).to be_falsey
       end
     end
 
-    context 'service raises Project::StateNotFound' do
+    context 'service raises Activity::StateNotFound' do
       it do
         cmd = described_class.new(
           project_id_str: project_id.to_s, phase_name: 'Dev', state_name: 'Review'
         )
-        allow(service).to receive(:remove_state).and_raise(Project::StateNotFound)
+        allow(service).to receive(:remove_state).and_raise(Activity::StateNotFound)
         expect(cmd.execute(service)).to be_falsey
       end
     end

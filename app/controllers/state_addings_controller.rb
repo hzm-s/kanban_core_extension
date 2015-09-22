@@ -12,7 +12,7 @@ class StateAddingsController < ApplicationController
 
   def create
     @command = AddStateCommand.new(params[:add_state_command])
-    if @command.execute(workflow_service)
+    if @command.execute(phase_spec_service)
       flash[:notice] = 'フェーズに状態を追加しました。'
       render 'redirect_from_modal', locals: { to: board_url(@command.project_id_str) }
     else

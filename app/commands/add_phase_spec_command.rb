@@ -1,5 +1,6 @@
 class AddPhaseSpecCommand
   include ActiveModel::Model
+  include DomainObjectConversion
   include PositionOptionHelper
 
   attr_accessor :project_id_str, :phase_name, :wip_limit_count, :state_names,
@@ -20,24 +21,12 @@ class AddPhaseSpecCommand
     Array(@state_names).reject {|n| n.blank? }
   end
 
-  def project_id
-    Project::ProjectId.new(project_id_str)
-  end
-
   def transition
-    Project::Transition.from_array(state_names)
+    Activity::Transition.from_array(state_names)
   end
 
-  def wip_limit
-    Project::WipLimit.from_number(wip_limit_count)
-  end
-
-  def phase_spec
-    Project::PhaseSpec.new(
-      Project::Phase.new(phase_name),
-      transition,
-      wip_limit
-    )
+  def phase_spec_attributes
+    { phase: phase, transition: transition, wip_limit: wip_limit }
   end
 
   def position_option
@@ -47,8 +36,12 @@ class AddPhaseSpecCommand
 
   def execute(service)
     return false unless valid?
-    service.add_phase_spec(project_id, phase_spec, position_option)
-  rescue Project::DuplicatePhase
+    service.add_phase_spec(
+      project_id,
+      phase_spec_attributes,
+      position_option
+    )
+  rescue Activity::DuplicatePhase
     errors.add(:base, '同じフェーズが既にあります。')
     false
   else

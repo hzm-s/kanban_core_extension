@@ -1,8 +1,9 @@
 require 'rails_helper'
+require 'activity/phase_spec_builder'
 
 describe ChangeWipLimitCommand do
   let(:project_id) { ProjectId('prj_789') }
-  let(:service) { double(:workflow_service) }
+  let(:service) { double(:wip_limit_service) }
 
   describe '#execute' do
     context 'no exceptions' do
@@ -13,7 +14,7 @@ describe ChangeWipLimitCommand do
           wip_limit_count: 3
         )
         expect(service)
-          .to receive(:change_wip_limit)
+          .to receive(:change)
           .with(project_id, Phase('Dev'), WipLimit(3))
         cmd.execute(service)
       end
@@ -74,14 +75,14 @@ describe ChangeWipLimitCommand do
       end
     end
 
-    context 'service raises Project::UnderCurrentWip' do
+    context 'service raises Activity::UnderCurrentWip' do
       it do
         cmd = described_class.new(
           project_id_str: 'prj_789',
           phase_name: 'Dev',
           wip_limit_count: 3
         )
-        allow(service).to receive(:change_wip_limit).and_raise(Project::UnderCurrentWip)
+        allow(service).to receive(:change).and_raise(Activity::UnderCurrentWip)
         expect(cmd.execute(service)).to be_falsey
       end
     end

@@ -10,7 +10,7 @@ module Kanban
 
     def handle_board(board)
       to_phase_cards = board.count_card(@to.phase)
-      raise Project::WipLimitReached if @to_phase_spec.reach_wip_limit?(to_phase_cards)
+      raise Activity::WipLimitReached if @to_phase_spec.reach_wip_limit?(to_phase_cards)
 
       board.move_card(@feature_id, @from, @to)
     end

@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'activity/workflow_builder'
 
 describe AddPhaseSpecCommand do
   describe '#execute' do
@@ -18,7 +19,11 @@ describe AddPhaseSpecCommand do
           .to receive(:add_phase_spec)
           .with(
             ProjectId('prj_789'),
-            PhaseSpec(phase: 'New Phase', wip_limit: 2),
+            {
+              phase: Phase('New Phase'),
+              transition: Transition(),
+              wip_limit: WipLimit(2),
+            },
             { before: Phase('Todo') }
           )
         cmd.execute(service)
@@ -39,7 +44,11 @@ describe AddPhaseSpecCommand do
           .to receive(:add_phase_spec)
           .with(
             ProjectId('prj_789'),
-            PhaseSpec(phase: 'New Phase', transition: ['Doing', 'Done'], wip_limit: 2),
+            {
+              phase: Phase('New Phase'),
+              transition: Transition(['Doing', 'Done']),
+              wip_limit: WipLimit(2),
+            },
             { after: Phase('Todo') }
           )
         cmd.execute(service)
@@ -57,100 +66,6 @@ describe AddPhaseSpecCommand do
           base_phase_name: 'Todo'
         )
         expect(cmd.execute(service)).to be_falsey
-      end
-    end
-  end
-
-  describe '#phase_spec' do
-    context 'wip_limit=3, states=none' do
-      it do
-        cmd = described_class.new(
-          phase_name: 'New Phase',
-          wip_limit_count: 3
-        )
-        expect(cmd.phase_spec).to eq(
-          Project::PhaseSpec.new(
-            Project::Phase.new('New Phase'),
-            Project::NoTransition.new,
-            Project::WipLimit.new(3)
-          )
-        )
-      end
-    end
-
-    context 'wip_limit=none, states=none' do
-      it do
-        cmd = described_class.new(
-          phase_name: 'New Phase',
-          wip_limit_count: ''
-        )
-        expect(cmd.phase_spec).to eq(
-          Project::PhaseSpec.new(
-            Project::Phase.new('New Phase'),
-            Project::NoTransition.new,
-            Project::NoWipLimit.new
-          )
-        )
-      end
-    end
-
-    context 'wip_limit=3, states=Doing, Done' do
-      it do
-        cmd = described_class.new(
-          phase_name: 'New Phase',
-          wip_limit_count: 3,
-          state_names: ['Doing', 'Done']
-        )
-        expect(cmd.phase_spec).to eq(
-          Project::PhaseSpec.new(
-            Project::Phase.new('New Phase'),
-            Project::Transition.new([
-              Project::State.new('Doing'),
-              Project::State.new('Done')
-            ]),
-            Project::WipLimit.new(3)
-          )
-        )
-      end
-    end
-
-    context 'wip_limit=none, states=Doing, Done' do
-      it do
-        cmd = described_class.new(
-          phase_name: 'New Phase',
-          wip_limit_count: '',
-          state_names: ['Doing', 'Done']
-        )
-        expect(cmd.phase_spec).to eq(
-          Project::PhaseSpec.new(
-            Project::Phase.new('New Phase'),
-            Project::Transition.new([
-              Project::State.new('Doing'),
-              Project::State.new('Done')
-            ]),
-            Project::NoWipLimit.new
-          )
-        )
-      end
-    end
-
-    context 'wip_limit=3, states=Doing, "", Done' do
-      it do
-        cmd = described_class.new(
-          phase_name: 'New Phase',
-          wip_limit_count: 3,
-          state_names: ['Doing', '', 'Done']
-        )
-        expect(cmd.phase_spec).to eq(
-          Project::PhaseSpec.new(
-            Project::Phase.new('New Phase'),
-            Project::Transition.new([
-              Project::State.new('Doing'),
-              Project::State.new('Done')
-            ]),
-            Project::WipLimit.new(3)
-          )
-        )
       end
     end
   end

@@ -72,7 +72,7 @@ module Arize
       end
 
       def build_workflow
-        ::Project::Workflow.new(
+        ::Activity::Workflow.new(
           phase_spec_records.map do |phase_spec_record|
             build_phase_spec(
               phase_spec_record,
@@ -83,23 +83,23 @@ module Arize
       end
 
       def build_phase_spec(phase_spec_record, state_records)
-        ::Project::PhaseSpec.new(
-          ::Project::Phase.new(phase_spec_record.phase_name),
+        ::Activity::PhaseSpec.new(
+          ::Activity::Phase.new(phase_spec_record.phase_name),
           build_transition(state_records),
           build_wip_limit(phase_spec_record)
         )
       end
 
       def build_transition(state_records)
-        return ::Project::NoTransition.new if state_records.empty?
-        ::Project::Transition.new(
-          state_records.map {|r| ::Project::State.new(r.state_name) }
+        return ::Activity::NoTransition.new if state_records.empty?
+        ::Activity::Transition.new(
+          state_records.map {|r| ::Activity::State.new(r.state_name) }
         )
       end
 
       def build_wip_limit(phase_spec_record)
-        return ::Project::NoWipLimit.new if phase_spec_record.wip_limit_count.nil?
-        ::Project::WipLimit.new(phase_spec_record.wip_limit_count)
+        return ::Activity::NoWipLimit.new if phase_spec_record.wip_limit_count.nil?
+        ::Activity::WipLimit.new(phase_spec_record.wip_limit_count)
       end
     end
   end

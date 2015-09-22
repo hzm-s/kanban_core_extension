@@ -10,7 +10,7 @@ class WipLimitChangingsController < ApplicationController
 
   def create
     @command = ChangeWipLimitCommand.new(params[:change_wip_limit_command])
-    if @command.execute(workflow_service)
+    if @command.execute(wip_limit_service)
       flash[:notice] = 'WIP制限の値を変更しました。'
       render 'redirect_from_modal', locals: { to: board_url(@command.project_id_str) }
     else

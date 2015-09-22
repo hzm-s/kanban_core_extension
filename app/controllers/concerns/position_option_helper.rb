@@ -6,11 +6,11 @@ module PositionOptionHelper
   end
 
   def option_for_state(base_state_name)
-    { position.to_sym => Project::State.new(base_state_name) }
+    { position.to_sym => Activity::State.new(base_state_name) }
   end
 
   def option_for_phase(base_phase_name)
-    { position.to_sym => Project::Phase.new(base_phase_name) }
+    { position.to_sym => Activity::Phase.new(base_phase_name) }
   end
 
   def position

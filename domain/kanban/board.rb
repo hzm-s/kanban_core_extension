@@ -31,8 +31,17 @@ module Kanban
       card_map.count_by_phase(phase)
     end
 
+    def any_card_on_phase?(phase)
+      count_card(phase) > 0
+    end
+
+    # TODO: remove
     def can_remove_step?(step)
       card_map.count_by_step(step) == 0
+    end
+
+    def any_card_on_step?(step)
+      card_map.count_by_step(step) > 0
     end
   end
 end
