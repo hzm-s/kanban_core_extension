@@ -52,7 +52,7 @@ describe 'set transition' do
 
       let(:feature_id) { FeatureId('feat_123') }
 
-      context 'set Doing|Done' do
+      skip 'set Doing|Done' do
         it do
           service.set_transition(
             project_id,

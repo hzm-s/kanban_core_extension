@@ -10,7 +10,7 @@ class WipLimitService
     project = @project_repository.find(project_id)
     board = @board_repository.find(project_id)
 
-    new_workflow = replace_phase_spec(project.workflow, phase) do |current|
+    new_workflow = replace_phase_spec(project, phase) do |current|
                      current.change_wip_limit(new_wip_limit, board)
                    end
 
@@ -21,7 +21,7 @@ class WipLimitService
   def disable(project_id, phase)
     project = @project_repository.find(project_id)
 
-    new_workflow = replace_phase_spec(project.workflow, phase) do |current|
+    new_workflow = replace_phase_spec(project, phase) do |current|
                      current.disable_wip_limit
                    end
 

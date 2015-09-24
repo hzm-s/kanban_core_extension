@@ -9,8 +9,8 @@ class PhaseSpecService
   def set_transition(project_id, phase, states)
     project = @project_repository.find(project_id)
 
-    new_workflow = replace_phase_spec(project.workflow, phase) do |current|
-                     current.set_transition(states, project_id)
+    new_workflow = replace_phase_spec(project, phase) do |current|
+                     current.set_transition(states)
                    end
 
     project.specify_workflow(new_workflow)
@@ -21,7 +21,7 @@ class PhaseSpecService
     project = @project_repository.find(project_id)
 
     position, base_state = option.flatten
-    new_workflow = replace_phase_spec(project.workflow, phase) do |current|
+    new_workflow = replace_phase_spec(project, phase) do |current|
                      case position
                      when :before
                        current.insert_state_before(state, base_state)
@@ -38,7 +38,7 @@ class PhaseSpecService
     project = @project_repository.find(project_id)
     board = @board_repository.find(project_id)
 
-    new_workflow = replace_phase_spec(project.workflow, phase) do |current|
+    new_workflow = replace_phase_spec(project, phase) do |current|
                      current.remove_state(state, board)
                    end
 

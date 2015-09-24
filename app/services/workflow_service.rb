@@ -13,7 +13,7 @@ class WorkflowService
     )
     position, base_phase = Hash(option).flatten
 
-    new_workflow = replace(project.workflow) do |current|
+    new_workflow = replace(project) do |current|
                      case position
                      when :before
                        current.insert_phase_spec_before(phase_spec, base_phase)
@@ -32,7 +32,7 @@ class WorkflowService
     project = @project_repository.find(project_id)
     board = @board_repository.find(project_id)
 
-    new_workflow = replace(project.workflow) do |current|
+    new_workflow = replace(project) do |current|
                      current.remove_phase_spec(phase, board)
                    end
 
@@ -42,8 +42,8 @@ class WorkflowService
 
   private
 
-    def replace(workflow)
-      builder = Activity::WorkflowBuilder.new(workflow)
+    def replace(project)
+      builder = Activity::WorkflowBuilder.new(project.workflow)
       yield(builder)
     end
 
