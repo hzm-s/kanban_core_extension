@@ -6,7 +6,8 @@ module Activity
 
   class PhaseSpecBuilder
 
-    def initialize(current)
+    def initialize(project_id, current)
+      @project_id = project_id
       @phase = current.phase
       @states = current.transition.to_a
       @wip_limit = current.wip_limit
@@ -43,13 +44,13 @@ module Activity
       @states.reject! {|s| s == state }
     end
 
-    def set_transition(states, project_id)
+    def set_transition(states)
       raise TransitionAlreadySetted if @states.any?
       @states = states
 
       EventPublisher.publish(
         :transition_setted,
-        TransitionSetted.new(project_id, @phase)
+        TransitionSetted.new(@project_id, @phase)
       )
     end
 

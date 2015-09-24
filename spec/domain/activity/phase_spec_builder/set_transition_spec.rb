@@ -2,18 +2,16 @@ require 'rails_helper'
 
 module Activity
   describe PhaseSpecBuilder do
+    let(:project_id) { ProjectId('prj_789') }
+    let(:factory) { described_class.new(project_id, current) }
+    let(:board) { Kanban::Board.new.tap {|b| b.prepare(project_id) } }
+
     describe '#set_transition' do
       subject do
-        factory.set_transition(states, project_id)
+        factory.set_transition(states)
       end
 
-      let(:factory) { described_class.new(current) }
       let(:built) { factory.build_phase_spec }
-
-      let(:project_id) { ProjectId('prj_789') }
-      let(:board) do
-        Kanban::Board.new.tap {|b| b.prepare(project_id) }
-      end
 
       context 'no transition' do
         let(:current) do
