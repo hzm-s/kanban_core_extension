@@ -3,8 +3,12 @@ require 'rails_helper'
 module Activity
   describe PhaseSpecBuilder do
     describe '#set_transition' do
+      subject do
+        factory.set_transition(transition)
+      end
+
       let(:factory) { described_class.new(current) }
-      let(:new_phase_spec) { factory.build_phase_spec }
+      let(:built) { factory.build_phase_spec }
 
       context 'no transition' do
         let(:current) do
@@ -12,18 +16,22 @@ module Activity
         end
 
         context 'set Doing|Done' do
+          let(:transition) { [State('Doing'), State('Done')] }
+
           it do
-            factory.set_transition([State('Doing'), State('Done')])
-            expect(new_phase_spec).to eq(
+            subject
+            expect(built).to eq(
               PhaseSpec(phase: 'Dev', transition: ['Doing', 'Done'], wip_limit: 2)
             )
           end
         end
 
         context 'set Doing|Done|Doing' do
+          let(:transition) { [State('Doing'), State('Done'), State('Doing')] }
+
           it do
-            factory.set_transition([State('Doing'), State('Done'), State('Doing')])
-            expect { new_phase_spec }.to raise_error(DuplicateState)
+            subject
+            expect { built }.to raise_error(DuplicateState)
           end
         end
       end
@@ -37,10 +45,10 @@ module Activity
           )
         end
 
+        let(:transition) { [State('Doing'), State('Done')] }
+
         it do
-          expect {
-            factory.set_transition([State('Doing'), State('Done')])
-          }.to raise_error(TransitionAlreadySetted)
+          expect { subject }.to raise_error(TransitionAlreadySetted)
         end
       end
     end
