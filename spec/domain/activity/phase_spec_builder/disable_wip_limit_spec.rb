@@ -2,12 +2,12 @@ require 'rails_helper'
 
 module Activity
   describe PhaseSpecBuilder do
+    let(:project_id) { ProjectId('prj_789') }
+    let(:factory) { described_class.new(project_id, current) }
+    let(:board) { Kanban::Board.new.tap {|b| b.prepare(project_id) } }
+
     describe '#disable_wip_limit' do
-      let(:factory) { described_class.new(current) }
       let(:new_phase_spec) { factory.build_phase_spec }
-      let(:board) do
-        Kanban::Board.new.tap {|b| b.prepare(ProjectId('prj_789')) }
-      end
 
       context 'no card' do
         let(:current) { PhaseSpec(phase: 'Next', transition: nil, wip_limit: 3) }

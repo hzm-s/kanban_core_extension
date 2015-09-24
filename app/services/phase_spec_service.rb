@@ -1,15 +1,18 @@
 class PhaseSpecService
   include PhaseSpecHelper
 
-  def initialize(project_repository, board_repository)
+  def initialize(project_repository, board_repository, board_maintainer)
     @project_repository = project_repository
     @board_repository = board_repository
+    @board_maintainer = board_maintainer
   end
 
   def set_transition(project_id, phase, states)
-    project = @project_repository.find(project_id)
+    EventPublisher.subscribe(@board_maintainer)
 
-    new_workflow = replace_phase_spec(project.workflow, phase) do |current|
+    project = @project_repository.find(project_id)
+    # TODO: move replace_phase_spec to WorkflowBuilder
+    new_workflow = replace_phase_spec(project, phase) do |current|
                      current.set_transition(states)
                    end
 
@@ -21,7 +24,7 @@ class PhaseSpecService
     project = @project_repository.find(project_id)
 
     position, base_state = option.flatten
-    new_workflow = replace_phase_spec(project.workflow, phase) do |current|
+    new_workflow = replace_phase_spec(project, phase) do |current|
                      case position
                      when :before
                        current.insert_state_before(state, base_state)
@@ -38,7 +41,7 @@ class PhaseSpecService
     project = @project_repository.find(project_id)
     board = @board_repository.find(project_id)
 
-    new_workflow = replace_phase_spec(project.workflow, phase) do |current|
+    new_workflow = replace_phase_spec(project, phase) do |current|
                      current.remove_state(state, board)
                    end
 

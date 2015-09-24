@@ -22,6 +22,10 @@ module Kanban
       fetch_item_by_feature_id_and_step(feature_id, from)
     end
 
+    def all_by_step(step)
+      all_items_by_step(step)
+    end
+
     def count_by_phase(phase)
       count_item_by_phase(phase)
     end
@@ -66,6 +70,13 @@ module Kanban
           step_phase_name: step.phase.to_s,
           step_state_name: step.state.to_s
         ).first
+      end
+
+      def all_items_by_step(step)
+        @cards.where(
+          step_phase_name: step.phase.to_s,
+          step_state_name: step.state.to_s
+        )
       end
   end
 end

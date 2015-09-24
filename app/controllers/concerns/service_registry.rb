@@ -17,7 +17,11 @@ module ServiceRegistry
   end
 
   def phase_spec_service
-    PhaseSpecService.new(ProjectRepository.new, BoardRepository.new)
+    PhaseSpecService.new(
+      ProjectRepository.new,
+      BoardRepository.new,
+      Kanban::BoardMaintainer.new(BoardRepository.new)
+    )
   end
 
   def feature_service

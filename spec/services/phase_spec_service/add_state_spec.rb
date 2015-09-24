@@ -2,10 +2,11 @@ require 'rails_helper'
 
 describe 'add state' do
   let(:service) do
-    PhaseSpecService.new(project_repository, board_repository)
+    PhaseSpecService.new(project_repository, board_repository, board_maintainer)
   end
   let(:project_repository) { ProjectRepository.new }
   let(:board_repository) { FakeBoardRepository.new }
+  let(:board_maintainer) { Kanban::BoardMaintainer.new(board_repository) }
 
   let(:project_id) { Project('Name', 'Goal') }
 
