@@ -10,7 +10,7 @@ class PhaseSpecService
     project = @project_repository.find(project_id)
 
     new_workflow = replace_phase_spec(project.workflow, phase) do |current|
-                     current.set_transition(states)
+                     current.set_transition(states, project_id)
                    end
 
     project.specify_workflow(new_workflow)

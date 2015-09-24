@@ -43,9 +43,14 @@ module Activity
       @states.reject! {|s| s == state }
     end
 
-    def set_transition(states)
+    def set_transition(states, project_id)
       raise TransitionAlreadySetted if @states.any?
       @states = states
+
+      EventPublisher.publish(
+        :transition_setted,
+        TransitionSetted.new(project_id, @phase)
+      )
     end
 
     def build_phase_spec
