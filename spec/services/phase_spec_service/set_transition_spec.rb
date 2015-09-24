@@ -2,10 +2,11 @@ require 'rails_helper'
 
 describe 'set transition' do
   let(:service) do
-    PhaseSpecService.new(project_repository, board_repository)
+    PhaseSpecService.new(project_repository, board_repository, board_maintainer)
   end
   let(:project_repository) { ProjectRepository.new }
   let(:board_repository) { BoardRepository.new }
+  let(:board_maintainer) { Kanban::BoardMaintainer.new(board_repository) }
 
   let(:project_id) { Project('Name', 'Goal') }
 
@@ -52,7 +53,7 @@ describe 'set transition' do
 
       let(:feature_id) { FeatureId('feat_123') }
 
-      skip 'set Doing|Done' do
+      context 'set Doing|Done' do
         it do
           service.set_transition(
             project_id,

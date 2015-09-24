@@ -18,6 +18,12 @@ module Kanban
       card_map.update(fetch_card(feature_id, from), to)
     end
 
+    def move_all_card(from, to)
+      card_map.all_by_step(from).each do |card|
+        move_card(card.feature_id, from, to)
+      end
+    end
+
     def remove_card(feature_id, from)
       card_map.remove(fetch_card(feature_id, from))
     end

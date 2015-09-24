@@ -31,13 +31,12 @@ module Activity
 
         context 'set Doing|Done, card = 1' do
           let(:states) { [State('Doing'), State('Done')] }
+          let(:feature_id) { FeatureId('feat_1') }
 
           before do
             board.add_card(feature_id, Step('Dev'))
             board.save!
           end
-
-          let(:feature_id) { FeatureId('feat_1') }
 
           it do
             subject
@@ -51,9 +50,14 @@ module Activity
               .to receive(:publish)
               .with(
                 :transition_setted,
-                TransitionSetted.new(project_id, Phase('Dev'))
+                TransitionSetted.new(
+                  project_id,
+                  PhaseSpec(phase: 'Dev', transition: ['Doing', 'Done'], wip_limit: 2),
+                  PhaseSpec(phase: 'Dev', transition: nil, wip_limit: 2)
+                )
               )
             subject
+            built
           end
         end
 

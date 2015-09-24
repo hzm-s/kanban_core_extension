@@ -8,9 +8,12 @@ module Activity
 
     def initialize(project_id, current)
       @project_id = project_id
+      @current = current
+      @transition_setted = false
+
       @phase = current.phase
-      @states = current.transition.to_a
       @wip_limit = current.wip_limit
+      @states = current.transition.to_a
     end
 
     def change_wip_limit(new_wip_limit, board)
@@ -48,14 +51,18 @@ module Activity
       raise TransitionAlreadySetted if @states.any?
       @states = states
 
-      EventPublisher.publish(
-        :transition_setted,
-        TransitionSetted.new(@project_id, @phase)
-      )
+      @transition_setted = true
     end
 
     def build_phase_spec
-      PhaseSpec.new(@phase, build_transition, @wip_limit)
+      new_phase_spec.tap do |phase_spec|
+        if @transition_setted
+          EventPublisher.publish(
+            :transition_setted,
+            TransitionSetted.new(@project_id, phase_spec, @current)
+          )
+        end
+      end
     end
 
     private
@@ -63,6 +70,10 @@ module Activity
       def build_transition
         return NoTransition.new if @states.empty?
         Transition.new(@states)
+      end
+
+      def new_phase_spec
+        PhaseSpec.new(@phase, build_transition, @wip_limit)
       end
 
       def check_state_exist!(state)
