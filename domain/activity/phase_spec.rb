@@ -25,10 +25,6 @@ module Activity
       Step.new(@phase, @transition.next(current_step.state))
     end
 
-    def transit?
-      !@transition.none?
-    end
-
     def last?
       false
     end

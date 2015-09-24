@@ -43,8 +43,6 @@ module Arize
 
       def make_state_records(a_workflow)
         a_workflow.to_a.each do |phase_spec|
-          next unless phase_spec.transit?
-
           phase_spec.transition.to_a.each.with_index(1) do |state, order|
             state_records.build(
               project_record_id: id,
