@@ -5,12 +5,12 @@ module Kanban
     before do
       board_record = Board.new(project_id: project_id)
       board_record.cards.build(
-        feature_id_str: 'feat_100',
+        feature_id: FeatureId('feat_100'),
         step_phase_name: 'Todo',
         step_state_name: ''
       )
       board_record.cards.build(
-        feature_id_str: 'feat_200',
+        feature_id: FeatureId('feat_200'),
         step_phase_name: 'Dev',
         step_state_name: 'Doing'
       )

@@ -10,7 +10,7 @@ class CardRecord < ActiveRecord::Base
             JOIN card_records AS card
               ON board.id = card.board_record_id
             JOIN feature_records AS feature
-              ON card.feature_id_str = feature.feature_id_str
+              ON card.feature_id = feature.feature_id
         WHERE
           board.project_id = ?
       EOSQL

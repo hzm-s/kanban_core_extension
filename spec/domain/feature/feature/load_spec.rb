@@ -5,7 +5,7 @@ module Feature
     before do
       ::Feature::Feature.create!(
         project_id: project_id,
-        feature_id_str: 'feat_123',
+        feature_id: feature_id,
         number: 1,
         description_summary: 'Summary',
         description_detail: 'Detail'
@@ -14,6 +14,7 @@ module Feature
 
     let(:feature) { ::Feature::Feature.last }
     let(:project_id) { ProjectId('prj_789') }
+    let(:feature_id) { FeatureId('feat_123') }
 
     describe 'Feature#project_id' do
       subject { feature.project_id }
@@ -22,7 +23,7 @@ module Feature
 
     describe 'Feature#feature_id' do
       subject { feature.feature_id }
-      it { is_expected.to eq(FeatureId('feat_123')) }
+      it { is_expected.to eq(feature_id) }
     end
 
     describe 'Feature#number' do

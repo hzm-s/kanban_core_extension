@@ -5,15 +5,17 @@ module Arize
     included do
       self.table_name = 'card_records'
 
+      attribute :feature_id, :feature_id
+
       include Writers
       include Readers
     end
 
     module Writers
 
-      def feature_id=(a_feature_id)
-        self.feature_id_str = a_feature_id.to_s
-      end
+      #def feature_id=(a_feature_id)
+      #  self.feature_id_str = a_feature_id.to_s
+      #end
 
       def step=(a_step)
         self.step_phase_name = a_step.phase.to_s
@@ -27,9 +29,9 @@ module Arize
 
     module Readers
 
-      def feature_id
-        ::Feature::FeatureId.new(feature_id_str)
-      end
+      #def feature_id
+      #  ::Feature::FeatureId.new(feature_id_str)
+      #end
 
       def step
         ::Project::Step.new(

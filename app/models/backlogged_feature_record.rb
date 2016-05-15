@@ -10,7 +10,7 @@ class BackloggedFeatureRecord < ActiveRecord::Base
             JOIN backlogged_feature_records AS backlogged
               ON feature.id = backlogged.feature_record_id
             LEFT OUTER JOIN card_records AS card
-              ON feature.feature_id_str = card.feature_id_str
+              ON feature.feature_id = card.feature_id
             LEFT OUTER JOIN shipped_feature_records AS shipped
               ON feature.id = shipped.feature_record_id
         WHERE

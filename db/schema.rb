@@ -28,19 +28,19 @@ ActiveRecord::Schema.define(version: 20150908080652) do
 
   create_table "card_records", force: :cascade do |t|
     t.integer "board_record_id", null: false
-    t.string  "feature_id_str",  null: false
+    t.string  "feature_id",      null: false
     t.string  "step_phase_name", null: false
     t.string  "step_state_name"
-    t.index ["feature_id_str"], name: "index_card_records_on_feature_id_str", unique: true, using: :btree
+    t.index ["feature_id"], name: "index_card_records_on_feature_id", unique: true, using: :btree
   end
 
   create_table "feature_records", force: :cascade do |t|
     t.string  "project_id",          null: false
-    t.string  "feature_id_str",      null: false
+    t.string  "feature_id",          null: false
     t.integer "number",              null: false
     t.string  "description_summary", null: false
     t.text    "description_detail"
-    t.index ["feature_id_str"], name: "index_feature_records_on_feature_id_str", unique: true, using: :btree
+    t.index ["feature_id"], name: "index_feature_records_on_feature_id", unique: true, using: :btree
     t.index ["project_id", "number"], name: "index_feature_records_on_project_id_and_number", unique: true, using: :btree
   end
 

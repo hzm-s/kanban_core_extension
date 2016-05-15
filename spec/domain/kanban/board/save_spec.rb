@@ -30,7 +30,7 @@ module Kanban
 
     describe 'CardRecord for feat_100' do
       let(:card_record) do
-        board_record.cards.where(feature_id_str: 'feat_100').first
+        board_record.cards.where(feature_id: FeatureId('feat_100')).first
       end
 
       describe 'step_phase_name' do
@@ -46,7 +46,7 @@ module Kanban
 
     describe 'CardRecord for feat_200' do
       let(:card_record) do
-        board_record.cards.where(feature_id_str: 'feat_200').first
+        board_record.cards.where(feature_id: FeatureId('feat_200')).first
       end
 
       describe 'step_phase_name' do
@@ -62,7 +62,7 @@ module Kanban
 
     describe 'CardRecord for feat_300' do
       let(:card_record) do
-        board_record.cards.where(feature_id_str: 'feat_300').first
+        board_record.cards.where(feature_id: FeatureId('feat_300')).first
       end
 
       describe 'step_phase_name' do
@@ -78,7 +78,7 @@ module Kanban
 
     describe 'CardRecord for feat_400' do
       let(:card_record) do
-        board_record.cards.where(feature_id_str: 'feat_400').first
+        board_record.cards.where(feature_id: FeatureId('feat_400')).first
       end
 
       it { expect(card_record).to be_nil }

@@ -5,7 +5,7 @@ module View
       super(
         project_id_str,
         hash['number'],
-        hash['feature_id_str'],
+        hash['feature_id'],
         hash['step_phase_name'],
         hash['step_state_name'] || '',
         hash['description_summary'],

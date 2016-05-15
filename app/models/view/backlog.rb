@@ -13,14 +13,14 @@ module View
       )
     end
 
-    Feature = Struct.new(:number, :project_id, :feature_id_str, :summary, :detail) do
+    Feature = Struct.new(:number, :project_id, :feature_id, :summary, :detail) do
 
       def initialize(hash)
         super(
           *hash.values_at(
             'number',
             'project_id',
-            'feature_id_str',
+            'feature_id',
             'description_summary',
             'description_detail'
           )
@@ -30,7 +30,7 @@ module View
       def add_card_command
         AddCardCommand.new(
           project_id_str: project_id,
-          feature_id_str: feature_id_str
+          feature_id_str: feature_id
         )
       end
     end

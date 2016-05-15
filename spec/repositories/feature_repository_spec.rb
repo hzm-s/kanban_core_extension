@@ -17,7 +17,7 @@ describe FeatureRepository do
       before do
         ::Feature::Feature.create!(
           project_id: ProjectId('prj_123'),
-          feature_id_str: 'feat_500',
+          feature_id: FeatureId('feat_500'),
           number: 1,
           description_summary: 'Summary',
           description_detail: 'Detail'
@@ -30,7 +30,7 @@ describe FeatureRepository do
       before do
         ::Feature::Feature.create!(
           project_id: project_id,
-          feature_id_str: 'feat_100',
+          feature_id: FeatureId('feat_100'),
           number: 1,
           description_summary: 'Summary',
           description_detail: 'Detail'
@@ -43,14 +43,14 @@ describe FeatureRepository do
       before do
         ::Feature::Feature.create!(
           project_id: ProjectId('prj_123'),
-          feature_id_str: 'feat_500',
+          feature_id: FeatureId('feat_500'),
           number: 5,
           description_summary: 'Summary',
           description_detail: 'Detail'
         )
         ::Feature::Feature.create!(
           project_id: project_id,
-          feature_id_str: 'feat_100',
+          feature_id: FeatureId('feat_100'),
           number: 1,
           description_summary: 'Summary',
           description_detail: 'Detail'
@@ -63,7 +63,7 @@ describe FeatureRepository do
       before do
         ::Feature::Feature.create!(
           project_id: project_id,
-          feature_id_str: 'feat_700',
+          feature_id: FeatureId('feat_700'),
           number: 7,
           description_summary: 'Summary',
           description_detail: 'Detail'
@@ -73,7 +73,7 @@ describe FeatureRepository do
       let(:add1) do
         ::Feature::Feature.new(
           project_id: project_id,
-          feature_id_str: 'feat_800-1',
+          feature_id: FeatureId('feat_800-1'),
           number: 8,
           description_summary: 'Summary',
           description_detail: 'Detail'
@@ -83,7 +83,7 @@ describe FeatureRepository do
       let(:add2) do
         ::Feature::Feature.new(
           project_id: project_id,
-          feature_id_str: 'feat_800-2',
+          feature_id: FeatureId('feat_800-2'),
           number: 8,
           description_summary: 'Summary',
           description_detail: 'Detail'
@@ -104,7 +104,7 @@ describe FeatureRepository do
       it do
         feature = ::Feature::Feature.new(
           project_id: project_id,
-          feature_id_str: 'feat_555',
+          feature_id: FeatureId('feat_555'),
           number: 1,
           description_summary: 'Summary',
           description_detail: 'Detail'
@@ -117,7 +117,7 @@ describe FeatureRepository do
       let(:feature) do
         ::Feature::Feature.create!(
           project_id: project_id,
-          feature_id_str: 'feat_555',
+          feature_id: FeatureId('feat_555'),
           number: 1,
           description_summary: 'Summary',
           description_detail: 'Detail'
