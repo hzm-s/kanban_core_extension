@@ -1,8 +1,8 @@
 module View
-  Backlog = Struct.new(:project_id_str, :project_name, :features) do
+  Backlog = Struct.new(:project_id, :project_name, :features) do
 
-    def self.build(project_id_str)
-      project = ProjectRecord.find_by(project_id: project_id_str)
+    def self.build(project_id)
+      project = ProjectRecord.find_by(project_id: project_id)
       features = BackloggedFeatureRecord
                    .with_project(project.project_id)
                    .map {|r| Feature.new(r) }

@@ -1,7 +1,7 @@
 class CardRecord < ActiveRecord::Base
   class << self
 
-    def with_feature(project_id_str)
+    def with_feature(project_id)
       sql = <<-EOSQL
         SELECT
           card.*, feature.*
@@ -14,10 +14,10 @@ class CardRecord < ActiveRecord::Base
         WHERE
           board.project_id = ?
       EOSQL
-      connection.select_all(sanitize_sql_array([sql, project_id_str])).to_hash
+      connection.select_all(sanitize_sql_array([sql, project_id])).to_hash
     end
 
-    def count(project_id_str)
+    def count(project_id)
       sql = <<-EOSQL
         SELECT
           COUNT(*) AS count
@@ -28,7 +28,7 @@ class CardRecord < ActiveRecord::Base
         WHERE
           board.project_id = ?
       EOSQL
-      connection.select_one(sanitize_sql_array([sql, project_id_str])).to_hash['count']
+      connection.select_one(sanitize_sql_array([sql, project_id])).to_hash['count']
     end
   end
 end

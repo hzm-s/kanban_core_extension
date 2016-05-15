@@ -5,13 +5,13 @@ class FeatureRecord < ActiveRecord::Base
 
   class << self
 
-    def result(project_id_str)
+    def result(project_id)
       includes(
         :backlogged_feature_record,
         :wip_feature_record,
         :shipped_feature_record
       )
-        .where(project_id: project_id_str)
+        .where(project_id: project_id)
         .where.not(backlogged_feature_records: { id: nil })
         .where.not(wip_feature_records: { id: nil })
         .where.not(shipped_feature_records: { id: nil })

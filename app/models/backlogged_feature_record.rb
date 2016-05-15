@@ -1,7 +1,7 @@
 class BackloggedFeatureRecord < ActiveRecord::Base
   class << self
 
-    def with_project(project_id_str)
+    def with_project(project_id)
       sql = <<-EOSQL
         SELECT
           feature.*
@@ -20,11 +20,11 @@ class BackloggedFeatureRecord < ActiveRecord::Base
             AND shipped.id IS NULL
         ORDER BY feature.id
       EOSQL
-      connection.select_all(sanitize_sql_array([sql, project_id_str])).to_hash
+      connection.select_all(sanitize_sql_array([sql, project_id])).to_hash
     end
 
-    def count(project_id_str)
-      with_project(project_id_str).size
+    def count(project_id)
+      with_project(project_id).size
     end
   end
 end
