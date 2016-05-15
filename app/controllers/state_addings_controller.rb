@@ -11,7 +11,7 @@ class StateAddingsController < ApplicationController
   end
 
   def create
-    @command = AddStateCommand.new(params[:add_state_command])
+    @command = AddStateCommand.new(command_params)
     if @command.execute(phase_spec_service)
       flash[:notice] = 'フェーズに状態を追加しました。'
       render 'redirect_from_modal', locals: { to: board_url(@command.project_id_str) }
@@ -19,4 +19,13 @@ class StateAddingsController < ApplicationController
       render 'modal_window_form', locals: { path: 'boards/new_state_adding' }
     end
   end
+
+  private
+
+    def command_params
+      params.require(:add_state_command).permit(
+        :project_id_str, :phase_name, :state_name,
+        :position, :base_state_name
+      )
+    end
 end

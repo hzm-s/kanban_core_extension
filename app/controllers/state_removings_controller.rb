@@ -10,7 +10,7 @@ class StateRemovingsController < ApplicationController
   end
 
   def create
-    @command = RemoveStateCommand.new(params[:remove_state_command])
+    @command = RemoveStateCommand.new(command_params)
     if @command.execute(phase_spec_service)
       flash[:notice] = '状態を削除しました。'
       render 'redirect_from_modal', locals: { to: board_url(@command.project_id_str) }
@@ -18,4 +18,12 @@ class StateRemovingsController < ApplicationController
       render 'modal_window_form', locals: { path: 'boards/new_state_removing' }
     end
   end
+
+  private
+
+    def command_params
+      params.require(:remove_state_command).permit(
+        :project_id_str, :phase_name, :state_name
+      )
+    end
 end

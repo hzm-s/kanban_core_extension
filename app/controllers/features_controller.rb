@@ -7,7 +7,7 @@ class FeaturesController < ApplicationController
   end
 
   def create
-    @command = AddFeatureCommand.new(params[:add_feature_command])
+    @command = AddFeatureCommand.new(command_params)
     if @command.execute(feature_service)
       redirect_to backlog_url(@command.project_id_str), notice: 'Feature added to backlog!'
     else
@@ -15,4 +15,12 @@ class FeaturesController < ApplicationController
       render :new
     end
   end
+
+  private
+
+    def command_params
+      params.require(:add_feature_command).permit(
+        :project_id_str, :summary, :detail
+      )
+    end
 end
