@@ -13,10 +13,6 @@ module Arize
 
     module Writers
 
-      #def feature_id=(a_feature_id)
-      #  self.feature_id_str = a_feature_id.to_s
-      #end
-
       def step=(a_step)
         self.step_phase_name = a_step.phase.to_s
         self.step_state_name = serialize_state(a_step.state)
@@ -28,10 +24,6 @@ module Arize
     end
 
     module Readers
-
-      #def feature_id
-      #  ::Feature::FeatureId.new(feature_id_str)
-      #end
 
       def step
         ::Project::Step.new(
