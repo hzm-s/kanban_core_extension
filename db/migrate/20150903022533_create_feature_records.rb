@@ -1,7 +1,7 @@
 class CreateFeatureRecords < ActiveRecord::Migration
   def change
     create_table :feature_records do |t|
-      t.string :project_id_str, null: false
+      t.string :project_id, null: false
       t.string :feature_id_str, null: false
       t.integer :number, null: false
       t.string :description_summary, null: false
@@ -9,6 +9,6 @@ class CreateFeatureRecords < ActiveRecord::Migration
     end
 
     add_index :feature_records, :feature_id_str, unique: true
-    add_index :feature_records, [:project_id_str, :number], unique: true
+    add_index :feature_records, [:project_id, :number], unique: true
   end
 end

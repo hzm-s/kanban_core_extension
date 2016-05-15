@@ -6,7 +6,7 @@ class ProjectRecord < ActiveRecord::Base
 
     def with_workflow(project_id_str)
       eager_load(:phase_spec_records, :state_records)
-        .find_by(project_id_str: project_id_str)
+        .find_by(project_id: project_id_str)
     end
   end
 

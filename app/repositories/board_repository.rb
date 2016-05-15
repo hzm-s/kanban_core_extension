@@ -3,7 +3,7 @@ class BoardRepository
   def find(project_id)
     Kanban::Board
       .includes(:cards)
-      .find_by(project_id_str: project_id.to_s)
+      .find_by(project_id: project_id)
   end
 
   def store(board)

@@ -9,15 +9,13 @@ module Arize
       has_one :wip_feature_record, foreign_key: 'feature_record_id', dependent: :destroy
       has_one :shipped_feature_record, foreign_key: 'feature_record_id', dependent: :destroy
 
+      attribute :project_id, :project_id
+
       include Writers
       include Readers
     end
 
     module Writers
-
-      def project_id=(a_project_id)
-        self.project_id_str = a_project_id.to_s
-      end
 
       def feature_id=(a_feature_id)
         self.feature_id_str = a_feature_id.to_s
@@ -42,10 +40,6 @@ module Arize
     end
 
     module Readers
-
-      def project_id
-        ::Project::ProjectId.new(self.project_id_str)
-      end
 
       def feature_id
         ::Feature::FeatureId.new(self.feature_id_str)

@@ -11,7 +11,7 @@ class FeatureRecord < ActiveRecord::Base
         :wip_feature_record,
         :shipped_feature_record
       )
-        .where(project_id_str: project_id_str)
+        .where(project_id: project_id_str)
         .where.not(backlogged_feature_records: { id: nil })
         .where.not(wip_feature_records: { id: nil })
         .where.not(shipped_feature_records: { id: nil })

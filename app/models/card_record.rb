@@ -12,7 +12,7 @@ class CardRecord < ActiveRecord::Base
             JOIN feature_records AS feature
               ON card.feature_id_str = feature.feature_id_str
         WHERE
-          board.project_id_str = ?
+          board.project_id = ?
       EOSQL
       connection.select_all(sanitize_sql_array([sql, project_id_str])).to_hash
     end
@@ -26,7 +26,7 @@ class CardRecord < ActiveRecord::Base
             JOIN card_records AS card
               ON board.id = card.board_record_id
         WHERE
-          board.project_id_str = ?
+          board.project_id = ?
       EOSQL
       connection.select_one(sanitize_sql_array([sql, project_id_str])).to_hash['count']
     end

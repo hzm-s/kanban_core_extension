@@ -14,7 +14,7 @@ class BackloggedFeatureRecord < ActiveRecord::Base
             LEFT OUTER JOIN shipped_feature_records AS shipped
               ON feature.id = shipped.feature_record_id
         WHERE
-          feature.project_id_str = ?
+          feature.project_id = ?
             AND backlogged.id IS NOT NULL
             AND card.id IS NULL
             AND shipped.id IS NULL

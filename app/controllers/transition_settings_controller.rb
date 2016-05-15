@@ -23,7 +23,7 @@ class TransitionSettingsController < ApplicationController
 
     def command_params
       params.require(:set_transition_command).permit(
-        :project_id_str, :phase_name, :state_name
+        :project_id_str, :phase_name, state_names: []
       )
     end
 end

@@ -3,7 +3,7 @@ require 'rails_helper'
 module Kanban
   describe 'load Board domain object' do
     before do
-      board_record = Board.new(project_id_str: 'prj_789')
+      board_record = Board.new(project_id: project_id)
       board_record.cards.build(
         feature_id_str: 'feat_100',
         step_phase_name: 'Todo',
@@ -18,10 +18,11 @@ module Kanban
     end
 
     let(:board) { Board.last }
+    let(:project_id) { Project::ProjectId.new('prj_789') }
 
     describe 'Board#ProjectId' do
       subject { board.project_id }
-      it { is_expected.to eq(Project::ProjectId.new('prj_789')) }
+      it { is_expected.to eq(project_id) }
     end
 
     describe 'Todo step' do

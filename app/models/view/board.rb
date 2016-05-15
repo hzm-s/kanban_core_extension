@@ -17,7 +17,7 @@ module View
 
         def header(project_with_workflow)
           View::BoardHeader.build(
-            project_with_workflow.project_id_str,
+            project_with_workflow.project_id,
             project_with_workflow.phase_spec_records.to_a,
             project_with_workflow.state_records.to_a
           )

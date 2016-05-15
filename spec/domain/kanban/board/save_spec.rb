@@ -21,10 +21,11 @@ module Kanban
     end
 
     let(:board_record) { Kanban::Board.last }
+    let(:project_id) { Project::ProjectId.new('prj_789') }
 
-    describe 'BoardRecord', 'project_id_str' do
-      subject { board_record.project_id_str }
-      it { is_expected.to eq('prj_789') }
+    describe 'BoardRecord', 'project_id' do
+      subject { board_record.project_id }
+      it { is_expected.to eq(project_id) }
     end
 
     describe 'CardRecord for feat_100' do

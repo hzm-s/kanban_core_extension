@@ -8,15 +8,13 @@ module Arize
       has_many :phase_spec_records, { foreign_key: 'project_record_id' }, -> { order(:order) }
       has_many :state_records, { foreign_key: 'project_record_id' }, -> { order(:order) }
 
+      attribute :project_id, :project_id
+
       include Writers
       include Readers
     end
 
     module Writers
-
-      def project_id=(project_id)
-        self.project_id_str = project_id.to_s
-      end
 
       def description=(description)
         self.description_name = description.name.to_s
@@ -56,10 +54,6 @@ module Arize
     end
 
     module Readers
-
-      def project_id
-        ::Project::ProjectId.new(project_id_str)
-      end
 
       def description
         ::Project::Description.new(description_name, description_goal)

@@ -3,9 +3,9 @@ class CardAddingsController < ApplicationController
   def create
     command = AddCardCommand.new(command_params)
     if command.execute(board_service)
-      redirect_to board_url(command.project_id_str), notice: 'Card added'
+      redirect_to board_url(project_id_str: command.project_id_str), notice: 'Card added'
     else
-      redirect_to backlog_url(command.project_id_str), alert: command.errors.full_messages.join('<br>')
+      redirect_to backlog_url(project_id_str: command.project_id_str), alert: command.errors.full_messages.join('<br>')
     end
   end
 

@@ -3,7 +3,7 @@ module View
     class << self
 
       def build(project_id_str)
-        project = ProjectRecord.find_by(project_id_str: project_id_str)
+        project = ProjectRecord.find_by(project_id: project_id_str)
         shipped_features = FeatureRecord
                              .result(project_id_str)
                              .map {|r| ShippedFeature.new(r) }

@@ -13,10 +13,11 @@ module Feature
     end
 
     let(:feature_record) { ::Feature::Feature.last }
+    let(:project_id) { ProjectId('prj_789') }
 
-    describe 'FeatureRecord', 'project_id_str' do
-      subject { feature_record.project_id_str }
-      it { is_expected.to eq('prj_789') }
+    describe 'FeatureRecord', 'project_id' do
+      subject { feature_record.project_id }
+      it { is_expected.to eq(project_id) }
     end
 
     describe 'FeatureRecord', 'feature_id_str' do
