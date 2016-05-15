@@ -21,15 +21,16 @@ module Kanban
     end
 
     let(:board_record) { Kanban::Board.last }
+    let(:project_id) { Project::ProjectId.new('prj_789') }
 
-    describe 'BoardRecord', 'project_id_str' do
-      subject { board_record.project_id_str }
-      it { is_expected.to eq('prj_789') }
+    describe 'BoardRecord', 'project_id' do
+      subject { board_record.project_id }
+      it { is_expected.to eq(project_id) }
     end
 
     describe 'CardRecord for feat_100' do
       let(:card_record) do
-        board_record.cards.where(feature_id_str: 'feat_100').first
+        board_record.cards.where(feature_id: FeatureId('feat_100')).first
       end
 
       describe 'step_phase_name' do
@@ -45,7 +46,7 @@ module Kanban
 
     describe 'CardRecord for feat_200' do
       let(:card_record) do
-        board_record.cards.where(feature_id_str: 'feat_200').first
+        board_record.cards.where(feature_id: FeatureId('feat_200')).first
       end
 
       describe 'step_phase_name' do
@@ -61,7 +62,7 @@ module Kanban
 
     describe 'CardRecord for feat_300' do
       let(:card_record) do
-        board_record.cards.where(feature_id_str: 'feat_300').first
+        board_record.cards.where(feature_id: FeatureId('feat_300')).first
       end
 
       describe 'step_phase_name' do
@@ -77,7 +78,7 @@ module Kanban
 
     describe 'CardRecord for feat_400' do
       let(:card_record) do
-        board_record.cards.where(feature_id_str: 'feat_400').first
+        board_record.cards.where(feature_id: FeatureId('feat_400')).first
       end
 
       it { expect(card_record).to be_nil }

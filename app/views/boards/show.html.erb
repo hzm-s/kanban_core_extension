@@ -4,7 +4,7 @@
 <section class="content"<%= raw(board_section_style) %>>
   <table class="kanban table">
     <%= render partial: 'board_header', locals: {
-      project_id_str: @board.project_id_str,
+      project_id: @board.project_id,
       phases: @board.header.phases,
       phase_states: @board.header.phase_states
     } %>

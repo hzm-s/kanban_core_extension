@@ -1,7 +1,7 @@
 class BackloggedFeatureRecord < ActiveRecord::Base
   class << self
 
-    def with_project(project_id_str)
+    def with_project(project_id)
       sql = <<-EOSQL
         SELECT
           feature.*
@@ -10,21 +10,21 @@ class BackloggedFeatureRecord < ActiveRecord::Base
             JOIN backlogged_feature_records AS backlogged
               ON feature.id = backlogged.feature_record_id
             LEFT OUTER JOIN card_records AS card
-              ON feature.feature_id_str = card.feature_id_str
+              ON feature.feature_id = card.feature_id
             LEFT OUTER JOIN shipped_feature_records AS shipped
               ON feature.id = shipped.feature_record_id
         WHERE
-          feature.project_id_str = ?
+          feature.project_id = ?
             AND backlogged.id IS NOT NULL
             AND card.id IS NULL
             AND shipped.id IS NULL
         ORDER BY feature.id
       EOSQL
-      connection.select_all(sanitize_sql_array([sql, project_id_str])).to_hash
+      connection.select_all(sanitize_sql_array([sql, project_id])).to_hash
     end
 
-    def count(project_id_str)
-      with_project(project_id_str).size
+    def count(project_id)
+      with_project(project_id).size
     end
   end
 end

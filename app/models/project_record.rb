@@ -4,9 +4,9 @@ class ProjectRecord < ActiveRecord::Base
 
   class << self
 
-    def with_workflow(project_id_str)
+    def with_workflow(project_id)
       eager_load(:phase_spec_records, :state_records)
-        .find_by(project_id_str: project_id_str)
+        .find_by(project_id: project_id)
     end
   end
 

@@ -39,7 +39,7 @@ module Kanban
 
       def add_item(item, to)
         @cards.build(
-          feature_id_str: item.feature_id.to_s,
+          feature_id: item.feature_id,
           step_phase_name: to.phase.to_s,
           step_state_name: to.state.to_s
         )
@@ -66,7 +66,7 @@ module Kanban
 
       def fetch_item_by_feature_id_and_step(feature_id, step)
         @cards.where(
-          feature_id_str: feature_id.to_s,
+          feature_id: feature_id,
           step_phase_name: step.phase.to_s,
           step_state_name: step.state.to_s
         ).first

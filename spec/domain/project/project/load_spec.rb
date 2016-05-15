@@ -4,7 +4,7 @@ module Project
   describe 'load Project domain object' do
     before do
       project_record = ::Project::Project.new(
-        project_id_str: 'prj_123',
+        project_id: project_id,
         description_name: 'name',
         description_goal: 'goal'
       )
@@ -37,10 +37,11 @@ module Project
     end
 
     let(:project) { ::Project::Project.last }
+    let(:project_id) { ProjectId.new('prj_123') }
 
     describe 'ProjectId' do
       subject { project.project_id }
-      it { is_expected.to eq(ProjectId.new('prj_123')) }
+      it { is_expected.to eq(project_id) }
     end
 
     describe 'Description' do

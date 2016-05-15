@@ -4,8 +4,8 @@ module Feature
   describe 'load Feature domain model' do
     before do
       ::Feature::Feature.create!(
-        project_id_str: 'prj_789',
-        feature_id_str: 'feat_123',
+        project_id: project_id,
+        feature_id: feature_id,
         number: 1,
         description_summary: 'Summary',
         description_detail: 'Detail'
@@ -13,15 +13,17 @@ module Feature
     end
 
     let(:feature) { ::Feature::Feature.last }
+    let(:project_id) { ProjectId('prj_789') }
+    let(:feature_id) { FeatureId('feat_123') }
 
     describe 'Feature#project_id' do
       subject { feature.project_id }
-      it { is_expected.to eq(Project::ProjectId.new('prj_789')) }
+      it { is_expected.to eq(project_id) }
     end
 
     describe 'Feature#feature_id' do
       subject { feature.feature_id }
-      it { is_expected.to eq(FeatureId('feat_123')) }
+      it { is_expected.to eq(feature_id) }
     end
 
     describe 'Feature#number' do

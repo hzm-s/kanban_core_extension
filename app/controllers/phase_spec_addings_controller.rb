@@ -27,7 +27,7 @@ class PhaseSpecAddingsController < ApplicationController
 
     def command_params
       params.require(:add_phase_spec_command).permit(
-        :project_id_str, :phase_name, :wip_limit_count, :state_names,
+        :project_id_str, :phase_name, :wip_limit_count, { state_names: [] },
         :position, :base_phase_name
       )
     end

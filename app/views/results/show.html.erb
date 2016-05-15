@@ -6,12 +6,12 @@
     <div class="col-md-4">
       <ul class="nav nav-pills pull-right">
         <li class="nav-item">
-          <%= link_to(backlog_url(project_id_str: @result.project.project_id_str), class: 'nav-link') do %>
+          <%= link_to(backlog_url(project_id_str: @result.project.project_id), class: 'nav-link') do %>
             <span class="label label-default"><%= @stats.backlogs %></span>&nbsp;Backlogs
           <% end -%>
         </li>
         <li class="nav-item">
-          <%= link_to(board_url(project_id_str: @result.project.project_id_str), class: 'nav-link') do %>
+          <%= link_to(board_url(project_id: @result.project.project_id), class: 'nav-link') do %>
             <span class="label label-default"><%= @stats.wip %></span>&nbsp;WIP
           <% end -%>
         </li>

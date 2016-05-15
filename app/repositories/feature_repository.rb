@@ -4,8 +4,8 @@ class FeatureRepository
 
   def find(project_id, feature_id)
     ::Feature::Feature.find_by(
-      project_id_str: project_id.to_s,
-      feature_id_str: feature_id.to_s
+      project_id: project_id,
+      feature_id: feature_id
     )
   end
 
@@ -28,7 +28,7 @@ class FeatureRepository
 
     def last_record(project_id)
       ::Feature::Feature
-        .where(project_id_str: project_id.to_s)
+        .where(project_id: project_id)
         .order(id: :desc)
         .first
     end

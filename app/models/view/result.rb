@@ -2,10 +2,10 @@ module View
   Result = Struct.new(:project, :shipped_features) do
     class << self
 
-      def build(project_id_str)
-        project = ProjectRecord.find_by(project_id_str: project_id_str)
+      def build(project_id)
+        project = ProjectRecord.find_by(project_id: project_id)
         shipped_features = FeatureRecord
-                             .result(project_id_str)
+                             .result(project_id)
                              .map {|r| ShippedFeature.new(r) }
         new(project, shipped_features)
       end

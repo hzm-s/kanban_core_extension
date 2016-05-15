@@ -18,10 +18,11 @@ module Project
     end
 
     let(:project_record) { ::Project::Project.last }
+    let(:project_id) { ProjectId.new('prj_123') }
 
-    describe 'ProjectRecord', 'project_id_str' do
-      subject { project_record.project_id_str }
-      it { is_expected.to eq('prj_123') }
+    describe 'ProjectRecord', 'project_id' do
+      subject { project_record.project_id }
+      it { is_expected.to eq(project_id) }
     end
 
     describe 'ProjectRecord', 'description_name' do

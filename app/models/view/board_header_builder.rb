@@ -1,8 +1,8 @@
 module View
   class BoardHeaderBuilder
 
-    def initialize(project_id_str, phase_specs, states)
-      @project_id_str = project_id_str
+    def initialize(project_id, phase_specs, states)
+      @project_id = project_id
       @phase_specs = phase_specs
       @states_map = @phase_specs.each_with_object({}) do |phase_spec, h|
         if (phase_states = states.select {|s| s.phase_name == phase_spec.phase_name }).any?
@@ -16,7 +16,7 @@ module View
     def phases
       @phase_specs.map do |phase_spec|
         Phase.build(
-          @project_id_str,
+          @project_id,
           phase_spec,
           @states_map[phase_spec.phase_name].size
         )

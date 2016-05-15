@@ -2,20 +2,20 @@ module View
   Stats = Struct.new(:counts) do
     class << self
 
-      def build(project_id_str, concerns)
-        new(Hash[*concerns.flat_map {|c| [c, send(c, project_id_str)] }])
+      def build(project_id, concerns)
+        new(Hash[*concerns.flat_map {|c| [c, send(c, project_id)] }])
       end
 
-      def backlogs(project_id_str)
-        BackloggedFeatureRecord.count(project_id_str)
+      def backlogs(project_id)
+        BackloggedFeatureRecord.count(project_id)
       end
 
-      def wip(project_id_str)
-        CardRecord.count(project_id_str)
+      def wip(project_id)
+        CardRecord.count(project_id)
       end
 
-      def ships(project_id_str)
-        ShippedFeatureRecord.count(project_id_str)
+      def ships(project_id)
+        ShippedFeatureRecord.count(project_id)
       end
     end
 

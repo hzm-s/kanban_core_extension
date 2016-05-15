@@ -10,37 +10,37 @@
             <a class="dropdown-item" type="button" data-toggle="modal" data-target="modal-window">フェーズ名を変更する</a>
             <div class="dropdown-divider"></div>
             <%= link_to 'WIP制限の値を変更する',
-              new_wip_limit_changing_url(project_id_str: project_id_str, phase_name: phase.name),
+              new_wip_limit_changing_url(project_id_str: project_id, phase_name: phase.name),
               remote: true,
               data: { toggle: 'modal', target: '#modal-window' },
               class: 'dropdown-item', type: 'button' %>
             <%= link_to 'WIP制限を解除する',
-              new_wip_limit_disablement_url(project_id_str: project_id_str, phase_name: phase.name),
+              new_wip_limit_disablement_url(project_id_str: project_id, phase_name: phase.name),
               remote: true,
               data: { toggle: 'modal', target: '#modal-window' },
               class: 'dropdown-item', type: 'button' %>
             <div class="dropdown-divider"></div>
             <%= link_to '新しいフェーズを前に追加する',
-              new_phase_spec_adding_url(project_id_str: project_id_str, position: 'before', base_phase_name: phase.name),
+              new_phase_spec_adding_url(project_id_str: project_id, position: 'before', base_phase_name: phase.name),
               remote: true,
               data: { toggle: 'modal', target: '#modal-window' },
               class: 'dropdown-item', type: 'button' %>
             <%= link_to '新しいフェーズを後に追加する',
-              new_phase_spec_adding_url(project_id_str: project_id_str, position: 'after', base_phase_name: phase.name),
+              new_phase_spec_adding_url(project_id_str: project_id, position: 'after', base_phase_name: phase.name),
               remote: true,
               data: { toggle: 'modal', target: '#modal-window' },
               class: 'dropdown-item', type: 'button' %>
             <% if phase.state_size == 0 %>
               <div class="dropdown-divider"></div>
               <%= link_to '推移を設定する',
-                new_transition_setting_url(project_id_str: project_id_str, phase_name: phase.name),
+                new_transition_setting_url(project_id_str: project_id, phase_name: phase.name),
                 remote: true,
                 data: { toggle: 'modal', target: '#modal-window' },
                 class: 'dropdown-item', type: 'button' %>
             <% end -%>
             <div class="dropdown-divider"></div>
             <%= link_to 'フェーズを削除する',
-              new_phase_spec_removing_url(project_id_str: project_id_str, phase_name: phase.name),
+              new_phase_spec_removing_url(project_id_str: project_id, phase_name: phase.name),
               remote: true,
               data: { toggle: 'modal', target: '#modal-window' },
               class: 'dropdown-item', type: 'button' %>
@@ -61,18 +61,18 @@
             </button>
             <div class="dropdown-menu">
               <%= link_to '新しい状態を前に追加する',
-                new_state_adding_url(project_id_str: project_id_str, phase_name: phase_state.phase_name, position: 'before', base_state_name: phase_state.name),
+                new_state_adding_url(project_id_str: project_id, phase_name: phase_state.phase_name, position: 'before', base_state_name: phase_state.name),
                 remote: true,
                 data: { toggle: 'modal', target: '#modal-window' },
                 class: 'dropdown-item', type: 'button' %>
               <%= link_to '新しい状態を後に追加する',
-                new_state_adding_url(project_id_str: project_id_str, phase_name: phase_state.phase_name, position: 'after', base_state_name: phase_state.name),
+                new_state_adding_url(project_id_str: project_id, phase_name: phase_state.phase_name, position: 'after', base_state_name: phase_state.name),
                 remote: true,
                 data: { toggle: 'modal', target: '#modal-window' },
                 class: 'dropdown-item', type: 'button' %>
               <div class="dropdown-divider"></div>
               <%= link_to '状態を削除する',
-                new_state_removing_url(project_id_str: project_id_str, phase_name: phase_state.phase_name, state_name: phase_state.name),
+                new_state_removing_url(project_id_str: project_id, phase_name: phase_state.phase_name, state_name: phase_state.name),
                 remote: true,
                 data: { toggle: 'modal', target: '#modal-window' },
                 class: 'dropdown-item', type: 'button' %>
