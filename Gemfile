@@ -15,7 +15,7 @@ gem 'wisper'
 
 group :development, :test do
   gem 'byebug'
-  gem 'rspec-rails'
+  gem 'rspec-rails', '~> 3.5.0.beta3'
   gem 'pry-byebug'
   gem 'pry-rails'
 end
