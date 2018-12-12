@@ -1,4 +1,6 @@
-== README
+== Kanban Core Extension
+
+{<img src="https://api.codeclimate.com/v1/badges/3abdcf9d1193cfe685eb/maintainability" />}[https://codeclimate.com/github/haazime/kanban_core_extension/maintainability]
 
 This README would normally document whatever steps are necessary to get the
 application up and running.
